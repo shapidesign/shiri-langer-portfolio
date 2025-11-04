@@ -140,7 +140,6 @@ export class LoadingManager {
       'effects',
       'animations',
       'components',
-      'spotlight',
       'drag'
     ];
     
