@@ -14,9 +14,9 @@ const NavigationIndicators: React.FC = () => {
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
           <path
             d="M12 4L20 18H4L12 4Z"
-            fill="#4DD8FF"
-            stroke="#4DD8FF"
-            strokeWidth="3"
+            fill="#057BC1"
+            stroke="#F8F4ED"
+            strokeWidth="1.5"
             strokeLinejoin="round"
           />
         </svg>
@@ -27,9 +27,9 @@ const NavigationIndicators: React.FC = () => {
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
           <path
             d="M20 12L6 20V4L20 12Z"
-            fill="#4DD8FF"
-            stroke="#4DD8FF"
-            strokeWidth="3"
+            fill="#057BC1"
+            stroke="#F8F4ED"
+            strokeWidth="1.5"
             strokeLinejoin="round"
           />
         </svg>
@@ -40,9 +40,9 @@ const NavigationIndicators: React.FC = () => {
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
           <path
             d="M12 20L4 6H20L12 20Z"
-            fill="#4DD8FF"
-            stroke="#4DD8FF"
-            strokeWidth="3"
+            fill="#057BC1"
+            stroke="#F8F4ED"
+            strokeWidth="1.5"
             strokeLinejoin="round"
           />
         </svg>
@@ -53,9 +53,9 @@ const NavigationIndicators: React.FC = () => {
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
           <path
             d="M4 12L18 4V20L4 12Z"
-            fill="#4DD8FF"
-            stroke="#4DD8FF"
-            strokeWidth="3"
+            fill="#057BC1"
+            stroke="#F8F4ED"
+            strokeWidth="1.5"
             strokeLinejoin="round"
           />
         </svg>
