@@ -52,7 +52,7 @@
 .project-modal-title {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-xs) 0;
   line-height: 1.2;
   font-family: "cc-regeneration-variable", sans-serif;
@@ -61,7 +61,7 @@
 
 .project-modal-subtitle {
   font-size: 1.1rem;
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-sm) 0;
   line-height: 1.4;
   font-family: "unitext", sans-serif;
@@ -88,7 +88,7 @@
 }
 
 .project-client {
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   font-size: 0.875rem;
   font-weight: 500;
 }
@@ -104,7 +104,7 @@
   padding: var(--spacing-sm);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   transition: all var(--transition-fast);
   display: flex;
   align-items: center;
@@ -296,8 +296,8 @@
 }
 
 .project-tag {
-  background: var(--color-hover);
-  color: var(--color-text);
+  background: var(--color-lime-jelly);
+  color: var(--color-twilight-bliss);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
@@ -314,7 +314,7 @@
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   margin: 0;
   display: flex;
   align-items: center;
@@ -399,7 +399,7 @@
 }
 
 .author-role {
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   font-size: 0.875rem;
 }
 
@@ -619,7 +619,7 @@
 .body-text-content h4,
 .body-text-content h5,
 .body-text-content h6 {
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   margin: var(--spacing-sm) 0 var(--spacing-md) 0;
   font-weight: 600;
   font-family: "cc-regeneration-variable", sans-serif;
@@ -711,7 +711,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   z-index: 2;
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
 }
 
 .inline-slider-nav-btn:hover {

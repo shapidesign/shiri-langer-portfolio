@@ -49,7 +49,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   transition: all var(--transition-normal);
   z-index: 10;
   box-shadow: 0 4px 12px rgba(24, 119, 115, 0.15);
@@ -118,7 +118,7 @@
 .about-hero-content h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-sm) 0;
   letter-spacing: -0.02em;
   font-family: "cc-regeneration-variable", sans-serif;
@@ -138,9 +138,9 @@
 .about-intro {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-sm) 0;
-  opacity: 0.9;
+  opacity: 1;
   font-family: "unitext", sans-serif;
   font-weight: 400;
 }
@@ -212,7 +212,7 @@
 .about-section > p {
   font-size: 1rem;
   line-height: 1.7;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-md) 0;
   opacity: 0.9;
   font-family: "unitext", sans-serif;
@@ -245,7 +245,7 @@
 .expertise-item h4 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-sm) 0;
   font-family: "unitext", sans-serif;
 }
@@ -253,7 +253,7 @@
 .expertise-item p {
   font-size: 0.9rem;
   line-height: 1.5;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0;
   opacity: 0.8;
   font-family: "unitext", sans-serif;
@@ -318,14 +318,14 @@
 .highlight-content h4 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-sm) 0;
 }
 
 .highlight-content p {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0;
   opacity: 0.9;
 }
@@ -369,12 +369,12 @@
 }
 
 .scroll-down-btn svg {
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   transition: all var(--transition-normal);
 }
 
 .scroll-down-btn:hover svg {
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   transform: translateY(2px);
 }
 
@@ -388,7 +388,7 @@
 
 .tool-tag {
   background: var(--color-secondary);
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-md);
   font-size: 0.85rem;
@@ -400,9 +400,9 @@
 }
 
 .tool-tag:hover {
-  background: var(--color-accent);
-  color: var(--color-primary);
-  border-color: var(--color-accent);
+  background: var(--color-lime-jelly);
+  color: var(--color-twilight-bliss);
+  border-color: var(--color-lime-jelly);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(250, 228, 80, 0.3);
 }
@@ -420,7 +420,7 @@
   align-items: center;
   padding: var(--spacing-md) var(--spacing-lg);
   background: var(--color-royal);
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   text-decoration: none;
   border-radius: var(--radius-lg);
   font-weight: 600;
@@ -451,19 +451,19 @@
   border-color: var(--color-primary);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(21, 35, 32, 0.3);
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
 }
 
 .cta-button.secondary {
-  background: var(--color-primary);
-  border: 2px solid var(--color-secondary);
+  background: var(--color-twilight-bliss);
+  border: 2px solid var(--color-twilight-bliss);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: "cc-regeneration-variable", sans-serif;
   font-variation-settings: "ital" 0, "wght" 600;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   cursor: pointer;
   transition: all var(--transition-fast);
   backdrop-filter: blur(10px);
@@ -477,8 +477,8 @@
 }
 
 .cta-button.secondary:hover {
-  background: var(--color-secondary);
-  border-color: var(--color-secondary);
+  background: var(--color-azure-cloud);
+  border-color: var(--color-azure-cloud);
   transform: translateY(-2px);
   box-shadow: 
     0 8px 24px rgba(21, 35, 32, 0.25),

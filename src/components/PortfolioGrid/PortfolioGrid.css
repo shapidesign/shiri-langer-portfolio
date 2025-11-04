@@ -32,14 +32,14 @@
   position: fixed;
   top: var(--spacing-lg);
   left: var(--spacing-lg);
-  background: var(--color-primary);
-  border: 2px solid var(--color-secondary);
+  background: var(--color-twilight-bliss);
+  border: 2px solid var(--color-twilight-bliss);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: "cc-regeneration-variable", sans-serif;
   font-variation-settings: "ital" 0, "wght" 400;
   font-size: 0.9rem;
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   cursor: pointer;
   transition: all var(--transition-fast);
   backdrop-filter: blur(10px);
@@ -55,8 +55,8 @@
 }
 
 .about-btn:hover {
-  background: var(--color-secondary);
-  border-color: var(--color-secondary);
+  background: var(--color-star-of-life);
+  border-color: var(--color-azure-cloud);
   transform: translateY(-2px);
   box-shadow: 
     0 8px 24px rgba(77, 216, 255, 0.35),
@@ -75,14 +75,14 @@
   position: fixed;
   top: var(--spacing-lg);
   right: var(--spacing-lg);
-  background: var(--color-primary);
-  border: 2px solid var(--color-secondary);
+  background: var(--color-twilight-bliss);
+  border: 2px solid var(--color-twilight-bliss);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: "cc-regeneration-variable", sans-serif;
   font-variation-settings: "ital" 0, "wght" 400;
   font-size: 0.9rem;
-  color: var(--color-background);
+  color: var(--color-crystal-cut);
   cursor: pointer;
   transition: all var(--transition-fast);
   backdrop-filter: blur(10px);
@@ -98,8 +98,8 @@
 }
 
 .contact-btn:hover {
-  background: var(--color-secondary);
-  border-color: var(--color-secondary);
+  background: var(--color-star-of-life);
+  border-color: var(--color-azure-cloud);
   transform: translateY(-2px);
   box-shadow: 
     0 8px 24px rgba(77, 216, 255, 0.35),
