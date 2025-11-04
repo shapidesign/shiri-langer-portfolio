@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ProjectText, getProjectText } from '../config/projectTexts';
+import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
+import { usePinchZoom } from '../hooks/usePinchZoom';
 import './ProjectModal.css';
 
 interface ProjectModalProps {
@@ -11,9 +13,49 @@ interface ProjectModalProps {
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const project = projectId ? getProjectText(projectId) : null;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isImageMaximized, setIsImageMaximized] = useState(false);
+  
+  // Swipe navigation for gallery
+  useSwipeNavigation(galleryRef, {
+    onSwipeLeft: () => {
+      if (project && project.gallery.length > 1) {
+        setCurrentImageIndex((prev) => 
+          prev < project.gallery.length - 1 ? prev + 1 : 0
+        );
+      }
+    },
+    onSwipeRight: () => {
+      if (project && project.gallery.length > 1) {
+        setCurrentImageIndex((prev) => 
+          prev > 0 ? prev - 1 : project.gallery.length - 1
+        );
+      }
+    },
+    enabled: isOpen && isImageMaximized
+  });
+  
+  // Pinch-to-zoom for maximized images
+  const { initialize: initPinchZoom, handlePinch, startPinch, resetZoom } = usePinchZoom({
+    minScale: 1,
+    maxScale: 3,
+    onZoomEnd: () => {
+      // Reset zoom when closing
+      if (!isImageMaximized) {
+        resetZoom();
+      }
+    }
+  });
+  
+  // Initialize pinch zoom on maximized image
+  useEffect(() => {
+    if (isImageMaximized && imageRef.current) {
+      initPinchZoom(imageRef.current);
+    }
+  }, [isImageMaximized, initPinchZoom]);
 
   // Initialize inline image sliders
   useEffect(() => {
@@ -216,12 +258,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             </svg>
           </button>
           
-          {/* Image - positioned independently */}
+          {/* Image - positioned independently with pinch zoom support */}
           <img 
             src={project.gallery[currentImageIndex]} 
             alt={project.title}
             className="maximized-image-popup"
-            onClick={() => setIsImageMaximized(false)}
+            onClick={() => {
+              setIsImageMaximized(false);
+              resetZoom();
+            }}
             style={{
               position: 'fixed',
               top: '50%',
@@ -238,7 +283,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               display: 'block',
               zIndex: 10000,
               animation: 'imagePopupFadeIn 0.3s ease-out',
-              transition: 'transform 0.2s ease'
+              transition: 'transform 0.2s ease',
+              willChange: 'transform',
+              touchAction: 'pan-x pan-y pinch-zoom'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.02)';
@@ -294,7 +341,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         {/* Modal Content */}
         <div className="project-modal-content">
           {/* Project Gallery */}
-          <div className="project-gallery">
+          <div className="project-gallery" ref={galleryRef}>
             <div className="gallery-main">
               {project.gallery.length > 1 && (
                 <button 
@@ -310,6 +357,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                 </button>
               )}
               <img 
+                ref={imageRef}
                 src={project.gallery[currentImageIndex]} 
                 alt={project.title}
                 className="gallery-main-image"
