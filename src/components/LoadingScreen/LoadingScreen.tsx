@@ -7,49 +7,19 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
-  const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    // Simulate loading progress
-    const loadingSteps = [
-      { progress: 20, delay: 300 },
-      { progress: 40, delay: 400 },
-      { progress: 60, delay: 500 },
-      { progress: 80, delay: 600 },
-      { progress: 95, delay: 700 },
-      { progress: 100, delay: 800 }
-    ];
+    // Simulate loading time then fade out
+    const loadingTimeout = setTimeout(() => {
+      setIsComplete(true);
+      setTimeout(() => {
+        onLoadingComplete();
+      }, 500); // Fade out delay
+    }, 2000); // Show loading animation for 2 seconds
 
-    let currentStep = 0;
-    const timeouts: NodeJS.Timeout[] = [];
-
-    const updateProgress = () => {
-      if (currentStep < loadingSteps.length) {
-        const step = loadingSteps[currentStep];
-        timeouts.push(
-          setTimeout(() => {
-            setProgress(step.progress);
-            currentStep++;
-            updateProgress();
-          }, step.delay)
-        );
-      } else {
-        // Loading complete
-        setTimeout(() => {
-          setIsComplete(true);
-          setTimeout(() => {
-            onLoadingComplete();
-          }, 500); // Fade out delay
-        }, 300);
-      }
-    };
-
-    updateProgress();
-
-    // Cleanup timeouts
     return () => {
-      timeouts.forEach(timeout => clearTimeout(timeout));
+      clearTimeout(loadingTimeout);
     };
   }, [onLoadingComplete]);
 
