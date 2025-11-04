@@ -50,3 +50,4 @@ This project is ready to deploy to:
 - Create React App
 - GSAP animations
 - Lenis smooth scroll
+
