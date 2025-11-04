@@ -5,7 +5,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: var(--color-primary);
+  background: var(--color-azure-cloud);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +56,7 @@
 .progress-bar {
   width: 320px;
   height: 8px;
-  background: rgba(44, 44, 44, 0.15);
+  background: var(--color-background-alt);
   border-radius: 4px;
   overflow: hidden;
   margin: 0 auto 0.8rem auto;
@@ -76,13 +76,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.1) 25%, 
-    rgba(255, 255, 255, 0.2) 50%, 
-    rgba(255, 255, 255, 0.1) 75%, 
-    transparent 100%
-  );
+  background: var(--color-background-alt);
   animation: backgroundShimmer 3s ease-in-out infinite;
 }
 
@@ -96,10 +90,10 @@
 }
 
 .progress-segment.filled {
-  background: var(--color-secondary);
+  background: var(--color-star-of-life);
   box-shadow: 
-    0 0 4px rgba(24, 119, 115, 0.4),
-    0 0 8px rgba(24, 119, 115, 0.2);
+    0 0 4px rgba(5, 123, 193, 0.4),
+    0 0 8px rgba(5, 123, 193, 0.2);
 }
 
 

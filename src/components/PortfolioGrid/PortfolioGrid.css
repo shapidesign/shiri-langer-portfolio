@@ -117,19 +117,19 @@
 @keyframes smoothPulse {
   0% {
     box-shadow: 
-      0 4px 12px rgba(24, 119, 115, 0.15),
-      0 0 2px var(--color-secondary);
+      0 4px 12px rgba(77, 216, 255, 0.15),
+      0 0 2px var(--color-primary);
   }
   50% {
     box-shadow: 
-      0 4px 12px rgba(24, 119, 115, 0.15),
-      0 0 6px var(--color-secondary),
-      0 0 8px var(--color-secondary);
+      0 4px 12px rgba(77, 216, 255, 0.15),
+      0 0 6px var(--color-primary),
+      0 0 8px var(--color-primary);
   }
   100% {
     box-shadow: 
-      0 4px 12px rgba(24, 119, 115, 0.15),
-      0 0 2px var(--color-secondary);
+      0 4px 12px rgba(77, 216, 255, 0.15),
+      0 0 2px var(--color-primary);
   }
 }
 

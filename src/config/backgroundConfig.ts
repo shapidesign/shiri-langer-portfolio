@@ -9,7 +9,7 @@ export interface BackgroundConfig {
   fallbackColor: string;
 }
 
-// Simple solid background
+// Simple solid background using palette
 export const getCurrentBackground = (): BackgroundConfig => {
   return {
     image: '',
@@ -17,6 +17,6 @@ export const getCurrentBackground = (): BackgroundConfig => {
     position: 'center',
     attachment: 'fixed',
     repeat: 'no-repeat',
-    fallbackColor: '#F5F3F0'
+    fallbackColor: '#F8F4ED' // Crystal Cut from palette
   };
 };

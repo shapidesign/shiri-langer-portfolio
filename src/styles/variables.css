@@ -1,15 +1,23 @@
-/* CSS Variables - Blue/Azure Palette */
+/* CSS Variables - Official Color Palette */
 :root {
-  /* Primary Brand Colors - Azure Cloud Palette */
-  --color-primary: #4DD8FF; /* AZURE CLOUD - Primary brand color */
-  --color-secondary: #1E90FF; /* DODGER BLUE - Secondary brand color */
-  --color-accent: #00CED1; /* DARK TURQUOISE - Accent color */
-  --color-background: #F0F8FF; /* ALICE BLUE - Main background */
-  --color-background-darker: #E0F7FA; /* LIGHT CYAN - Background variant */
-  --color-text: #1A1A2E; /* DARK NAVY for text */
-  --color-text-light: #4DD8FF; /* AZURE CLOUD for secondary text */
-  --color-border: #87CEEB; /* SKY BLUE for subtle borders */
-  --color-hover: #4DD8FF; /* AZURE CLOUD for hover states */
+  /* Official Palette Colors - Solid Colors Only */
+  --color-crystal-cut: #F8F4ED; /* Crystal Cut - Very light off-white */
+  --color-angelic-white: #F4EDE4; /* Angelic White - Warmer off-white */
+  --color-lime-jelly: #E3FF00; /* Lime Jelly - Bright lime green */
+  --color-azure-cloud: #4DD8FF; /* Azure Cloud - Bright sky blue */
+  --color-star-of-life: #057BC1; /* Star of Life - Medium rich blue */
+  --color-twilight-bliss: #083645; /* Twilight Bliss - Dark navy blue */
+  
+  /* Semantic Color Mappings */
+  --color-primary: #4DD8FF; /* Azure Cloud - Primary brand color */
+  --color-secondary: #057BC1; /* Star of Life - Secondary brand color */
+  --color-accent: #E3FF00; /* Lime Jelly - Accent/highlight color */
+  --color-background: #F8F4ED; /* Crystal Cut - Main background */
+  --color-background-alt: #F4EDE4; /* Angelic White - Alternative background */
+  --color-text: #083645; /* Twilight Bliss - Main text color */
+  --color-text-light: #057BC1; /* Star of Life - Secondary text */
+  --color-border: #4DD8FF; /* Azure Cloud - Borders and dividers */
+  --color-hover: #057BC1; /* Star of Life - Hover states */
   
 
   
