@@ -1,15 +1,15 @@
-/* CSS Variables - Crafted by shapi*/
+/* CSS Variables - Blue/Azure Palette */
 :root {
-  /* Primary Brand Colors - Shiri2 Palette */
-  --color-primary: #152320; /* DARK GREY - Primary brand color */
-  --color-secondary: #187773; /* DARK TEAL - Secondary brand color */
-  --color-accent: #FAE450; /* BRIGHT YELLOW - Accent/highlight color */
-  --color-background: #FFFBF5; /* OFF-WHITE - Main background */
-  --color-background-darker: #B4ECDF; /* LIGHT AQUA - Background variant for depth */
-  --color-text: #152320; /* DARK GREY for text */
-  --color-text-light: #187773; /* DARK TEAL for secondary text */
-  --color-border: #B4ECDF; /* LIGHT AQUA for subtle borders */
-  --color-hover: #B4ECDF; /* LIGHT AQUA for hover states */
+  /* Primary Brand Colors - Azure Cloud Palette */
+  --color-primary: #4DD8FF; /* AZURE CLOUD - Primary brand color */
+  --color-secondary: #1E90FF; /* DODGER BLUE - Secondary brand color */
+  --color-accent: #00CED1; /* DARK TURQUOISE - Accent color */
+  --color-background: #F0F8FF; /* ALICE BLUE - Main background */
+  --color-background-darker: #E0F7FA; /* LIGHT CYAN - Background variant */
+  --color-text: #1A1A2E; /* DARK NAVY for text */
+  --color-text-light: #4DD8FF; /* AZURE CLOUD for secondary text */
+  --color-border: #87CEEB; /* SKY BLUE for subtle borders */
+  --color-hover: #4DD8FF; /* AZURE CLOUD for hover states */
   
 
   

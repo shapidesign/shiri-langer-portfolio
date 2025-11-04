@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDragInertia } from '../../hooks/useDragInertia';
-import { useSpotlight } from '../../hooks/useSpotlight';
 import { ProjectService } from '../../managers/ProjectService';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
 import { ProjectTile } from '../ProjectTile';
@@ -21,10 +20,6 @@ const PortfolioGrid: React.FC = () => {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
-  
-  // Refs for spotlight effect
-  const spotlightOverlayRef = useRef<HTMLDivElement>(null);
-  const fadeRef = useRef<HTMLDivElement>(null);
   
   // Responsive grid configuration
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
@@ -98,10 +93,7 @@ const PortfolioGrid: React.FC = () => {
   
   // Use custom hooks for functionality
   const { offset, setOffset, onPointerDown, onPointerMove, onPointerUp } = useDragInertia();
-  const { containerRef, onPointerMove: onSpotlightMove, onPointerLeave: onSpotlightLeave } = useSpotlight(
-    spotlightOverlayRef,
-    fadeRef
-  );
+  const containerRef = useRef<HTMLDivElement>(null);
   
   // Keyboard navigation
   useKeyboardNavigation(
@@ -184,11 +176,6 @@ const PortfolioGrid: React.FC = () => {
     return projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
   }, [projectService, firstRow, firstCol, rowsToDraw, colsToDraw]);
   
-  // Combined pointer move handler
-  const handlePointerMove = (e: React.PointerEvent) => {
-    onPointerMove(e);
-    onSpotlightMove(e);
-  };
   
   return (
     <div
@@ -199,13 +186,11 @@ const PortfolioGrid: React.FC = () => {
         height: '100vh', 
         width: '100vw', 
         overflow: 'hidden', 
-        background: '#fafafa', 
-        color: '#111', 
+        background: 'var(--color-background)', 
+        color: 'var(--color-text)', 
         overscrollBehavior: 'none',
         userSelect: 'none',
       } as React.CSSProperties}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={onSpotlightLeave}
     >
       {/* Portfolio Grid */}
       <div
@@ -285,10 +270,6 @@ const PortfolioGrid: React.FC = () => {
           setIsProjectModalOpen(true);
         }}
       />
-
-      {/* Spotlight Overlay */}
-      <div ref={spotlightOverlayRef} className="spotlight-overlay" />
-      <div ref={fadeRef} className="spotlight-fade" />
 
       {/* Navigation Indicators */}
       <NavigationIndicators />
