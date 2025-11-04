@@ -26,6 +26,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   return (
     <div className={`loading-screen ${isComplete ? 'fade-out' : ''}`}>
       <div className="loading-container">
+        <div className="loading-text">
+          <h2>Loading Portfolio</h2>
+        </div>
         <ThreeDot
           variant="pulsate"
           color="#E3FF00"
