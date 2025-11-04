@@ -4,7 +4,7 @@ import './VersionTag.css';
 const VersionTag: React.FC = () => {
   return (
     <div className="version-tag">
-      v1.6.0
+      v1.6.1
     </div>
   );
 };
