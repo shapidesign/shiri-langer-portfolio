@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ThreeDot from '../ThreeDot/ThreeDot';
 import './LoadingScreen.css';
 
 interface LoadingScreenProps {
@@ -10,7 +11,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    // Simulate loading progress with bouncing ball
+    // Simulate loading progress
     const loadingSteps = [
       { progress: 20, delay: 300 },
       { progress: 40, delay: 400 },
@@ -55,21 +56,13 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   return (
     <div className={`loading-screen ${isComplete ? 'fade-out' : ''}`}>
       <div className="loading-container">
-        <div className="loading-text">
-          <h2>Loading Portfolio</h2>
-          <p>Preparing your experience...</p>
-          <div className="progress-bar">
-            {Array.from({ length: 10 }, (_, index) => (
-              <div
-                key={index}
-                className={`progress-segment ${
-                  (index + 1) * 10 <= progress ? 'filled' : ''
-                }`}
-              />
-            ))}
-          </div>
-          <span className="progress-text">{progress}%</span>
-        </div>
+        <ThreeDot
+          variant="pulsate"
+          color="#E3FF00"
+          size="medium"
+          text=""
+          textColor=""
+        />
       </div>
     </div>
   );

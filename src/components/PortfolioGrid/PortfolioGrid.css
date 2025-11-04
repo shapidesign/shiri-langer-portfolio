@@ -48,9 +48,9 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  box-shadow: 
-    0 4px 12px rgba(77, 216, 255, 0.15),
-    0 0 4px var(--color-primary);
+    box-shadow: 
+    0 4px 12px rgba(8, 54, 69, 0.15),
+    0 0 4px var(--color-twilight-bliss);
   animation: smoothPulse 4s ease-in-out infinite;
 }
 
@@ -58,10 +58,10 @@
   background: var(--color-star-of-life);
   border-color: var(--color-azure-cloud);
   transform: translateY(-2px);
-  box-shadow: 
-    0 8px 24px rgba(77, 216, 255, 0.35),
-    0 0 8px var(--color-primary),
-    0 0 12px var(--color-primary),
+    box-shadow: 
+    0 8px 24px rgba(5, 123, 193, 0.35),
+    0 0 8px var(--color-azure-cloud),
+    0 0 12px var(--color-azure-cloud),
     0 0 16px rgba(77, 216, 255, 0.4);
 }
 
@@ -91,9 +91,9 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  box-shadow: 
-    0 4px 12px rgba(77, 216, 255, 0.15),
-    0 0 4px var(--color-primary);
+    box-shadow: 
+    0 4px 12px rgba(8, 54, 69, 0.15),
+    0 0 4px var(--color-twilight-bliss);
   animation: smoothPulse 4s ease-in-out infinite;
 }
 
@@ -101,10 +101,10 @@
   background: var(--color-star-of-life);
   border-color: var(--color-azure-cloud);
   transform: translateY(-2px);
-  box-shadow: 
-    0 8px 24px rgba(77, 216, 255, 0.35),
-    0 0 8px var(--color-primary),
-    0 0 12px var(--color-primary),
+    box-shadow: 
+    0 8px 24px rgba(5, 123, 193, 0.35),
+    0 0 8px var(--color-azure-cloud),
+    0 0 12px var(--color-azure-cloud),
     0 0 16px rgba(77, 216, 255, 0.4);
 }
 
@@ -117,19 +117,19 @@
 @keyframes smoothPulse {
   0% {
     box-shadow: 
-      0 4px 12px rgba(77, 216, 255, 0.15),
-      0 0 2px var(--color-primary);
+      0 4px 12px rgba(8, 54, 69, 0.15),
+      0 0 2px var(--color-twilight-bliss);
   }
   50% {
     box-shadow: 
-      0 4px 12px rgba(77, 216, 255, 0.15),
-      0 0 6px var(--color-primary),
-      0 0 8px var(--color-primary);
+      0 4px 12px rgba(8, 54, 69, 0.15),
+      0 0 6px var(--color-twilight-bliss),
+      0 0 8px var(--color-twilight-bliss);
   }
   100% {
     box-shadow: 
-      0 4px 12px rgba(77, 216, 255, 0.15),
-      0 0 2px var(--color-primary);
+      0 4px 12px rgba(8, 54, 69, 0.15),
+      0 0 2px var(--color-twilight-bliss);
   }
 }
 
