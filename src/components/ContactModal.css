@@ -44,7 +44,7 @@
 .modal-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-twilight-bliss);
   margin: 0;
   font-family: "cc-regeneration-variable", sans-serif;
   font-variation-settings: "ital" 0, "wght" 700;
@@ -89,7 +89,7 @@
 }
 
 .contact-intro {
-  color: var(--color-text);
+  color: var(--color-star-of-life);
   line-height: 1.6;
   margin: 0;
   font-family: "unitext", sans-serif;
@@ -122,7 +122,8 @@
 }
 
 .contact-method.clickable:hover {
-  background: var(--color-hover);
+  background: transparent;
+  border: 1px solid var(--color-azure-cloud);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -130,12 +131,12 @@
 .contact-icon {
   width: 40px;
   height: 40px;
-  background: var(--color-primary);
+  background: transparent;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-twilight-bliss);
   flex-shrink: 0;
 }
 
@@ -154,7 +155,7 @@
 
 .contact-value {
   font-size: 1rem;
-  color: var(--color-primary);
+  color: var(--color-star-of-life);
   font-weight: 400;
   white-space: nowrap;
   overflow: hidden;

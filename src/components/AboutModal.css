@@ -132,7 +132,7 @@
 .about-hero-content h2 {
   font-size: 1.3rem;
   font-weight: 400;
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-md) 0;
   letter-spacing: 0.01em;
   font-family: "cc-regeneration-variable", sans-serif;
@@ -193,7 +193,7 @@
 .about-section h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-secondary);
+  color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-lg) 0;
   position: relative;
   padding-left: var(--spacing-md);
