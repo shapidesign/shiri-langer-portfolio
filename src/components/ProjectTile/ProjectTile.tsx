@@ -18,6 +18,9 @@ interface ProjectTileProps {
  * Click vs Drag detection:
  * - Click: Pointer down and up with minimal movement (< 5px) = opens modal
  * - Drag: Pointer down, move > 5px, then up = scrolls canvas, doesn't open modal
+ * 
+ * The parent container handles all drag interactions immediately.
+ * Tiles only track movement to determine if it was a click or drag.
  */
 export const ProjectTile: React.FC<ProjectTileProps> = ({
   left,
@@ -53,19 +56,14 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
     // Only handle left mouse button or primary touch
     if (e.button !== 0 && e.pointerType !== 'touch') return;
     
-    // Track pointer down position
+    // Track pointer down position for click vs drag detection
     pointerState.current.isDown = true;
     pointerState.current.startX = e.clientX;
     pointerState.current.startY = e.clientY;
     pointerState.current.hasMoved = false;
     
-    // Capture pointer to track movement even if it leaves the element
-    if (tileRef.current) {
-      tileRef.current.setPointerCapture(e.pointerId);
-    }
-    
-    // Don't stop propagation - let parent also receive the event
-    // This allows parent to start tracking drag even if started on tile
+    // Don't capture pointer or stop propagation - let parent handle drag immediately
+    // Parent will handle all drag interactions, we just track movement
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -76,51 +74,9 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
     const dy = Math.abs(e.clientY - pointerState.current.startY);
     const distance = Math.hypot(dx, dy);
     
-    // If movement exceeds threshold, it's a drag
-    if (distance > pointerState.current.dragThreshold && !pointerState.current.hasMoved) {
+    // If movement exceeds threshold, it's a drag (don't open modal)
+    if (distance > pointerState.current.dragThreshold) {
       pointerState.current.hasMoved = true;
-      
-      // Release pointer capture so parent can handle drag
-      if (tileRef.current) {
-        tileRef.current.releasePointerCapture(e.pointerId);
-      }
-      
-      // Transfer drag to parent by dispatching a pointerdown event on parent
-      // This allows parent drag handler to take over
-      const parentContainer = tileRef.current?.parentElement;
-      if (parentContainer) {
-        const syntheticDown = new PointerEvent('pointerdown', {
-          bubbles: true,
-          cancelable: true,
-          clientX: pointerState.current.startX,
-          clientY: pointerState.current.startY,
-          pointerId: e.pointerId,
-          pointerType: e.pointerType,
-          button: e.button,
-          buttons: 1
-        });
-        // Mark as synthetic so parent knows to handle it
-        (syntheticDown as any).__isSynthetic = true;
-        parentContainer.dispatchEvent(syntheticDown);
-      }
-    }
-    
-    // If it's a drag, also dispatch move event to parent
-    if (pointerState.current.hasMoved) {
-      const parentContainer = tileRef.current?.parentElement;
-      if (parentContainer) {
-        const syntheticMove = new PointerEvent('pointermove', {
-          bubbles: true,
-          cancelable: true,
-          clientX: e.clientX,
-          clientY: e.clientY,
-          pointerId: e.pointerId,
-          pointerType: e.pointerType,
-          button: e.button,
-          buttons: e.buttons
-        });
-        parentContainer.dispatchEvent(syntheticMove);
-      }
     }
   };
 
@@ -129,11 +85,6 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
     
     const wasClick = !pointerState.current.hasMoved;
     const hadMoved = pointerState.current.hasMoved;
-    
-    // Release pointer capture
-    if (tileRef.current) {
-      tileRef.current.releasePointerCapture(e.pointerId);
-    }
     
     // Reset state
     pointerState.current.isDown = false;
@@ -144,28 +95,12 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
       // Prevent event from bubbling to parent drag handler
       e.preventDefault();
       e.stopPropagation();
-      // Open modal
-      onOpen(project.id);
-    } else if (hadMoved) {
-      // It was a drag - dispatch pointerup to parent so it can finish the drag
-      const parentContainer = tileRef.current?.parentElement;
-      if (parentContainer) {
-        const syntheticUp = new PointerEvent('pointerup', {
-          bubbles: true,
-          cancelable: true,
-          clientX: e.clientX,
-          clientY: e.clientY,
-          pointerId: e.pointerId,
-          pointerType: e.pointerType,
-          button: e.button,
-          buttons: 0
-        });
-        parentContainer.dispatchEvent(syntheticUp);
-      }
-      // Prevent original event from causing issues
-      e.preventDefault();
-      e.stopPropagation();
+      // Small delay to ensure drag events have finished
+      setTimeout(() => {
+        onOpen(project.id);
+      }, 10);
     }
+    // If it was a drag, let parent handle it naturally (don't prevent default)
   };
 
   const handleClick = (e: React.MouseEvent) => {
