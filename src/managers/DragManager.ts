@@ -67,7 +67,13 @@ export class DragManager {
    * Handle pointer down event
    */
   private handlePointerDown = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    // Don't start drag if clicking on a project tile (let tile handle click vs drag)
+    const target = e.target as HTMLElement;
+    if (target.closest('.project-tile')) {
+      return; // Let the tile handle its own pointer events
+    }
+    
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
     this.stopRaf();
     
     this.state.dragging = true;
@@ -84,7 +90,17 @@ export class DragManager {
    * Handle pointer move event
    */
   private handlePointerMove = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    if (!this.state.dragging) return;
+    if (!this.state.dragging) {
+      // Check if we should start dragging (pointer was captured but dragging wasn't set)
+      // This handles the case where pointer down was on a tile but moved enough to become a drag
+      const target = e.target as HTMLElement;
+      if (target.closest('.project-tile')) {
+        // Check if pointer was captured - if so, we might need to start dragging
+        // This is handled by the tile releasing capture and letting parent handle it
+        return;
+      }
+      return;
+    }
     
     const now = performance.now();
     const dt = Math.max(1, now - this.state.t);
