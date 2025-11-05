@@ -65,10 +65,15 @@ export class DragManager {
 
   /**
    * Handle pointer down event
+   * Only handles middle mouse button (scroll-click) for drag
    */
   private handlePointerDown = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    // Always start drag tracking immediately - works on tiles and background
-    // Tiles will detect click vs drag and prevent modal opening if needed
+    // Only handle middle mouse button (scroll-click) for drag
+    // Left click is for clicking tiles, wheel/trackpad is for scrolling
+    if (e.button !== 1) return;
+    
+    e.preventDefault(); // Prevent default middle-click behavior
+    
     const container = e.currentTarget as HTMLElement;
     container.setPointerCapture?.(e.pointerId);
     this.stopRaf();
@@ -92,17 +97,7 @@ export class DragManager {
    * Handle pointer move event
    */
   private handlePointerMove = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    if (!this.state.dragging) {
-      // Check if we should start dragging (pointer was captured but dragging wasn't set)
-      // This handles the case where pointer down was on a tile but moved enough to become a drag
-      const target = e.target as HTMLElement;
-      if (target.closest('.project-tile')) {
-        // Check if pointer was captured - if so, we might need to start dragging
-        // This is handled by the tile releasing capture and letting parent handle it
-        return;
-      }
-      return;
-    }
+    if (!this.state.dragging) return;
     
     const now = performance.now();
     const dt = Math.max(1, now - this.state.t);

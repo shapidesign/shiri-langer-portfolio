@@ -195,16 +195,27 @@ const PortfolioGrid: React.FC = () => {
       {/* Portfolio Grid */}
       <div
         onWheel={onWheel}
-        onPointerDown={(e) => {
-          // Always handle pointer down - tiles will detect click vs drag
-          onPointerDown(e);
-        }}
+        onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        style={{ position: 'absolute', inset: 0, cursor: 'grab' }}
+        style={{ position: 'absolute', inset: 0, cursor: 'default' }}
+        onMouseEnter={(e) => {
+          // Only show grab cursor when middle mouse button is pressed
+          if ((e.buttons & 4) === 4) { // Middle button (button 1 = bit 2 = 4)
+            (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
+          }
+        }}
+        onMouseMove={(e) => {
+          // Update cursor based on middle button state
+          if ((e.buttons & 4) === 4) {
+            (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
+          } else {
+            (e.currentTarget as HTMLElement).style.cursor = 'default';
+          }
+        }}
         onPointerLeave={(e) => {
           // Reset cursor if pointer leaves
-          (e.currentTarget as HTMLElement).style.cursor = 'grab';
+          (e.currentTarget as HTMLElement).style.cursor = 'default';
         }}
       >
         {cells.map(({ row, col, projId }) => {

@@ -43,6 +43,12 @@ export class NavigationCoordinator {
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
       e.preventDefault();
       
+      // Natural directions: Arrow keys move the viewport in that direction
+      // Since offset is inverted (camX = -offset.x), we need to think about it carefully:
+      // - ArrowRight: move viewport right → show content on left → increase offset.x ✓
+      // - ArrowLeft: move viewport left → show content on right → decrease offset.x ✓
+      // - ArrowDown: move viewport down → show content above → increase offset.y ✓
+      // - ArrowUp: move viewport up → show content below → decrease offset.y ✓
       const dx = e.key === 'ArrowLeft' ? -STEP : e.key === 'ArrowRight' ? STEP : 0;
       const dy = e.key === 'ArrowUp' ? -STEP : e.key === 'ArrowDown' ? STEP : 0;
       
