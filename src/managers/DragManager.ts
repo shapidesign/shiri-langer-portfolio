@@ -67,12 +67,8 @@ export class DragManager {
    * Handle pointer down event
    */
   private handlePointerDown = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    // Always start drag tracking - tiles will prevent modal opening if it was a click
-    // This allows immediate drag responsiveness
-    const target = e.target as HTMLElement;
-    const tile = target.closest('.project-tile');
-    
-    // Capture pointer on the container (not the tile)
+    // Always start drag tracking immediately - works on tiles and background
+    // Tiles will detect click vs drag and prevent modal opening if needed
     const container = e.currentTarget as HTMLElement;
     container.setPointerCapture?.(e.pointerId);
     this.stopRaf();
@@ -86,7 +82,7 @@ export class DragManager {
     this.state.lastT = performance.now();
     this.vel = { x: 0, y: 0 };
     
-    // Update cursor immediately
+    // Update cursor immediately to 'grabbing'
     if (container) {
       container.style.cursor = 'grabbing';
     }
