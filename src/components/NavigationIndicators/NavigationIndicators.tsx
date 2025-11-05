@@ -11,12 +11,12 @@ const NavigationIndicators: React.FC = () => {
     <div className="navigation-indicators">
       {/* Top Indicator - Points Up */}
       <div className="indicator indicator-top">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
           <path
             d="M12 4L20 18H4L12 4Z"
             fill="#057BC1"
-            stroke="#F8F4ED"
-            strokeWidth="1.5"
+            stroke="none"
+            strokeWidth="0"
             strokeLinejoin="round"
           />
         </svg>
@@ -24,12 +24,12 @@ const NavigationIndicators: React.FC = () => {
 
       {/* Right Indicator - Points Right */}
       <div className="indicator indicator-right">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
           <path
             d="M20 12L6 20V4L20 12Z"
             fill="#057BC1"
-            stroke="#F8F4ED"
-            strokeWidth="1.5"
+            stroke="none"
+            strokeWidth="0"
             strokeLinejoin="round"
           />
         </svg>
@@ -37,12 +37,12 @@ const NavigationIndicators: React.FC = () => {
 
       {/* Bottom Indicator - Points Down */}
       <div className="indicator indicator-bottom">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
           <path
             d="M12 20L4 6H20L12 20Z"
             fill="#057BC1"
-            stroke="#F8F4ED"
-            strokeWidth="1.5"
+            stroke="none"
+            strokeWidth="0"
             strokeLinejoin="round"
           />
         </svg>
@@ -50,12 +50,12 @@ const NavigationIndicators: React.FC = () => {
 
       {/* Left Indicator - Points Left */}
       <div className="indicator indicator-left">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
           <path
             d="M4 12L18 4V20L4 12Z"
             fill="#057BC1"
-            stroke="#F8F4ED"
-            strokeWidth="1.5"
+            stroke="none"
+            strokeWidth="0"
             strokeLinejoin="round"
           />
         </svg>

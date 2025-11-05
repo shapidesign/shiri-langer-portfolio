@@ -14,38 +14,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #057BC1; /* Star of Life - direct color for clarity */
+  color: #057BC1; /* Star of Life */
   transition: opacity 0.5s ease, transform 0.3s ease;
-  filter: drop-shadow(0 3px 6px rgba(5, 123, 193, 0.8));
   opacity: 1 !important; /* Always visible, never dimmed */
 }
 
 .indicator svg {
-  filter: drop-shadow(0 2px 4px rgba(5, 123, 193, 0.9));
+  filter: drop-shadow(0 0 8px rgba(77, 216, 255, 0.6)) drop-shadow(0 0 16px rgba(77, 216, 255, 0.4)) drop-shadow(0 2px 4px rgba(5, 123, 193, 0.8));
 }
 
-/* Positioning */
+/* Positioning - closer to screen borders */
 .indicator-top {
-  top: 80px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .indicator-right {
   top: 50%;
-  right: 80px;
+  right: 30px;
   transform: translateY(-50%);
 }
 
 .indicator-bottom {
-  bottom: 80px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .indicator-left {
   top: 50%;
-  left: 80px;
+  left: 30px;
   transform: translateY(-50%);
 }
 
@@ -55,66 +54,71 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .indicator svg {
+    width: 48px;
+    height: 48px;
+  }
+  
   .indicator-top {
-    top: 60px;
+    top: 25px;
   }
   
   .indicator-right {
-    right: 60px;
+    right: 25px;
   }
   
   .indicator-bottom {
-    bottom: 60px;
+    bottom: 25px;
   }
   
   .indicator-left {
-    left: 60px;
+    left: 25px;
   }
 }
 
 @media (max-width: 768px) {
   .indicator svg {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
   
   .indicator-top {
-    top: 50px;
+    top: 20px;
   }
   
   .indicator-right {
-    right: 40px;
+    right: 20px;
   }
   
   .indicator-bottom {
-    bottom: 50px;
+    bottom: 20px;
   }
   
   .indicator-left {
-    left: 40px;
+    left: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .indicator svg {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
   }
   
   .indicator-top {
-    top: 40px;
+    top: 15px;
   }
   
   .indicator-right {
-    right: 30px;
+    right: 15px;
   }
   
   .indicator-bottom {
-    bottom: 40px;
+    bottom: 15px;
   }
   
   .indicator-left {
-    left: 30px;
+    left: 15px;
   }
 }
 

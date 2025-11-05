@@ -16,6 +16,8 @@
   padding: var(--spacing-lg);
   opacity: 0;
   animation: projectModalFadeIn 0.4s ease-out forwards;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Modal Container */
