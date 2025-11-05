@@ -195,10 +195,17 @@ const PortfolioGrid: React.FC = () => {
       {/* Portfolio Grid */}
       <div
         onWheel={onWheel}
-        onPointerDown={onPointerDown}
+        onPointerDown={(e) => {
+          // Always handle pointer down - tiles will detect click vs drag
+          onPointerDown(e);
+        }}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         style={{ position: 'absolute', inset: 0, cursor: 'grab' }}
+        onPointerLeave={(e) => {
+          // Reset cursor if pointer leaves
+          (e.currentTarget as HTMLElement).style.cursor = 'grab';
+        }}
       >
         {cells.map(({ row, col, projId }) => {
           const project = projectService.getProjectById(projId);

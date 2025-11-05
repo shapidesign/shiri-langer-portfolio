@@ -194,11 +194,18 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
         padding: '10px',
-        touchAction: 'none' // Prevent default touch behaviors
+        touchAction: 'none', // Prevent default touch behaviors
+        pointerEvents: 'auto' // Ensure pointer events work
       }}
-      onPointerDown={handlePointerDown}
+      onPointerDown={(e) => {
+        handlePointerDown(e);
+        // Don't stop propagation - let parent handle drag immediately
+      }}
       onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
+      onPointerUp={(e) => {
+        handlePointerUp(e);
+        // If it was a drag, don't stop propagation so parent can handle it
+      }}
       onClick={handleClick}
     >
       <img 

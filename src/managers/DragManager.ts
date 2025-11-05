@@ -67,15 +67,14 @@ export class DragManager {
    * Handle pointer down event
    */
   private handlePointerDown = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    // Don't start drag if directly clicking on a project tile (let tile handle click vs drag)
-    // But allow synthetic events from tiles (when drag is detected)
+    // Always start drag tracking - tiles will prevent modal opening if it was a click
+    // This allows immediate drag responsiveness
     const target = e.target as HTMLElement;
-    const isSynthetic = e.isTrusted === false || (e as any).__isSynthetic;
-    if (target.closest('.project-tile') && !isSynthetic) {
-      return; // Let the tile handle its own pointer events initially
-    }
+    const tile = target.closest('.project-tile');
     
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+    // Capture pointer on the container (not the tile)
+    const container = e.currentTarget as HTMLElement;
+    container.setPointerCapture?.(e.pointerId);
     this.stopRaf();
     
     this.state.dragging = true;
@@ -86,6 +85,11 @@ export class DragManager {
     this.state.lastY = e.clientY;
     this.state.lastT = performance.now();
     this.vel = { x: 0, y: 0 };
+    
+    // Update cursor immediately
+    if (container) {
+      container.style.cursor = 'grabbing';
+    }
   };
 
   /**
@@ -137,8 +141,14 @@ export class DragManager {
    * Handle pointer up event
    */
   private handlePointerUp = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+    const container = e.currentTarget as HTMLElement;
+    container.releasePointerCapture?.(e.pointerId);
     this.state.dragging = false;
+    
+    // Reset cursor
+    if (container) {
+      container.style.cursor = 'grab';
+    }
     
     // Cap maximum velocity for smoother experience
     this.vel.x = Math.max(-this.config.maxVelocity, Math.min(this.config.maxVelocity, this.vel.x));
