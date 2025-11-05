@@ -67,10 +67,12 @@ export class DragManager {
    * Handle pointer down event
    */
   private handlePointerDown = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    // Don't start drag if clicking on a project tile (let tile handle click vs drag)
+    // Don't start drag if directly clicking on a project tile (let tile handle click vs drag)
+    // But allow synthetic events from tiles (when drag is detected)
     const target = e.target as HTMLElement;
-    if (target.closest('.project-tile')) {
-      return; // Let the tile handle its own pointer events
+    const isSynthetic = e.isTrusted === false || (e as any).__isSynthetic;
+    if (target.closest('.project-tile') && !isSynthetic) {
+      return; // Let the tile handle its own pointer events initially
     }
     
     (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
