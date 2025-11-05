@@ -85,7 +85,14 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
           </svg>
         </button>
         
-        <div className="about-modal-scrollable" ref={modalContentRef}>
+        <div 
+          className="about-modal-scrollable" 
+          ref={modalContentRef}
+          onWheel={(e) => {
+            // Allow scrolling in modal - stop propagation to prevent PortfolioGrid from handling it
+            e.stopPropagation();
+          }}
+        >
           <div className="about-modal-header">
           <div className="about-hero-image">
             <img src="/assets/images/Shiri.jpg" alt="Shiri Langer" />

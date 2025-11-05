@@ -339,7 +339,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         </div>
 
         {/* Modal Content */}
-        <div className="project-modal-content">
+        <div 
+          className="project-modal-content"
+          onWheel={(e) => {
+            // Allow scrolling in modal - stop propagation to prevent PortfolioGrid from handling it
+            e.stopPropagation();
+          }}
+        >
           {/* Project Gallery */}
           <div className="project-gallery" ref={galleryRef}>
             <div className="gallery-main">

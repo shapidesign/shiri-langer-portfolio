@@ -109,6 +109,12 @@ const PortfolioGrid: React.FC = () => {
   const lastWheelTime = useRef(0);
   
   const onWheel = (e: React.WheelEvent) => {
+    // Don't prevent default if wheel event is on a modal
+    const target = e.target as HTMLElement;
+    if (target.closest('.about-modal-content, .about-modal-scrollable, .project-modal-container, .project-modal-content, .modal-container, .modal-content')) {
+      return; // Let modal handle its own scrolling
+    }
+    
     e.preventDefault();
     
     const now = performance.now();
