@@ -14,6 +14,10 @@ interface ProjectTileProps {
 /**
  * ProjectTile - Individual project tile component
  * Single responsibility: Render and handle interactions for a single project tile
+ * 
+ * Click vs Drag detection:
+ * - Click: Pointer down and up with minimal movement (< 5px) = opens modal
+ * - Drag: Pointer down, move > 5px, then up = scrolls canvas, doesn't open modal
  */
 export const ProjectTile: React.FC<ProjectTileProps> = ({
   left,
@@ -25,6 +29,16 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
+  const tileRef = useRef<HTMLDivElement>(null);
+  
+  // Track pointer state for click vs drag detection
+  const pointerState = useRef({
+    isDown: false,
+    startX: 0,
+    startY: 0,
+    hasMoved: false,
+    dragThreshold: 5 // pixels of movement to consider it a drag
+  });
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -35,12 +49,122 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
     setImageLoaded(true);
   };
 
-  const handleClick = () => {
-    onOpen(project.id);
+  const handlePointerDown = (e: React.PointerEvent) => {
+    // Only handle left mouse button or primary touch
+    if (e.button !== 0 && e.pointerType !== 'touch') return;
+    
+    // Track pointer down position
+    pointerState.current.isDown = true;
+    pointerState.current.startX = e.clientX;
+    pointerState.current.startY = e.clientY;
+    pointerState.current.hasMoved = false;
+    
+    // Capture pointer to track movement even if it leaves the element
+    if (tileRef.current) {
+      tileRef.current.setPointerCapture(e.pointerId);
+    }
+    
+    // Don't stop propagation - let parent handle drag if needed
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!pointerState.current.isDown) return;
+    
+    // Calculate distance moved
+    const dx = Math.abs(e.clientX - pointerState.current.startX);
+    const dy = Math.abs(e.clientY - pointerState.current.startY);
+    const distance = Math.hypot(dx, dy);
+    
+    // If movement exceeds threshold, it's a drag
+    if (distance > pointerState.current.dragThreshold) {
+      pointerState.current.hasMoved = true;
+      
+      // Release pointer capture so parent can handle drag
+      if (tileRef.current) {
+        tileRef.current.releasePointerCapture(e.pointerId);
+      }
+      
+      // Create a synthetic pointer event for parent to handle drag
+      // This allows the canvas to scroll even when dragging started on a tile
+      const syntheticEvent = new PointerEvent('pointermove', {
+        bubbles: true,
+        cancelable: true,
+        clientX: e.clientX,
+        clientY: e.clientY,
+        pointerId: e.pointerId,
+        pointerType: e.pointerType,
+        button: e.button,
+        buttons: e.buttons
+      });
+      
+      // Dispatch to parent container
+      const parent = tileRef.current?.parentElement;
+      if (parent) {
+        parent.dispatchEvent(syntheticEvent);
+      }
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!pointerState.current.isDown) return;
+    
+    const wasClick = !pointerState.current.hasMoved;
+    
+    // Release pointer capture
+    if (tileRef.current) {
+      tileRef.current.releasePointerCapture(e.pointerId);
+    }
+    
+    // Reset state
+    pointerState.current.isDown = false;
+    const hadMoved = pointerState.current.hasMoved;
+    pointerState.current.hasMoved = false;
+    
+    // Only open modal if it was a click (no drag movement)
+    if (wasClick && !hadMoved) {
+      // Prevent event from bubbling to parent drag handler
+      e.preventDefault();
+      e.stopPropagation();
+      // Open modal
+      onOpen(project.id);
+    } else {
+      // It was a drag - let parent handle it by dispatching synthetic event
+      const syntheticEvent = new PointerEvent('pointerup', {
+        bubbles: true,
+        cancelable: true,
+        clientX: e.clientX,
+        clientY: e.clientY,
+        pointerId: e.pointerId,
+        pointerType: e.pointerType,
+        button: e.button,
+        buttons: 0
+      });
+      
+      const parent = tileRef.current?.parentElement;
+      if (parent) {
+        parent.dispatchEvent(syntheticEvent);
+      }
+      
+      // Stop original event
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    // Prevent click if it was a drag (backup handler)
+    if (pointerState.current.hasMoved) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    // Click handler is now redundant - we use pointer events
+    // But keep it as fallback
   };
 
   return (
     <div 
+      ref={tileRef}
       className="project-tile" 
       style={{ 
         position: 'absolute', 
@@ -52,8 +176,12 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '10px'
+        padding: '10px',
+        touchAction: 'none' // Prevent default touch behaviors
       }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
       onClick={handleClick}
     >
       <img 

@@ -203,7 +203,7 @@ const PortfolioGrid: React.FC = () => {
         {cells.map(({ row, col, projId }) => {
           const project = projectService.getProjectById(projId);
           if (!project) return null;
-          
+
           return (
             <ProjectTile
               key={`${row}:${col}`}
