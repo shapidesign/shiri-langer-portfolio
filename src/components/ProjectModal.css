@@ -326,11 +326,16 @@
   gap: var(--spacing-sm);
 }
 
+/* Better spacing hierarchy: sections have more space between them */
+.project-section + .project-section {
+  margin-top: var(--spacing-xl);
+}
+
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--color-twilight-bliss);
-  margin: 0;
+  margin: 0 0 var(--spacing-md) 0; /* More space below header to group with content */
   display: flex;
   align-items: center;
   font-family: "cc-regeneration-variable", sans-serif;
@@ -350,9 +355,15 @@
 .project-text {
   color: var(--color-text);
   line-height: 1.6;
-  margin: 0;
+  margin: 0 0 var(--spacing-md) 0; /* Space below paragraph before next section */
   font-family: "unitext", sans-serif;
   font-weight: 400;
+}
+
+/* Last paragraph in section should have less margin */
+.project-section > .project-description:last-child,
+.project-section > .project-text:last-child {
+  margin-bottom: 0;
 }
 
 .technologies-list {
@@ -635,10 +646,20 @@
 .body-text-content h5,
 .body-text-content h6 {
   color: var(--color-twilight-bliss);
-  margin: var(--spacing-sm) 0 var(--spacing-md) 0;
+  margin: var(--spacing-xl) 0 var(--spacing-md) 0; /* More space above header, less below to group with content */
   font-weight: 600;
   font-family: "cc-regeneration-variable", sans-serif;
   font-variation-settings: "ital" 0, "wght" 600;
+}
+
+/* First heading in body text should have less top margin */
+.body-text-content > h1:first-child,
+.body-text-content > h2:first-child,
+.body-text-content > h3:first-child,
+.body-text-content > h4:first-child,
+.body-text-content > h5:first-child,
+.body-text-content > h6:first-child {
+  margin-top: 0;
 }
 
 .body-text-content h1 {
@@ -659,6 +680,26 @@
 .body-text-content p {
   margin-bottom: var(--spacing-md);
   line-height: 1.7;
+}
+
+/* Paragraph before heading should have more space to create hierarchy */
+.body-text-content p + h1,
+.body-text-content p + h2,
+.body-text-content p + h3,
+.body-text-content p + h4,
+.body-text-content p + h5,
+.body-text-content p + h6 {
+  margin-top: var(--spacing-xl);
+}
+
+/* Paragraph after heading should have normal spacing */
+.body-text-content h1 + p,
+.body-text-content h2 + p,
+.body-text-content h3 + p,
+.body-text-content h4 + p,
+.body-text-content h5 + p,
+.body-text-content h6 + p {
+  margin-top: 0;
 }
 
 .body-text-content ul,
