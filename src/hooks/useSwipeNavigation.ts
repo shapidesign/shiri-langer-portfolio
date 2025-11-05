@@ -15,7 +15,7 @@ interface UseSwipeNavigationOptions {
  * Optimized for gallery navigation, modal closing, etc.
  */
 export const useSwipeNavigation = (
-  elementRef: React.RefObject<HTMLElement>,
+  elementRef: React.RefObject<HTMLElement | null>,
   options: UseSwipeNavigationOptions = {}
 ) => {
   const {

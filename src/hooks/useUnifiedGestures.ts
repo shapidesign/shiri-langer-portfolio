@@ -17,7 +17,7 @@ interface UseUnifiedGesturesOptions {
  * Integrates drag-to-scroll, swipe, pinch-to-zoom with Lenis smooth scrolling
  */
 export const useUnifiedGestures = (
-  elementRef: React.RefObject<HTMLElement>,
+  elementRef: React.RefObject<HTMLElement | null>,
   options: UseUnifiedGesturesOptions = {}
 ) => {
   const {
