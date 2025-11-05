@@ -13,7 +13,7 @@
   justify-content: center;
   padding: var(--spacing-lg);
   animation: fadeIn 0.3s ease-out;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .about-modal-content {
@@ -22,18 +22,22 @@
   max-width: 1000px;
   width: 100%;
   max-height: 90vh;
+  height: 90vh;
   position: relative;
   box-shadow: 0 20px 40px rgba(23, 36, 63, 0.15);
   animation: slideUp 0.4s ease-out;
   border: 2px solid var(--color-royal);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .about-modal-scrollable {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--spacing-lg);
+  -webkit-overflow-scrolling: touch;
 }
 
 .about-modal-close {
