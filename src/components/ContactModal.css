@@ -108,11 +108,16 @@
   gap: var(--spacing-md);
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
-  transition: background-color var(--transition-fast);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .contact-method:hover {
-  background: var(--color-hover);
+  background: transparent;
+  border: 1px solid var(--color-azure-cloud);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .contact-method.clickable {
@@ -131,12 +136,12 @@
 .contact-icon {
   width: 40px;
   height: 40px;
-  background: transparent;
+  background: var(--color-twilight-bliss);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-twilight-bliss);
+  color: var(--color-crystal-cut);
   flex-shrink: 0;
 }
 
@@ -248,17 +253,37 @@
 }
 
 .btn-primary {
-  background: var(--color-primary);
-  color: var(--color-background);
-  border: 1px solid var(--color-primary);
-  box-shadow: 0 4px 12px rgba(23, 36, 63, 0.15);
+  background: var(--color-twilight-bliss);
+  color: var(--color-crystal-cut);
+  border: 2px solid var(--color-twilight-bliss);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-family: "cc-regeneration-variable", sans-serif;
+  font-variation-settings: "ital" 0, "wght" 600;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  box-shadow: 
+    0 4px 12px rgba(8, 54, 69, 0.15),
+    0 0 4px var(--color-twilight-bliss);
+  animation: smoothPulse 4s ease-in-out infinite;
 }
 
 .btn-primary:hover {
-  background: var(--color-secondary);
-  border-color: var(--color-secondary);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(21, 35, 32, 0.25);
+  background: var(--color-azure-cloud);
+  border-color: var(--color-azure-cloud);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(5, 123, 193, 0.35),
+    0 0 8px var(--color-azure-cloud),
+    0 0 12px var(--color-azure-cloud),
+    0 0 16px rgba(77, 216, 255, 0.4);
+  color: var(--color-twilight-bliss);
 }
 
 .btn-primary:focus {
@@ -299,6 +324,25 @@
   }
   to {
     transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes smoothPulse {
+  0% {
+    box-shadow: 
+      0 4px 12px rgba(8, 54, 69, 0.15),
+      0 0 2px var(--color-twilight-bliss);
+  }
+  50% {
+    box-shadow: 
+      0 4px 12px rgba(8, 54, 69, 0.15),
+      0 0 6px var(--color-twilight-bliss),
+      0 0 8px var(--color-twilight-bliss);
+  }
+  100% {
+    box-shadow: 
+      0 4px 12px rgba(8, 54, 69, 0.15),
+      0 0 2px var(--color-twilight-bliss);
   }
 }
 
