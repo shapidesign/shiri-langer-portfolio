@@ -278,9 +278,9 @@
   align-items: center;
   gap: var(--spacing-lg);
   padding: var(--spacing-lg);
-  background: var(--color-background-alt);
+  background: transparent;
   border-radius: var(--radius-lg);
-  border-left: 4px solid var(--color-royal);
+  border: 2px solid var(--color-azure-cloud);
   transition: all var(--transition-normal);
 }
 
@@ -290,13 +290,13 @@
 
 .highlight-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(120, 140, 227, 0.15);
+  box-shadow: 0 8px 24px rgba(77, 216, 255, 0.15);
 }
 
 .highlight-item.clickable:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(120, 140, 227, 0.25);
-  border-left-color: var(--color-secondary);
+  box-shadow: 0 12px 32px rgba(77, 216, 255, 0.25);
+  border-color: var(--color-azure-cloud);
 }
 
 .highlight-preview {

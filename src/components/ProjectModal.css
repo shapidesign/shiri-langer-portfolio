@@ -300,14 +300,24 @@
   margin-top: var(--spacing-sm);
 }
 
+/* Project Tags - Match About Modal Tool Tags Style */
 .project-tag {
+  background: var(--color-star-of-life);
+  color: var(--color-crystal-cut);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 400;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 4px rgba(5, 123, 193, 0.1);
+  font-family: "unitext", sans-serif;
+}
+
+.project-tag:hover {
   background: var(--color-lime-jelly);
   color: var(--color-twilight-bliss);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  font-weight: 500;
-  border: 1px solid var(--color-border);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(227, 255, 0, 0.3);
 }
 
 .project-section {
