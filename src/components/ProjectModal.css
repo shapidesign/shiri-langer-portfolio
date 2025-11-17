@@ -160,6 +160,13 @@
   border-radius: var(--radius-lg); /* Rounded corners */
 }
 
+/* GIF images should fill the container without black bars */
+.gallery-main-image[src$=".gif"],
+.gallery-main-image[src*=".gif"] {
+  object-fit: cover;
+  object-position: center;
+}
+
 .gallery-main-image:hover {
   transform: scale(1.02);
 }
@@ -181,6 +188,17 @@
   cursor: pointer;
   animation: imagePopupFadeIn 0.3s ease-out;
   display: block !important;
+}
+
+/* GIF images in maximized view should fill screen without black bars */
+.maximized-image-popup[src$=".gif"],
+.maximized-image-popup[src*=".gif"] {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  border-radius: 0;
 }
 
 .maximized-image-popup:hover {

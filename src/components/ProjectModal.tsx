@@ -61,11 +61,79 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
   useEffect(() => {
     if (!isOpen || !project?.bodyText) return;
 
+    const clickHandlers: Array<{ element: HTMLImageElement; handler: (e: Event) => void }> = [];
+
     const initInlineSliders = () => {
       const sliders = document.querySelectorAll('.process-image-slider');
       sliders.forEach(slider => {
         const sliderElement = slider as HTMLElement;
         const images = slider.querySelectorAll('.process-image-inline');
+        
+        // Add click handlers to process images to enlarge them
+        images.forEach((img) => {
+          const imageElement = img as HTMLImageElement;
+          imageElement.style.cursor = 'pointer';
+          
+          const clickHandler = (e: Event) => {
+            e.stopPropagation();
+            const imageSrc = imageElement.src;
+            // Find if this image is in the project gallery
+            const galleryIndex = project?.gallery.findIndex(galleryImg => {
+              const galleryFileName = galleryImg.split('/').pop() || '';
+              return imageSrc.includes(galleryFileName);
+            });
+            if (galleryIndex !== undefined && galleryIndex >= 0) {
+              handleThumbnailClick(galleryIndex, true);
+            } else {
+              // If not in gallery, create a temporary enlarged view
+              const tempImg = document.createElement('img');
+              tempImg.src = imageSrc;
+              tempImg.className = 'maximized-image-popup';
+              tempImg.style.position = 'fixed';
+              tempImg.style.top = '50%';
+              tempImg.style.left = '50%';
+              tempImg.style.transform = 'translate(-50%, -50%)';
+              const isGif = imageSrc.toLowerCase().endsWith('.gif');
+              tempImg.style.maxWidth = isGif ? '100vw' : '90vw';
+              tempImg.style.maxHeight = isGif ? '100vh' : '90vh';
+              tempImg.style.width = isGif ? '100vw' : 'auto';
+              tempImg.style.height = isGif ? '100vh' : 'auto';
+              tempImg.style.objectFit = isGif ? 'cover' : 'contain';
+              tempImg.style.borderRadius = isGif ? '0' : '12px';
+              tempImg.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.6)';
+              tempImg.style.cursor = 'pointer';
+              tempImg.style.zIndex = '10000';
+              
+              const backdrop = document.createElement('div');
+              backdrop.style.position = 'fixed';
+              backdrop.style.top = '0';
+              backdrop.style.left = '0';
+              backdrop.style.width = '100vw';
+              backdrop.style.height = '100vh';
+              backdrop.style.background = 'rgba(0, 0, 0, 0.9)';
+              backdrop.style.zIndex = '9999';
+              backdrop.style.cursor = 'pointer';
+              
+              const closePopup = () => {
+                if (document.body.contains(tempImg)) {
+                  document.body.removeChild(tempImg);
+                }
+                if (document.body.contains(backdrop)) {
+                  document.body.removeChild(backdrop);
+                }
+              };
+              
+              tempImg.onclick = closePopup;
+              backdrop.onclick = closePopup;
+              
+              document.body.appendChild(backdrop);
+              document.body.appendChild(tempImg);
+            }
+          };
+          
+          imageElement.addEventListener('click', clickHandler);
+          clickHandlers.push({ element: imageElement, handler: clickHandler });
+        });
         if (images.length > 1) {
           // Calculate if images fit within container width
           const containerWidth = sliderElement.offsetWidth;
@@ -131,8 +199,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     // Initialize after a short delay to ensure DOM is ready
     const timer = setTimeout(initInlineSliders, 100);
     
-    return () => clearTimeout(timer);
-  }, [isOpen, project?.bodyText]);
+    return () => {
+      clearTimeout(timer);
+      // Clean up click handlers
+      clickHandlers.forEach(({ element, handler }) => {
+        element.removeEventListener('click', handler);
+      });
+    };
+  }, [isOpen, project?.bodyText, project?.gallery, handleThumbnailClick]);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -181,8 +255,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
   };
 
   // Handle thumbnail click
-  const handleThumbnailClick = (index: number) => {
+  const handleThumbnailClick = (index: number, enlarge: boolean = false) => {
     setCurrentImageIndex(index);
+    if (enlarge) {
+      setIsImageMaximized(true);
+    }
   };
 
   // Reset image index and maximize state when modal opens
@@ -272,12 +349,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              maxWidth: '90vw',
-              maxHeight: '90vh',
-              width: 'auto',
-              height: 'auto',
-              objectFit: 'contain',
-              borderRadius: '12px',
+              maxWidth: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vw' : '90vw',
+              maxHeight: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vh' : '90vh',
+              width: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vw' : 'auto',
+              height: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vh' : 'auto',
+              objectFit: project.gallery[currentImageIndex]?.endsWith('.gif') ? 'cover' : 'contain',
+              borderRadius: project.gallery[currentImageIndex]?.endsWith('.gif') ? '0' : '12px',
               boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6)',
               cursor: 'pointer',
               display: 'block',
@@ -393,9 +470,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                     src={image} 
                     alt={`${project.title} - Image ${index + 1}`}
                     className={`gallery-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
-                    onClick={() => {
-                      handleThumbnailClick(index);
-                      setIsImageMaximized(false); // Reset maximize when switching images
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (index === currentImageIndex) {
+                        // If clicking the already active thumbnail, enlarge it
+                        handleImageClick(e as any);
+                      } else {
+                        // If clicking a different thumbnail, switch and enlarge
+                        handleThumbnailClick(index, true);
+                      }
                     }}
                   />
                 ))}
