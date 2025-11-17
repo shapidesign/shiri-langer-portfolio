@@ -50,10 +50,10 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "Shortlisted - Isola Design Awards 2025",
     testimonial: undefined,
     gallery: [
-      "/assets/images/tomi-gif.gif",
-      "/assets/images/tomi.jpg",
-      "/assets/images/tomi4.jpg",
-      "/assets/images/tomi5.jpg"
+      "/assets/images/tomi/TomiDisplay1.webp",
+      "/assets/images/tomi/tomismallgif.gif",
+      "/assets/images/tomi/tomi01.webp",
+      "/assets/images/tomi/tomi2 2.webp"
     ],
     stickerColor: "#E91E63", // Hot Pink
     stickerImage: "/assets/images/sticker1.png",
@@ -64,17 +64,27 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The main challenges were designing a product suitable for both adults and children, balancing playfulness with maturity while maintaining a homely presence, and ensuring the object invites touch and communicates its use intuitively. Another challenge was relieving stress for both parent and child without shifting responsibility onto the child.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/tomi6.jpg" alt="Tomi design process - challenges" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomi05.webp" alt="Tomi design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomi03.webp" alt="Tomi design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomi02.webp" alt="Tomi design process - challenges 3" class="process-image-inline" />
       </div>
       
       <h3>Solutions</h3>
       <p>The final design consists of three large wooden beads, each dedicated to a different calming action. Their tactile qualities—natural wood, soft textiles, and rounded forms—invite intuitive use. The modular system creates a sense of wholeness, while allowing the parent and child to use each element separately or together.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/tomi/tomi3 2.webp" alt="Tomi design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomi06.webp" alt="Tomi design process - solutions 2" class="process-image-inline" />
+      </div>
       
       <h3>Techniques</h3>
       <p>The fabrication process combined traditional craftsmanship with advanced manufacturing methods. The wooden elements were shaped on a lathe in collaboration with a professional carpenter, while wool felt was sewn and integrated to create soft, tactile surfaces. Custom molds were designed and 3D printed, then used to cast medical-grade silicone parts, resulting in precise and durable components.</p>
     `,
     processImages: [
-      "/assets/images/tomi6.jpg"
+      "/assets/images/tomi/tomi05.webp",
+      "/assets/images/tomi/tomi03.webp",
+      "/assets/images/tomi/tomi02.webp",
+      "/assets/images/tomi/tomi3 2.webp",
+      "/assets/images/tomi/tomi06.webp"
     ]
   },
   {

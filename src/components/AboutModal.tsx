@@ -167,7 +167,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
                 }}
               >
                 <div className="highlight-preview">
-                  <img src="/assets/images/tomi.jpg" alt="TOMI" />
+                  <img src="/assets/images/tomi/TomiDisplay1.webp" alt="TOMI" />
                 </div>
                 <div className="highlight-content">
                   <h4>TOMI (2025)</h4>
