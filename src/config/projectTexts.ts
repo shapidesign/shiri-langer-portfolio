@@ -51,7 +51,6 @@ export const PROJECT_TEXTS: ProjectText[] = [
     testimonial: undefined,
     gallery: [
       "/assets/images/tomi/TomiDisplay1.webp",
-      "/assets/images/tomi/tomismallgif.gif",
       "/assets/images/tomi/tomi01.webp",
       "/assets/images/tomi/tomi2 2.webp"
     ],
