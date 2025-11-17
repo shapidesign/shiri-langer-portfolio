@@ -50,6 +50,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "Shortlisted - Isola Design Awards 2025",
     testimonial: undefined,
     gallery: [
+      "/assets/images/tomi/tomigif.gif",
       "/assets/images/tomi/TomiDisplay1.webp",
       "/assets/images/tomi/tomi01.webp",
       "/assets/images/tomi/tomi2 2.webp"
