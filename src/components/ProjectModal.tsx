@@ -255,14 +255,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     };
   }, [isOpen, onClose, project]);
 
-  // Handle thumbnail click - memoized to prevent recreation
-  const handleThumbnailClick = useCallback((index: number, enlarge: boolean = false) => {
-    setCurrentImageIndex(index);
-    if (enlarge) {
-      setIsImageMaximized(true);
-    }
-  }, []);
-
   // Handle backdrop click to close modal
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget && !isImageMaximized) {
