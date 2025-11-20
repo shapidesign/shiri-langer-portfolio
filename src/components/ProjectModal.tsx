@@ -429,18 +429,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           <div 
             className="maximized-image-backdrop"
             onClick={(e) => {
-              // Use elementFromPoint to check what's actually under the click
-              const elementBelow = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
-              
-              // If click is on a process image, don't close - let it handle the click
-              if (elementBelow?.classList.contains('process-image-inline') || 
-                  elementBelow?.closest('.process-image-inline')) {
-                // Don't prevent default - let the process image click handler fire
-                return;
-              }
-              
-              // If click is on backdrop itself or empty space, close the gallery
-              if (e.target === e.currentTarget || !elementBelow?.closest('.maximized-image-popup')) {
+              // Only close if clicking directly on the backdrop (not on child elements)
+              if (e.target === e.currentTarget) {
                 setIsImageMaximized(false);
               }
             }}
@@ -454,7 +444,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               zIndex: 9999,
               backdropFilter: 'blur(4px)',
               animation: 'backdropFadeIn 0.3s ease-out',
-              pointerEvents: 'auto'
+              pointerEvents: 'none' // Allow clicks to pass through to process images below
             }}
           />
           {/* Close button - positioned independently */}
