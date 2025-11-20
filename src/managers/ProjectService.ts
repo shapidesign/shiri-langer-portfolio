@@ -110,7 +110,7 @@ export class ProjectService {
       3: 'pita.JPG',
       4: 'itamar.jpg',
       5: 'lamp.jpg',
-      6: 'stool.jpg',
+      6: 'stool/DisplayStool.webp',
       7: 'solidwork.jpg',
       8: 'mico.jpg',
       9: 'bowl.jpg',

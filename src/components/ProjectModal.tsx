@@ -87,19 +87,24 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             e.stopPropagation();
             e.preventDefault();
             
-            // Check if gallery image is maximized by checking DOM
+            // Always close any maximized gallery view first
             const hasMaximizedGallery = document.querySelector('.maximized-image-backdrop');
             if (hasMaximizedGallery) {
-              // Close gallery view first
               setIsImageMaximized(false);
-              // Small delay to allow cleanup
-              setTimeout(() => {
-                openProcessImagePopup(imageElement.src);
-              }, 150);
+              // Wait for React to update and DOM to clear
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  openProcessImagePopup(imageElement.src);
+                });
+              });
             } else {
               openProcessImagePopup(imageElement.src);
             }
           };
+          
+          // Use capture phase to ensure handler fires before any backdrop handlers
+          imageElement.addEventListener('click', clickHandler, { capture: true });
+          clickHandlers.push({ element: imageElement, handler: clickHandler });
           
           const openProcessImagePopup = (imageSrc: string) => {
             // Clean up any existing popups first
@@ -223,8 +228,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             }
           };
           
-          imageElement.addEventListener('click', clickHandler);
-          clickHandlers.push({ element: imageElement, handler: clickHandler });
         });
         if (images.length > 1) {
           // Calculate if images fit within container width
@@ -295,7 +298,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       clearTimeout(timer);
       // Clean up click handlers
       clickHandlers.forEach(({ element, handler }) => {
-        element.removeEventListener('click', handler);
+        element.removeEventListener('click', handler, { capture: true });
       });
       // Clean up ESC handlers
       escHandlers.forEach(({ handler }) => {

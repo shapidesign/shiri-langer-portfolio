@@ -282,7 +282,10 @@ export const PROJECT_TEXTS: ProjectText[] = [
     technologies: ["Rocking stool", "Balance", "Metal bending", "Wood integration", "Welding", "Prototyping"],
     results: "",
     gallery: [
-      "/assets/images/stool.jpg",
+      "/assets/images/stool/Stoolgmain.webp",
+      "/assets/images/stool/Stoolg1.webp",
+      "/assets/images/stool/Stoolg2.webp",
+      "/assets/images/stool/Stoolg3.webp"
     ],
     stickerColor: "#8B4513", // Saddle Brown
     stickerImage: "/assets/images/sticker1.png",
@@ -292,14 +295,31 @@ export const PROJECT_TEXTS: ProjectText[] = [
       
       <h3>Challenges</h3>
       <p>The challenge was to design a stool that combines comfort, safety, and movement. It had to provide the user with stability for sitting while also enabling rocking that encourages relaxation, without compromising balance.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/stool/challenges1.webp" alt="Rocky Stool design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/stool/challenges2.webp" alt="Rocky Stool design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/stool/chalenges3.webp" alt="Rocky Stool design process - challenges 3" class="process-image-inline" />
+      </div>
       
       <h3>Solutions</h3>
       <p>The stool was developed with angled legs and a rounded base that create a controlled rocking effect, while still offering the option of stable sitting. This dual functionality allows users to transition smoothly between focus and relaxation, blending practicality with playfulness.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/stool/solutions1.webp" alt="Rocky Stool design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/stool/solutions2.webp" alt="Rocky Stool design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/stool/solutions3.webp" alt="Rocky Stool design process - solutions 3" class="process-image-inline" />
+      </div>
       
       <h3>Techniques</h3>
       <p>Material exploration through small-scale models, metal tube bending, wood integration, welded connections, and prototyping to refine angles and balance.</p>
     `,
-    processImages: []
+    processImages: [
+      "/assets/images/stool/challenges1.webp",
+      "/assets/images/stool/challenges2.webp",
+      "/assets/images/stool/chalenges3.webp",
+      "/assets/images/stool/solutions1.webp",
+      "/assets/images/stool/solutions2.webp",
+      "/assets/images/stool/solutions3.webp"
+    ]
   },
   {
     id: 8,
