@@ -102,10 +102,10 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/chair-display.jpg",
-      "/assets/images/chair1.jpg",
-      "/assets/images/chair2.jpg",
-      "/assets/images/chair3.jpg"
+      "/assets/images/chair/chair-display-2.webp",
+      "/assets/images/chair/chair1-2.webp",
+      "/assets/images/chair/chair2-2.webp",
+      "/assets/images/chair/chair3-2.webp"
     ],
     stickerColor: "#DC2626", // Red
     stickerImage: "/assets/images/sticker2.png",
@@ -116,19 +116,25 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to translate a classic wooden design into metal, ensuring both comfort and structural strength. Another challenge was to create a design that feels contemporary and bold without losing the recognizable identity of the original chair.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/chair4.JPG" alt="Red Chair design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/chair5.jpg" alt="Red Chair design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/chair/chair02.webp" alt="Red Chair design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/chair/chair04.webp" alt="Red Chair design process - challenges 2" class="process-image-inline" />
       </div>
       
       <h3>Solutions</h3>
       <p>The final design combines bent tubes and sheet metal, structurally reinforced with welded joints. The striking red spray-painted finish emphasizes its modern character, transforming a timeless classic into a bold, industrial statement piece that remains functional and durable.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/chair/chair5-2.webp" alt="Red Chair design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/chair/chair05.webp" alt="Red Chair design process - solutions 2" class="process-image-inline" />
+      </div>
       
       <h3>Techniques</h3>
       <p>Metal tube bending, sheet-metal forming, welding reinforcement, industrial chair-design methods (standard dimensions and angles), spray painting, and metal finishing.</p>
     `,
     processImages: [
-      "/assets/images/chair4.JPG",
-      "/assets/images/chair5.jpg"
+      "/assets/images/chair/chair02.webp",
+      "/assets/images/chair/chair04.webp",
+      "/assets/images/chair/chair5-2.webp",
+      "/assets/images/chair/chair05.webp"
     ]
   },
   {
