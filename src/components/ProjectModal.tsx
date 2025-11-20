@@ -412,14 +412,23 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             className="maximized-image-backdrop"
             onClick={(e) => {
               // Use elementFromPoint to check what element is actually at the click position
-              // This works even if backdrop has pointer-events: none
               const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
               
               // Check if click is on a process image
-              if (elementAtPoint?.classList.contains('process-image-inline') || 
-                  elementAtPoint?.closest('.process-image-inline')) {
-                // Don't close - let the process image click handler work
-                // The process image will close the gallery itself
+              const processImage = elementAtPoint?.classList.contains('process-image-inline') 
+                ? elementAtPoint as HTMLImageElement
+                : elementAtPoint?.closest('.process-image-inline') as HTMLImageElement;
+              
+              if (processImage) {
+                // Manually trigger the process image click
+                e.stopPropagation();
+                e.preventDefault();
+                // Close gallery first
+                setIsImageMaximized(false);
+                // Then trigger the process image click after a small delay
+                setTimeout(() => {
+                  processImage.click();
+                }, 100);
                 return;
               }
               
