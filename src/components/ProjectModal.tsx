@@ -73,7 +73,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     const clickHandlers: Array<{ 
       element: HTMLImageElement; 
       handler: (e: Event) => void;
-      mousedownHandler?: (e: MouseEvent) => void;
     }> = [];
     const escHandlers: Array<{ handler: (e: KeyboardEvent) => void }> = [];
 
@@ -93,52 +92,36 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           imageElement.style.pointerEvents = 'auto';
           imageElement.style.cursor = 'pointer';
           
-          const clickHandler = (e: Event) => {
-            // Always stop propagation to prevent backdrop from intercepting
+          // Enhanced click handler that works even when gallery backdrop is active
+          const enhancedClickHandler = (e: Event) => {
+            // Stop propagation to prevent backdrop from intercepting
             e.stopPropagation();
             e.preventDefault();
             
-            // Check if gallery is maximized
-            const hasMaximizedGallery = document.querySelector('.maximized-image-backdrop');
-            if (hasMaximizedGallery) {
-              // Close gallery first
+            // Check if gallery backdrop is active
+            const backdrop = document.querySelector('.maximized-image-backdrop');
+            if (backdrop) {
+              // Close gallery first, then open process image
               setIsImageMaximized(false);
-              // Wait for React to update and DOM to clear, then open process image
-              setTimeout(() => {
-                openProcessImagePopup(imageElement.src);
-              }, 150);
+              // Use requestAnimationFrame to ensure state update completes
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  openProcessImagePopup(imageElement.src);
+                });
+              });
             } else {
-              // Open process image directly
+              // Gallery not maximized, open directly
               openProcessImagePopup(imageElement.src);
             }
           };
           
-          // Use mousedown with capture phase to catch clicks before backdrop
-          const mousedownHandler = (e: MouseEvent) => {
-            e.stopPropagation();
-            const hasMaximizedGallery = document.querySelector('.maximized-image-backdrop');
-            if (hasMaximizedGallery) {
-              e.preventDefault();
-              // Close gallery immediately on mousedown
-              setIsImageMaximized(false);
-              // On mouseup, open the process image
-              const mouseUpHandler = () => {
-                setTimeout(() => {
-                  openProcessImagePopup(imageElement.src);
-                  document.removeEventListener('mouseup', mouseUpHandler);
-                }, 100);
-              };
-              document.addEventListener('mouseup', mouseUpHandler, { once: true });
-            }
-          };
-          
-          imageElement.addEventListener('mousedown', mousedownHandler, { capture: true });
-          imageElement.addEventListener('click', clickHandler, { capture: true });
+          // Use capture phase AND normal phase for maximum reliability
+          imageElement.addEventListener('click', enhancedClickHandler, { capture: true });
+          imageElement.addEventListener('click', enhancedClickHandler, { capture: false });
           
           clickHandlers.push({ 
             element: imageElement, 
-            handler: clickHandler,
-            mousedownHandler: mousedownHandler
+            handler: enhancedClickHandler
           });
           
           const openProcessImagePopup = (imageSrc: string) => {
@@ -332,11 +315,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     return () => {
       clearTimeout(timer);
       // Clean up click handlers
-      clickHandlers.forEach(({ element, handler, mousedownHandler }) => {
+      clickHandlers.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler, { capture: true });
-        if (mousedownHandler) {
-          element.removeEventListener('mousedown', mousedownHandler, { capture: true });
-        }
+        element.removeEventListener('click', handler, { capture: false });
         element.onclick = null;
         // Reset styles
         element.style.position = '';
@@ -426,36 +407,32 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       {/* Maximized image - rendered as portal to document body */}
       {isImageMaximized && createPortal(
         <>
-          {/* Clickable backdrop overlay - only handles clicks on empty space */}
-          <div 
-            className="maximized-image-backdrop-clickable"
-            onClick={(e) => {
-              // Check if click is on a process image using elementFromPoint
-              const elementBelow = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
-              if (elementBelow?.classList.contains('process-image-inline') || 
-                  elementBelow?.closest('.process-image-inline')) {
-                // Don't close - let process image handle it
-                return;
-              }
-              // Close gallery on backdrop click
-              if (e.target === e.currentTarget) {
-                setIsImageMaximized(false);
-              }
-            }}
-            style={{ 
-              position: 'fixed', 
-              top: 0, 
-              left: 0, 
-              width: '100vw', 
-              height: '100vh', 
-              zIndex: 9998, // Below backdrop but still clickable
-              background: 'transparent',
-              pointerEvents: 'auto'
-            }}
-          />
           {/* Visual backdrop */}
           <div 
             className="maximized-image-backdrop"
+            onClick={(e) => {
+              // Use elementFromPoint to check what element is actually at the click position
+              // This works even if backdrop has pointer-events: none
+              const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
+              
+              // Check if click is on a process image
+              if (elementAtPoint?.classList.contains('process-image-inline') || 
+                  elementAtPoint?.closest('.process-image-inline')) {
+                // Don't close - let the process image click handler work
+                // The process image will close the gallery itself
+                return;
+              }
+              
+              // Check if click is on the gallery image or close button
+              if (elementAtPoint?.closest('.maximized-image-popup') || 
+                  elementAtPoint?.closest('button[style*="z-index: 10001"]')) {
+                // These handle their own clicks
+                return;
+              }
+              
+              // Otherwise, close the gallery
+              setIsImageMaximized(false);
+            }}
             style={{ 
               position: 'fixed', 
               top: 0, 
@@ -466,7 +443,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               zIndex: 9999,
               backdropFilter: 'blur(4px)',
               animation: 'backdropFadeIn 0.3s ease-out',
-              pointerEvents: 'none' // Allow clicks to pass through to process images
+              pointerEvents: 'auto'
             }}
           />
           {/* Close button - positioned independently */}
