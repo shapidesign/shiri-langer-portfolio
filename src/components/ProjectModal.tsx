@@ -83,10 +83,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         const sliderElement = slider as HTMLElement;
         const images = slider.querySelectorAll('.process-image-inline');
         
-        // Add click handlers to process images to enlarge them
+          // Add click handlers to process images to enlarge them
         images.forEach((img) => {
           const imageElement = img as HTMLImageElement;
-          imageElement.style.cursor = 'pointer';
           
           // Set high z-index and pointer-events on the image element itself to be above backdrop
           imageElement.style.position = 'relative';
