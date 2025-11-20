@@ -57,8 +57,8 @@
   color: var(--color-twilight-bliss);
   margin: 0 0 var(--spacing-xs) 0;
   line-height: 1.2;
-  font-family: "cc-regeneration-variable", sans-serif;
-  font-variation-settings: "ital" 0, "wght" 700;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
 }
 
 .project-modal-subtitle {
@@ -376,8 +376,8 @@
   margin: 0 0 var(--spacing-md) 0; /* More space below header to group with content */
   display: flex;
   align-items: center;
-  font-family: "cc-regeneration-variable", sans-serif;
-  font-variation-settings: "ital" 0, "wght" 600;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
   gap: var(--spacing-sm);
 }
 
@@ -686,8 +686,8 @@
   color: var(--color-twilight-bliss);
   margin: var(--spacing-xl) 0 var(--spacing-md) 0; /* More space above header, less below to group with content */
   font-weight: 600;
-  font-family: "cc-regeneration-variable", sans-serif;
-  font-variation-settings: "ital" 0, "wght" 600;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
 }
 
 /* First heading in body text should have less top margin */

@@ -18,6 +18,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
   const project = projectId ? getProjectText(projectId) : null;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isImageMaximized, setIsImageMaximized] = useState(false);
+  const [processImagePopup, setProcessImagePopup] = useState<{ src: string } | null>(null);
   const processImageRefs = useRef<Map<HTMLImageElement, { src: string; rect: DOMRect }>>(new Map());
   
   // Swipe navigation for gallery
@@ -76,7 +77,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       element: HTMLImageElement; 
       handler: (e: Event) => void;
     }> = [];
-    const escHandlers: Array<{ handler: (e: KeyboardEvent) => void }> = [];
 
     const initInlineSliders = () => {
       const sliders = document.querySelectorAll('.process-image-slider');
@@ -100,34 +100,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             rect: imageElement.getBoundingClientRect()
           });
           
-          // Enhanced click handler
-          const enhancedClickHandler = (e: Event) => {
+          // Click handler - use React state instead of DOM manipulation
+          const clickHandler = (e: Event) => {
             e.stopPropagation();
             e.preventDefault();
             
-            // Always use openProcessImagePopup - it will handle gallery state
-            openProcessImagePopup(imageElement.src);
-          };
-          
-          // Use capture phase AND normal phase for maximum reliability
-          imageElement.addEventListener('click', enhancedClickHandler, { capture: true });
-          imageElement.addEventListener('click', enhancedClickHandler, { capture: false });
-          
-          clickHandlers.push({ 
-            element: imageElement, 
-            handler: enhancedClickHandler
-          });
-          
-          const openProcessImagePopup = (imageSrc: string) => {
-            // Clean up any existing popups first
-            const existingBackdrop = document.querySelector('.process-image-popup-backdrop');
-            const existingImg = document.querySelector('.process-image-popup-img');
-            const existingCloseBtn = document.querySelector('.process-image-popup-close');
-            if (existingBackdrop) existingBackdrop.remove();
-            if (existingImg) existingImg.remove();
-            if (existingCloseBtn) existingCloseBtn.remove();
+            const imageSrc = imageElement.src;
             
-            // Find if this image is in the project gallery
+            // Check if this image is in the project gallery
             const galleryIndex = project?.gallery.findIndex(galleryImg => {
               const galleryFileName = galleryImg.split('/').pop() || '';
               const srcFileName = imageSrc.split('/').pop() || '';
@@ -138,107 +118,17 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               // If image is in gallery, use gallery system
               handleThumbnailClick(galleryIndex, true);
             } else {
-              // If not in gallery, create a temporary enlarged view with proper styling
-              const backdrop = document.createElement('div');
-              backdrop.className = 'process-image-popup-backdrop';
-              backdrop.style.position = 'fixed';
-              backdrop.style.top = '0';
-              backdrop.style.left = '0';
-              backdrop.style.width = '100vw';
-              backdrop.style.height = '100vh';
-              backdrop.style.background = 'rgba(0, 0, 0, 0.85)';
-              backdrop.style.zIndex = '10002';
-              backdrop.style.cursor = 'pointer';
-              backdrop.style.backdropFilter = 'blur(4px)';
-              backdrop.style.animation = 'backdropFadeIn 0.3s ease-out';
-              
-              const tempImg = document.createElement('img');
-              tempImg.className = 'process-image-popup-img';
-              tempImg.src = imageSrc;
-              tempImg.style.position = 'fixed';
-              tempImg.style.top = '50%';
-              tempImg.style.left = '50%';
-              tempImg.style.transform = 'translate(-50%, -50%)';
-              tempImg.style.maxWidth = '90vw';
-              tempImg.style.maxHeight = '90vh';
-              tempImg.style.width = 'auto';
-              tempImg.style.height = 'auto';
-              tempImg.style.objectFit = 'contain';
-              tempImg.style.borderRadius = '12px';
-              tempImg.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.8)';
-              tempImg.style.cursor = 'pointer';
-              tempImg.style.zIndex = '10003';
-              tempImg.style.display = 'block';
-              tempImg.style.backgroundColor = 'white';
-              tempImg.style.padding = '20px';
-              tempImg.style.animation = 'imagePopupFadeIn 0.3s ease-out';
-              
-              // Close button for process images
-              const closeBtn = document.createElement('button');
-              closeBtn.className = 'process-image-popup-close';
-              closeBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
-              closeBtn.style.position = 'fixed';
-              closeBtn.style.top = '20px';
-              closeBtn.style.right = '20px';
-              closeBtn.style.background = 'rgba(255, 255, 255, 0.95)';
-              closeBtn.style.border = 'none';
-              closeBtn.style.borderRadius = '50%';
-              closeBtn.style.width = '40px';
-              closeBtn.style.height = '40px';
-              closeBtn.style.cursor = 'pointer';
-              closeBtn.style.display = 'flex';
-              closeBtn.style.alignItems = 'center';
-              closeBtn.style.justifyContent = 'center';
-              closeBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
-              closeBtn.style.transition = 'all 0.2s ease';
-              closeBtn.style.zIndex = '10004';
-              closeBtn.style.animation = 'imagePopupFadeIn 0.3s ease-out';
-              
-              closeBtn.onmouseenter = () => {
-                closeBtn.style.background = 'rgba(255, 255, 255, 1)';
-                closeBtn.style.transform = 'scale(1.1)';
-              };
-              closeBtn.onmouseleave = () => {
-                closeBtn.style.background = 'rgba(255, 255, 255, 0.95)';
-                closeBtn.style.transform = 'scale(1)';
-              };
-              
-              const closePopup = () => {
-                backdrop.style.animation = 'backdropFadeOut 0.2s ease-out';
-                tempImg.style.animation = 'imagePopupFadeOut 0.2s ease-out';
-                closeBtn.style.animation = 'imagePopupFadeOut 0.2s ease-out';
-                setTimeout(() => {
-                  if (document.body.contains(backdrop)) {
-                    document.body.removeChild(backdrop);
-                  }
-                  if (document.body.contains(tempImg)) {
-                    document.body.removeChild(tempImg);
-                  }
-                  if (document.body.contains(closeBtn)) {
-                    document.body.removeChild(closeBtn);
-                  }
-                }, 200);
-              };
-              
-              // Handle ESC key
-              const handleEsc = (e: KeyboardEvent) => {
-                if (e.key === 'Escape' && document.body.contains(backdrop)) {
-                  closePopup();
-                  document.removeEventListener('keydown', handleEsc);
-                }
-              };
-              
-              tempImg.onclick = closePopup;
-              backdrop.onclick = closePopup;
-              closeBtn.onclick = closePopup;
-              document.addEventListener('keydown', handleEsc);
-              escHandlers.push({ handler: handleEsc });
-              
-              document.body.appendChild(backdrop);
-              document.body.appendChild(tempImg);
-              document.body.appendChild(closeBtn);
+              // Use React state to open process image popup - works independently from gallery
+              setProcessImagePopup({ src: imageSrc });
             }
           };
+          
+          imageElement.addEventListener('click', clickHandler, { capture: true });
+          
+          clickHandlers.push({ 
+            element: imageElement, 
+            handler: clickHandler
+          });
           
         });
         if (images.length > 1) {
@@ -311,7 +201,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       // Clean up click handlers
       clickHandlers.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler, { capture: true });
-        element.removeEventListener('click', handler, { capture: false });
         element.onclick = null;
         // Reset styles
         element.style.position = '';
@@ -320,10 +209,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         element.style.cursor = '';
         // Remove from refs
         processImageRefs.current.delete(element);
-      });
-      // Clean up ESC handlers
-      escHandlers.forEach(({ handler }) => {
-        document.removeEventListener('keydown', handler);
       });
       // Clean up any existing popups
       const existingBackdrop = document.querySelector('.process-image-popup-backdrop');
@@ -386,68 +271,41 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     if (isOpen) {
       setCurrentImageIndex(0);
       setIsImageMaximized(false);
+      setProcessImagePopup(null);
     }
   }, [isOpen]);
 
-  // Document-level click handler for when gallery backdrop is active
+  // ESC key handler for gallery images
   useEffect(() => {
     if (!isImageMaximized) return;
 
-    const handleDocumentClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      
-      // Check if click is on a process image
-      if (target.classList.contains('process-image-inline')) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const processImg = target as HTMLImageElement;
-        const imageSrc = processImg.src;
-        
-        // Close gallery first
-        setIsImageMaximized(false);
-        
-        // Wait for backdrop removal, then open process image
-        const openProcessImage = () => {
-          const backdropStillThere = document.querySelector('.maximized-image-backdrop');
-          if (backdropStillThere) {
-            requestAnimationFrame(openProcessImage);
-          } else {
-            // Trigger click on the process image to open it
-            setTimeout(() => {
-              processImg.click();
-            }, 50);
-          }
-        };
-        
-        requestAnimationFrame(openProcessImage);
-        return;
-      }
-      
-      // Check if clicking on gallery image or close button - they handle their own clicks
-      if (target.closest('.maximized-image-popup') || 
-          target.closest('button[style*="z-index: 10001"]')) {
-        return;
-      }
-      
-      // Check if clicking on backdrop itself or empty space using elementFromPoint
-      const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
-      
-      // If element at point is backdrop or body (empty space), close gallery
-      if (elementAtPoint?.classList.contains('maximized-image-backdrop') ||
-          elementAtPoint === document.body ||
-          elementAtPoint === document.documentElement) {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
         setIsImageMaximized(false);
       }
     };
 
-    // Use capture phase to catch clicks before they propagate
-    document.addEventListener('click', handleDocumentClick, true);
-
+    document.addEventListener('keydown', handleEsc);
     return () => {
-      document.removeEventListener('click', handleDocumentClick, true);
+      document.removeEventListener('keydown', handleEsc);
     };
   }, [isImageMaximized, setIsImageMaximized]);
+
+  // ESC key handler for process images
+  useEffect(() => {
+    if (!processImagePopup) return;
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setProcessImagePopup(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [processImagePopup]);
 
 
   // Handle image click to maximize/minimize
@@ -463,9 +321,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       {/* Maximized image - rendered as portal to document body */}
       {isImageMaximized && createPortal(
         <>
-          {/* Visual backdrop - completely non-interactive */}
+          {/* Visual backdrop - click outside to close */}
           <div 
             className="maximized-image-backdrop"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setIsImageMaximized(false);
+              }
+            }}
             style={{ 
               position: 'fixed', 
               top: 0, 
@@ -476,7 +339,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               zIndex: 9999,
               backdropFilter: 'blur(4px)',
               animation: 'backdropFadeIn 0.3s ease-out',
-              pointerEvents: 'none' // Clicks pass through completely
+              cursor: 'pointer'
             }}
           />
           {/* Close button - positioned independently */}
@@ -484,9 +347,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             onClick={(e) => {
               e.stopPropagation(); // Prevent backdrop click
               setIsImageMaximized(false);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation(); // Prevent overlay click
             }}
             style={{
               position: 'fixed',
@@ -505,7 +365,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               transition: 'all 0.2s ease',
               zIndex: 10001,
               animation: 'imagePopupFadeIn 0.3s ease-out',
-              pointerEvents: 'auto' // Ensure close button is clickable
+              pointerEvents: 'auto'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(255, 255, 255, 1)';
@@ -531,9 +391,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               e.stopPropagation(); // Prevent backdrop click
               setIsImageMaximized(false);
               resetZoom();
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation(); // Prevent overlay click
             }}
             style={{
               position: 'fixed',
@@ -561,6 +418,98 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+            }}
+          />
+        </>,
+        document.body
+      )}
+
+      {/* Process Image Popup - Separate system, higher z-index */}
+      {processImagePopup && createPortal(
+        <>
+          <div 
+            className="process-image-popup-backdrop"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setProcessImagePopup(null);
+              }
+            }}
+            style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              width: '100vw', 
+              height: '100vh', 
+              background: 'rgba(0, 0, 0, 0.85)', 
+              zIndex: 20000,
+              backdropFilter: 'blur(4px)',
+              animation: 'backdropFadeIn 0.3s ease-out',
+              cursor: 'pointer'
+            }}
+          />
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setProcessImagePopup(null);
+            }}
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '20px',
+              background: 'rgba(255, 255, 255, 0.95)',
+              border: 'none',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              transition: 'all 0.2s ease',
+              zIndex: 20001,
+              animation: 'imagePopupFadeIn 0.3s ease-out'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 1)';
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <img 
+            src={processImagePopup.src}
+            alt="Process image"
+            className="process-image-popup-img"
+            onClick={(e) => {
+              e.stopPropagation();
+              setProcessImagePopup(null);
+            }}
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              maxWidth: '90vw',
+              maxHeight: '90vh',
+              width: 'auto',
+              height: 'auto',
+              objectFit: 'contain',
+              borderRadius: '12px',
+              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.8)',
+              cursor: 'pointer',
+              display: 'block',
+              zIndex: 20001,
+              animation: 'imagePopupFadeIn 0.3s ease-out',
+              backgroundColor: 'white',
+              padding: '20px'
             }}
           />
         </>,

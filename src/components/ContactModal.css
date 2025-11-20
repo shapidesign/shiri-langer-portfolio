@@ -46,7 +46,8 @@
   font-weight: 700;
   color: var(--color-twilight-bliss);
   margin: 0;
-  font-family: "cc-regeneration-variable", sans-serif;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
   font-variation-settings: "ital" 0, "wght" 700;
 }
 
@@ -258,7 +259,8 @@
   border: 2px solid var(--color-twilight-bliss);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: "cc-regeneration-variable", sans-serif;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
   font-variation-settings: "ital" 0, "wght" 600;
   font-size: 0.9rem;
   font-weight: 600;

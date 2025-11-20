@@ -36,7 +36,8 @@
   border: 2px solid var(--color-twilight-bliss);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: "cc-regeneration-variable", sans-serif;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
   font-variation-settings: "ital" 0, "wght" 400;
   font-size: 0.9rem;
   color: var(--color-crystal-cut);
@@ -79,7 +80,8 @@
   border: 2px solid var(--color-twilight-bliss);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: "cc-regeneration-variable", sans-serif;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
   font-variation-settings: "ital" 0, "wght" 400;
   font-size: 0.9rem;
   color: var(--color-crystal-cut);

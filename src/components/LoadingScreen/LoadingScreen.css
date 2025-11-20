@@ -38,7 +38,8 @@
   font-size: 2.2rem;
   font-weight: 900;
   margin: 0 0 2rem 0;
-  font-family: "cc-regeneration-variable", sans-serif;
+  font-family: "Chivo Mono", monospace;
+  font-weight: 800;
   font-variation-settings: "ital" 0, "wght" 400;
   letter-spacing: -0.02em;
 }

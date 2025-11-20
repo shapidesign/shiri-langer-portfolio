@@ -1,0 +1,7 @@
+# Force HTTPS redirects
+http://shirilangerdesigns.com/* https://shirilangerdesigns.com/:splat 301!
+http://www.shirilangerdesigns.com/* https://shirilangerdesigns.com/:splat 301!
+https://www.shirilangerdesigns.com/* https://shirilangerdesigns.com/:splat 301!
+
+# SPA fallback
+/* /index.html 200
