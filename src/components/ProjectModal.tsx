@@ -463,7 +463,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       {/* Maximized image - rendered as portal to document body */}
       {isImageMaximized && createPortal(
         <>
-          {/* Visual backdrop - non-interactive so clicks pass through */}
+          {/* Visual backdrop - completely non-interactive */}
           <div 
             className="maximized-image-backdrop"
             style={{ 
@@ -476,26 +476,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               zIndex: 9999,
               backdropFilter: 'blur(4px)',
               animation: 'backdropFadeIn 0.3s ease-out',
-              pointerEvents: 'none' // Allow clicks to pass through to process images
-            }}
-          />
-          {/* Invisible clickable overlay for closing gallery - only handles empty space */}
-          <div
-            onClick={(e) => {
-              // Only close if clicking directly on this overlay (empty space)
-              if (e.target === e.currentTarget) {
-                setIsImageMaximized(false);
-              }
-            }}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              zIndex: 9998, // Below backdrop but still handles clicks
-              background: 'transparent',
-              pointerEvents: 'auto'
+              pointerEvents: 'none' // Clicks pass through completely
             }}
           />
           {/* Close button - positioned independently */}
