@@ -830,6 +830,9 @@
   cursor: pointer;
   object-fit: cover;
   flex-shrink: 0;
+  position: relative;
+  z-index: 10005 !important; /* Higher than gallery backdrop (9999) */
+  pointer-events: auto !important; /* Ensure clicks work */
 }
 
 
