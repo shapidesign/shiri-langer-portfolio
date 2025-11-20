@@ -389,6 +389,66 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     }
   }, [isOpen]);
 
+  // Document-level click handler for when gallery backdrop is active
+  useEffect(() => {
+    if (!isImageMaximized) return;
+
+    const handleDocumentClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      
+      // Check if click is on a process image
+      if (target.classList.contains('process-image-inline')) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const processImg = target as HTMLImageElement;
+        const imageSrc = processImg.src;
+        
+        // Close gallery first
+        setIsImageMaximized(false);
+        
+        // Wait for backdrop removal, then open process image
+        const openProcessImage = () => {
+          const backdropStillThere = document.querySelector('.maximized-image-backdrop');
+          if (backdropStillThere) {
+            requestAnimationFrame(openProcessImage);
+          } else {
+            // Trigger click on the process image to open it
+            setTimeout(() => {
+              processImg.click();
+            }, 50);
+          }
+        };
+        
+        requestAnimationFrame(openProcessImage);
+        return;
+      }
+      
+      // Check if clicking on gallery image or close button - they handle their own clicks
+      if (target.closest('.maximized-image-popup') || 
+          target.closest('button[style*="z-index: 10001"]')) {
+        return;
+      }
+      
+      // Check if clicking on backdrop itself or empty space using elementFromPoint
+      const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+      
+      // If element at point is backdrop or body (empty space), close gallery
+      if (elementAtPoint?.classList.contains('maximized-image-backdrop') ||
+          elementAtPoint === document.body ||
+          elementAtPoint === document.documentElement) {
+        setIsImageMaximized(false);
+      }
+    };
+
+    // Use capture phase to catch clicks before they propagate
+    document.addEventListener('click', handleDocumentClick, true);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClick, true);
+    };
+  }, [isImageMaximized, setIsImageMaximized]);
+
 
   // Handle image click to maximize/minimize
   const handleImageClick = (e: React.MouseEvent) => {
