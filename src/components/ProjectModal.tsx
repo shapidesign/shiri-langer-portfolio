@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { ProjectText, getProjectText } from '../config/projectTexts';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
@@ -50,6 +50,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     }
   });
   
+  // Handle thumbnail click - memoized to prevent recreation
+  const handleThumbnailClick = useCallback((index: number, enlarge: boolean = false) => {
+    setCurrentImageIndex(index);
+    if (enlarge) {
+      setIsImageMaximized(true);
+    }
+  }, []);
+
   // Initialize pinch zoom on maximized image
   useEffect(() => {
     if (isImageMaximized && imageRef.current) {
@@ -247,18 +255,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     };
   }, [isOpen, onClose, project]);
 
+  // Handle thumbnail click - memoized to prevent recreation
+  const handleThumbnailClick = useCallback((index: number, enlarge: boolean = false) => {
+    setCurrentImageIndex(index);
+    if (enlarge) {
+      setIsImageMaximized(true);
+    }
+  }, []);
+
   // Handle backdrop click to close modal
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget && !isImageMaximized) {
       onClose();
-    }
-  };
-
-  // Handle thumbnail click
-  const handleThumbnailClick = (index: number, enlarge: boolean = false) => {
-    setCurrentImageIndex(index);
-    if (enlarge) {
-      setIsImageMaximized(true);
     }
   };
 
