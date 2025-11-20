@@ -65,42 +65,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     }
   }, [isImageMaximized, initPinchZoom]);
 
-  // Global click listener to detect process image clicks even when gallery backdrop is active
-  useEffect(() => {
-    if (!isOpen || !project?.bodyText) return;
-
-    const globalClickHandler = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      // Check if clicked element is a process image
-      if (target.classList.contains('process-image-inline') || target.closest('.process-image-inline')) {
-        const processImg = target.classList.contains('process-image-inline') 
-          ? target as HTMLImageElement 
-          : target.closest('.process-image-inline') as HTMLImageElement;
-        
-        if (processImg && isImageMaximized) {
-          // Close gallery first
-          e.preventDefault();
-          e.stopPropagation();
-          setIsImageMaximized(false);
-          // Wait for DOM update then open process image
-          setTimeout(() => {
-            const imageSrc = processImg.src;
-            if (imageSrc) {
-              // Trigger click on the image to use existing handler
-              processImg.click();
-            }
-          }, 50);
-        }
-      }
-    };
-
-    // Use capture phase at document level to catch clicks before backdrop
-    document.addEventListener('click', globalClickHandler, true);
-
-    return () => {
-      document.removeEventListener('click', globalClickHandler, true);
-    };
-  }, [isOpen, project?.bodyText, isImageMaximized, setIsImageMaximized]);
 
   // Initialize inline image sliders
   useEffect(() => {
@@ -435,20 +399,25 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           <div 
             className="maximized-image-backdrop"
             onClick={(e) => {
-              // Check if click target is a process image - if so, don't close
-              const target = e.target as HTMLElement;
-              if (target.closest('.process-image-inline') || target.classList.contains('process-image-inline')) {
-                e.stopPropagation();
+              // Get the actual element that was clicked (not the backdrop)
+              const actualTarget = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
+              
+              // Check if click is on a process image
+              if (actualTarget?.classList.contains('process-image-inline') || 
+                  actualTarget?.closest('.process-image-inline')) {
+                // Don't close - let the process image click handler work
                 return;
               }
-              setIsImageMaximized(false);
-            }}
-            onMouseDown={(e) => {
-              // Also check on mousedown to prevent backdrop from blocking process images
-              const target = e.target as HTMLElement;
-              if (target.closest('.process-image-inline') || target.classList.contains('process-image-inline')) {
-                e.stopPropagation();
+              
+              // Check if click is on the gallery image or close button
+              if (actualTarget?.closest('.maximized-image-popup') || 
+                  actualTarget?.closest('button[aria-label="Close"]')) {
+                // These elements will handle their own clicks
+                return;
               }
+              
+              // Otherwise, close the gallery
+              setIsImageMaximized(false);
             }}
             style={{ 
               position: 'fixed', 
