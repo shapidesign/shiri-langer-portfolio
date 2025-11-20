@@ -426,10 +426,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       {/* Maximized image - rendered as portal to document body */}
       {isImageMaximized && createPortal(
         <>
+          {/* Clickable backdrop overlay - only handles clicks on empty space */}
           <div 
-            className="maximized-image-backdrop"
+            className="maximized-image-backdrop-clickable"
             onClick={(e) => {
-              // Only close if clicking directly on the backdrop (not on child elements)
+              // Check if click is on a process image using elementFromPoint
+              const elementBelow = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
+              if (elementBelow?.classList.contains('process-image-inline') || 
+                  elementBelow?.closest('.process-image-inline')) {
+                // Don't close - let process image handle it
+                return;
+              }
+              // Close gallery on backdrop click
               if (e.target === e.currentTarget) {
                 setIsImageMaximized(false);
               }
@@ -440,11 +448,25 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               left: 0, 
               width: '100vw', 
               height: '100vh', 
+              zIndex: 9998, // Below backdrop but still clickable
+              background: 'transparent',
+              pointerEvents: 'auto'
+            }}
+          />
+          {/* Visual backdrop */}
+          <div 
+            className="maximized-image-backdrop"
+            style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              width: '100vw', 
+              height: '100vh', 
               background: 'rgba(0, 0, 0, 0.9)', 
               zIndex: 9999,
               backdropFilter: 'blur(4px)',
               animation: 'backdropFadeIn 0.3s ease-out',
-              pointerEvents: 'none' // Allow clicks to pass through to process images below
+              pointerEvents: 'none' // Allow clicks to pass through to process images
             }}
           />
           {/* Close button - positioned independently */}
