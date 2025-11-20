@@ -83,22 +83,35 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           // Gallery is maximized - close it first, then open process image
           e.stopPropagation();
           e.preventDefault();
-          setIsImageMaximized(false);
           
-          // Get the process image source
+          // Get the process image source BEFORE closing gallery
           const imageSrc = processImg.src;
           
-          // Open process image after gallery closes
-          setTimeout(() => {
-            // Find the openProcessImagePopup function by triggering click on the image
-            // after the backdrop is removed
-            const clickEvent = new MouseEvent('click', {
-              bubbles: true,
-              cancelable: true,
-              view: window
-            });
-            processImg.dispatchEvent(clickEvent);
-          }, 100);
+          // Close gallery
+          setIsImageMaximized(false);
+          
+          // Wait for backdrop to be removed from DOM, then open process image
+          const checkAndOpen = () => {
+            const backdropStillThere = document.querySelector('.maximized-image-backdrop');
+            if (backdropStillThere) {
+              // Backdrop still there, check again
+              requestAnimationFrame(checkAndOpen);
+            } else {
+              // Backdrop is gone, open process image
+              // Use the openProcessImagePopup function by finding it through the refs
+              processImageRefs.current.forEach((data, img) => {
+                if (img.src === imageSrc || data.src === imageSrc) {
+                  // Trigger click on the image which will use its handler
+                  img.click();
+                }
+              });
+            }
+          };
+          
+          // Start checking after a frame
+          requestAnimationFrame(() => {
+            requestAnimationFrame(checkAndOpen);
+          });
         }
       }
     };
