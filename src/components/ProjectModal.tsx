@@ -70,6 +70,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     if (!isOpen || !project?.bodyText) return;
 
     const clickHandlers: Array<{ element: HTMLImageElement; handler: (e: Event) => void }> = [];
+    const escHandlers: Array<{ handler: (e: KeyboardEvent) => void }> = [];
 
     const initInlineSliders = () => {
       const sliders = document.querySelectorAll('.process-image-slider');
@@ -84,58 +85,141 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           
           const clickHandler = (e: Event) => {
             e.stopPropagation();
-            const imageSrc = imageElement.src;
+            e.preventDefault();
+            
+            // Check if gallery image is maximized by checking DOM
+            const hasMaximizedGallery = document.querySelector('.maximized-image-backdrop');
+            if (hasMaximizedGallery) {
+              // Close gallery view first
+              setIsImageMaximized(false);
+              // Small delay to allow cleanup
+              setTimeout(() => {
+                openProcessImagePopup(imageElement.src);
+              }, 150);
+            } else {
+              openProcessImagePopup(imageElement.src);
+            }
+          };
+          
+          const openProcessImagePopup = (imageSrc: string) => {
+            // Clean up any existing popups first
+            const existingBackdrop = document.querySelector('.process-image-popup-backdrop');
+            const existingImg = document.querySelector('.process-image-popup-img');
+            const existingCloseBtn = document.querySelector('.process-image-popup-close');
+            if (existingBackdrop) existingBackdrop.remove();
+            if (existingImg) existingImg.remove();
+            if (existingCloseBtn) existingCloseBtn.remove();
+            
             // Find if this image is in the project gallery
             const galleryIndex = project?.gallery.findIndex(galleryImg => {
               const galleryFileName = galleryImg.split('/').pop() || '';
-              return imageSrc.includes(galleryFileName);
+              const srcFileName = imageSrc.split('/').pop() || '';
+              return srcFileName.includes(galleryFileName) || galleryFileName.includes(srcFileName.split('.')[0]);
             });
+            
             if (galleryIndex !== undefined && galleryIndex >= 0) {
+              // If image is in gallery, use gallery system
               handleThumbnailClick(galleryIndex, true);
             } else {
-              // If not in gallery, create a temporary enlarged view
-              const tempImg = document.createElement('img');
-              tempImg.src = imageSrc;
-              tempImg.className = 'maximized-image-popup';
-              tempImg.style.position = 'fixed';
-              tempImg.style.top = '50%';
-              tempImg.style.left = '50%';
-              tempImg.style.transform = 'translate(-50%, -50%)';
-              const isGif = imageSrc.toLowerCase().endsWith('.gif');
-              tempImg.style.maxWidth = isGif ? '100vw' : '90vw';
-              tempImg.style.maxHeight = isGif ? '100vh' : '90vh';
-              tempImg.style.width = isGif ? '100vw' : 'auto';
-              tempImg.style.height = isGif ? '100vh' : 'auto';
-              tempImg.style.objectFit = isGif ? 'cover' : 'contain';
-              tempImg.style.borderRadius = isGif ? '0' : '12px';
-              tempImg.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.6)';
-              tempImg.style.cursor = 'pointer';
-              tempImg.style.zIndex = '10000';
-              
+              // If not in gallery, create a temporary enlarged view with proper styling
               const backdrop = document.createElement('div');
+              backdrop.className = 'process-image-popup-backdrop';
               backdrop.style.position = 'fixed';
               backdrop.style.top = '0';
               backdrop.style.left = '0';
               backdrop.style.width = '100vw';
               backdrop.style.height = '100vh';
-              backdrop.style.background = 'rgba(0, 0, 0, 0.9)';
-              backdrop.style.zIndex = '9999';
+              backdrop.style.background = 'rgba(0, 0, 0, 0.85)';
+              backdrop.style.zIndex = '10002';
               backdrop.style.cursor = 'pointer';
+              backdrop.style.backdropFilter = 'blur(4px)';
+              backdrop.style.animation = 'backdropFadeIn 0.3s ease-out';
+              
+              const tempImg = document.createElement('img');
+              tempImg.className = 'process-image-popup-img';
+              tempImg.src = imageSrc;
+              tempImg.style.position = 'fixed';
+              tempImg.style.top = '50%';
+              tempImg.style.left = '50%';
+              tempImg.style.transform = 'translate(-50%, -50%)';
+              tempImg.style.maxWidth = '90vw';
+              tempImg.style.maxHeight = '90vh';
+              tempImg.style.width = 'auto';
+              tempImg.style.height = 'auto';
+              tempImg.style.objectFit = 'contain';
+              tempImg.style.borderRadius = '12px';
+              tempImg.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.8)';
+              tempImg.style.cursor = 'pointer';
+              tempImg.style.zIndex = '10003';
+              tempImg.style.display = 'block';
+              tempImg.style.backgroundColor = 'white';
+              tempImg.style.padding = '20px';
+              tempImg.style.animation = 'imagePopupFadeIn 0.3s ease-out';
+              
+              // Close button for process images
+              const closeBtn = document.createElement('button');
+              closeBtn.className = 'process-image-popup-close';
+              closeBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+              closeBtn.style.position = 'fixed';
+              closeBtn.style.top = '20px';
+              closeBtn.style.right = '20px';
+              closeBtn.style.background = 'rgba(255, 255, 255, 0.95)';
+              closeBtn.style.border = 'none';
+              closeBtn.style.borderRadius = '50%';
+              closeBtn.style.width = '40px';
+              closeBtn.style.height = '40px';
+              closeBtn.style.cursor = 'pointer';
+              closeBtn.style.display = 'flex';
+              closeBtn.style.alignItems = 'center';
+              closeBtn.style.justifyContent = 'center';
+              closeBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+              closeBtn.style.transition = 'all 0.2s ease';
+              closeBtn.style.zIndex = '10004';
+              closeBtn.style.animation = 'imagePopupFadeIn 0.3s ease-out';
+              
+              closeBtn.onmouseenter = () => {
+                closeBtn.style.background = 'rgba(255, 255, 255, 1)';
+                closeBtn.style.transform = 'scale(1.1)';
+              };
+              closeBtn.onmouseleave = () => {
+                closeBtn.style.background = 'rgba(255, 255, 255, 0.95)';
+                closeBtn.style.transform = 'scale(1)';
+              };
               
               const closePopup = () => {
-                if (document.body.contains(tempImg)) {
-                  document.body.removeChild(tempImg);
-                }
-                if (document.body.contains(backdrop)) {
-                  document.body.removeChild(backdrop);
+                backdrop.style.animation = 'backdropFadeOut 0.2s ease-out';
+                tempImg.style.animation = 'imagePopupFadeOut 0.2s ease-out';
+                closeBtn.style.animation = 'imagePopupFadeOut 0.2s ease-out';
+                setTimeout(() => {
+                  if (document.body.contains(backdrop)) {
+                    document.body.removeChild(backdrop);
+                  }
+                  if (document.body.contains(tempImg)) {
+                    document.body.removeChild(tempImg);
+                  }
+                  if (document.body.contains(closeBtn)) {
+                    document.body.removeChild(closeBtn);
+                  }
+                }, 200);
+              };
+              
+              // Handle ESC key
+              const handleEsc = (e: KeyboardEvent) => {
+                if (e.key === 'Escape' && document.body.contains(backdrop)) {
+                  closePopup();
+                  document.removeEventListener('keydown', handleEsc);
                 }
               };
               
               tempImg.onclick = closePopup;
               backdrop.onclick = closePopup;
+              closeBtn.onclick = closePopup;
+              document.addEventListener('keydown', handleEsc);
+              escHandlers.push({ handler: handleEsc });
               
               document.body.appendChild(backdrop);
               document.body.appendChild(tempImg);
+              document.body.appendChild(closeBtn);
             }
           };
           
@@ -213,8 +297,19 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       clickHandlers.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler);
       });
+      // Clean up ESC handlers
+      escHandlers.forEach(({ handler }) => {
+        document.removeEventListener('keydown', handler);
+      });
+      // Clean up any existing popups
+      const existingBackdrop = document.querySelector('.process-image-popup-backdrop');
+      const existingImg = document.querySelector('.process-image-popup-img');
+      const existingCloseBtn = document.querySelector('.process-image-popup-close');
+      if (existingBackdrop) existingBackdrop.remove();
+      if (existingImg) existingImg.remove();
+      if (existingCloseBtn) existingCloseBtn.remove();
     };
-  }, [isOpen, project?.bodyText, project?.gallery, handleThumbnailClick]);
+  }, [isOpen, project?.bodyText, project?.gallery, handleThumbnailClick, setIsImageMaximized]);
 
   // Handle keyboard navigation
   useEffect(() => {
