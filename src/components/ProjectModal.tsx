@@ -79,58 +79,69 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     }> = [];
 
     const initInlineSliders = () => {
-      const sliders = document.querySelectorAll('.process-image-slider');
-      sliders.forEach(slider => {
-        const sliderElement = slider as HTMLElement;
-        const images = slider.querySelectorAll('.process-image-inline');
-        
+      // Wait for DOM to be ready, especially after gallery closes
+      requestAnimationFrame(() => {
+        const sliders = document.querySelectorAll('.process-image-slider');
+        sliders.forEach(slider => {
+          const sliderElement = slider as HTMLElement;
+          const images = slider.querySelectorAll('.process-image-inline');
+          
           // Add click handlers to process images to enlarge them
-        images.forEach((img) => {
-          const imageElement = img as HTMLImageElement;
-          
-          // Set high z-index and pointer-events on the image element itself
-          imageElement.style.position = 'relative';
-          imageElement.style.zIndex = '10005';
-          imageElement.style.pointerEvents = 'auto';
-          imageElement.style.cursor = 'pointer';
-          
-          // Store reference for global handler
-          processImageRefs.current.set(imageElement, {
-            src: imageElement.src,
-            rect: imageElement.getBoundingClientRect()
-          });
-          
-          // Click handler - use React state instead of DOM manipulation
-          const clickHandler = (e: Event) => {
-            e.stopPropagation();
-            e.preventDefault();
+          images.forEach((img) => {
+            const imageElement = img as HTMLImageElement;
             
-            const imageSrc = imageElement.src;
+            // Skip if handler already exists
+            if (processImageRefs.current.has(imageElement)) {
+              return;
+            }
             
-            // Check if this image is in the project gallery
-            const galleryIndex = project?.gallery.findIndex(galleryImg => {
-              const galleryFileName = galleryImg.split('/').pop() || '';
-              const srcFileName = imageSrc.split('/').pop() || '';
-              return srcFileName.includes(galleryFileName) || galleryFileName.includes(srcFileName.split('.')[0]);
+            // Set high z-index and pointer-events on the image element itself
+            imageElement.style.position = 'relative';
+            imageElement.style.zIndex = '10005';
+            imageElement.style.pointerEvents = 'auto';
+            imageElement.style.cursor = 'pointer';
+            
+            // Store reference for global handler
+            processImageRefs.current.set(imageElement, {
+              src: imageElement.src,
+              rect: imageElement.getBoundingClientRect()
             });
             
-            if (galleryIndex !== undefined && galleryIndex >= 0) {
-              // If image is in gallery, use gallery system
-              handleThumbnailClick(galleryIndex, true);
-            } else {
-              // Use React state to open process image popup - works independently from gallery
-              setProcessImagePopup({ src: imageSrc });
-            }
-          };
-          
-          imageElement.addEventListener('click', clickHandler, { capture: true });
-          
-          clickHandlers.push({ 
-            element: imageElement, 
-            handler: clickHandler
+            // Click handler - use React state instead of DOM manipulation
+            const clickHandler = (e: Event) => {
+              e.stopPropagation();
+              e.preventDefault();
+              
+              const imageSrc = imageElement.src;
+              
+              // Check if this image is in the project gallery
+              const galleryIndex = project?.gallery.findIndex(galleryImg => {
+                const galleryFileName = galleryImg.split('/').pop() || '';
+                const srcFileName = imageSrc.split('/').pop() || '';
+                return srcFileName.includes(galleryFileName) || galleryFileName.includes(srcFileName.split('.')[0]);
+              });
+              
+              if (galleryIndex !== undefined && galleryIndex >= 0) {
+                // If image is in gallery, use gallery system
+                handleThumbnailClick(galleryIndex, true);
+              } else {
+                // Use React state to open process image popup - works independently from gallery
+                // Always close gallery first to ensure clean state
+                setIsImageMaximized(false);
+                // Small delay to ensure gallery is fully closed
+                setTimeout(() => {
+                  setProcessImagePopup({ src: imageSrc });
+                }, 50);
+              }
+            };
+            
+            imageElement.addEventListener('click', clickHandler, { capture: true });
+            
+            clickHandlers.push({ 
+              element: imageElement, 
+              handler: clickHandler
+            });
           });
-          
-        });
         if (images.length > 1) {
           // Calculate if images fit within container width
           const containerWidth = sliderElement.offsetWidth;
@@ -282,6 +293,72 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       setProcessImagePopup(null);
     }
   }, [isOpen]);
+
+  // Re-initialize process image handlers when gallery closes
+  useEffect(() => {
+    if (!isOpen || !project || isImageMaximized) return;
+
+    // Clear existing handlers first
+    processImageRefs.current.forEach((_, element) => {
+      element.onclick = null;
+    });
+
+    // Re-initialize after a short delay to ensure DOM is clean
+    const timer = setTimeout(() => {
+      const sliders = document.querySelectorAll('.process-image-slider');
+      sliders.forEach(slider => {
+        const images = slider.querySelectorAll('.process-image-inline');
+        images.forEach((img) => {
+          const imageElement = img as HTMLImageElement;
+          
+          // Skip if already has handler
+          if (processImageRefs.current.has(imageElement)) {
+            return;
+          }
+          
+          // Ensure styles are set
+          imageElement.style.position = 'relative';
+          imageElement.style.zIndex = '10005';
+          imageElement.style.pointerEvents = 'auto';
+          imageElement.style.cursor = 'pointer';
+          
+          // Store reference
+          processImageRefs.current.set(imageElement, {
+            src: imageElement.src,
+            rect: imageElement.getBoundingClientRect()
+          });
+          
+          // Add click handler
+          const clickHandler = (e: Event) => {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            const imageSrc = imageElement.src;
+            const galleryIndex = project?.gallery.findIndex(galleryImg => {
+              const galleryFileName = galleryImg.split('/').pop() || '';
+              const srcFileName = imageSrc.split('/').pop() || '';
+              return srcFileName.includes(galleryFileName) || galleryFileName.includes(srcFileName.split('.')[0]);
+            });
+            
+            if (galleryIndex !== undefined && galleryIndex >= 0) {
+              handleThumbnailClick(galleryIndex, true);
+            } else {
+              setIsImageMaximized(false);
+              setTimeout(() => {
+                setProcessImagePopup({ src: imageSrc });
+              }, 50);
+            }
+          };
+          
+          imageElement.addEventListener('click', clickHandler, { capture: true });
+        });
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isImageMaximized, isOpen, project, handleThumbnailClick]);
 
   // ESC key handler for gallery images
   useEffect(() => {
