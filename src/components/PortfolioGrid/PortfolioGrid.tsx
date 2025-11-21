@@ -295,8 +295,6 @@ const PortfolioGrid: React.FC = () => {
         }}
       />
 
-      {/* Navigation Indicators */}
-      <NavigationIndicators />
     </div>
   );
 };

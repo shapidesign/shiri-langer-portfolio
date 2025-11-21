@@ -196,8 +196,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     // Initialize after a short delay to ensure DOM is ready
     const timer = setTimeout(initInlineSliders, 100);
     
+    // Also reinitialize when gallery closes to ensure handlers are fresh
+    const reinitTimer = setTimeout(() => {
+      if (!isImageMaximized) {
+        initInlineSliders();
+      }
+    }, 200);
+    
     return () => {
       clearTimeout(timer);
+      clearTimeout(reinitTimer);
       // Clean up click handlers
       clickHandlers.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler, { capture: true });
@@ -218,7 +226,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       if (existingImg) existingImg.remove();
       if (existingCloseBtn) existingCloseBtn.remove();
     };
-  }, [isOpen, project?.bodyText, project?.gallery, handleThumbnailClick, setIsImageMaximized]);
+  }, [isOpen, project?.bodyText, project?.gallery, handleThumbnailClick, setIsImageMaximized, isImageMaximized]);
 
   // Handle keyboard navigation
   useEffect(() => {
