@@ -202,6 +202,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           }
         }
       });
+      }); // Close requestAnimationFrame callback
     };
 
     // Initialize after a short delay to ensure DOM is ready
