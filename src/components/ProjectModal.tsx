@@ -90,16 +90,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           images.forEach((img) => {
             const imageElement = img as HTMLImageElement;
             
-            // Skip if handler already exists
-            if (processImageRefs.current.has(imageElement)) {
-              return;
-            }
-            
-            // Set high z-index and pointer-events on the image element itself
+            // Always ensure styles are set
             imageElement.style.position = 'relative';
             imageElement.style.zIndex = '10005';
             imageElement.style.pointerEvents = 'auto';
             imageElement.style.cursor = 'pointer';
+            
+            // Remove old handler if exists to avoid duplicates
+            if ((imageElement as any)._processImageHandler) {
+              imageElement.removeEventListener('click', (imageElement as any)._processImageHandler, { capture: true });
+            }
             
             // Store reference for global handler
             processImageRefs.current.set(imageElement, {
@@ -136,6 +136,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             };
             
             imageElement.addEventListener('click', clickHandler, { capture: true });
+            (imageElement as any)._processImageHandler = clickHandler;
             
             clickHandlers.push({ 
               element: imageElement, 
@@ -221,6 +222,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       // Clean up click handlers
       clickHandlers.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler, { capture: true });
+        delete (element as any)._processImageHandler;
         element.onclick = null;
         // Reset styles
         element.style.position = '';
@@ -295,33 +297,31 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     }
   }, [isOpen]);
 
-  // Re-initialize process image handlers when gallery closes
+  // Re-initialize process image handlers when gallery closes or process image popup closes
   useEffect(() => {
-    if (!isOpen || !project || isImageMaximized) return;
+    if (!isOpen || !project || isImageMaximized || processImagePopup) return;
 
-    // Clear existing handlers first
-    processImageRefs.current.forEach((_, element) => {
-      element.onclick = null;
-    });
-
-    // Re-initialize after a short delay to ensure DOM is clean
+    // Clear and re-initialize handlers after a short delay
     const timer = setTimeout(() => {
+      // Remove old event listeners by cloning and replacing elements would be complex
+      // Instead, just ensure all handlers are properly attached
       const sliders = document.querySelectorAll('.process-image-slider');
       sliders.forEach(slider => {
         const images = slider.querySelectorAll('.process-image-inline');
         images.forEach((img) => {
           const imageElement = img as HTMLImageElement;
           
-          // Skip if already has handler
-          if (processImageRefs.current.has(imageElement)) {
-            return;
-          }
-          
-          // Ensure styles are set
+          // Always ensure styles are set (even if handler exists)
           imageElement.style.position = 'relative';
           imageElement.style.zIndex = '10005';
           imageElement.style.pointerEvents = 'auto';
           imageElement.style.cursor = 'pointer';
+          
+          // Remove old handler if exists to avoid duplicates
+          if ((imageElement as any)._processImageHandler) {
+            imageElement.removeEventListener('click', (imageElement as any)._processImageHandler, { capture: true });
+            delete (imageElement as any)._processImageHandler;
+          }
           
           // Store reference
           processImageRefs.current.set(imageElement, {
@@ -329,7 +329,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             rect: imageElement.getBoundingClientRect()
           });
           
-          // Add click handler
+          // Add click handler (always add fresh handler)
           const clickHandler = (e: Event) => {
             e.stopPropagation();
             e.preventDefault();
@@ -352,6 +352,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           };
           
           imageElement.addEventListener('click', clickHandler, { capture: true });
+          
+          // Store the handler for cleanup
+          (imageElement as any)._processImageHandler = clickHandler;
         });
       });
     }, 100);
@@ -359,7 +362,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     return () => {
       clearTimeout(timer);
     };
-  }, [isImageMaximized, isOpen, project, handleThumbnailClick]);
+  }, [isImageMaximized, isOpen, project, handleThumbnailClick, processImagePopup]);
 
   // ESC key handler for gallery images
   useEffect(() => {
