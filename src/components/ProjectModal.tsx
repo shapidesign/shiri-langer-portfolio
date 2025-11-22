@@ -596,7 +596,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               cursor: 'pointer',
               display: 'block',
               zIndex: 20001,
-              animation: 'imagePopupFadeIn 0.3s ease-out'
+              animation: 'imagePopupFadeIn 0.3s ease-out',
+              backgroundColor: 'white'
             }}
           />
         </>,
