@@ -19,7 +19,7 @@ export class ProjectService {
   // Project templates
   private readonly PROJECT_TEMPLATES = [
     "Tomi", "Chair 1", "3D Filters", "PITA", "Project Itamar", "Lamp Design", 
-    "Rocky Stool", "Solidwork", "Mico", "A Bowl and A Pile", "EVA", "K-SENSE", 
+    "Rocky Stool", "Solidwork", "Mico", "A Bowl and A Pile", "EVE", "K-SENSE", 
     "Ember", "Dancing Pot", "Tambourine", "Coffee Machine", "About Me",
     "Interactive Design", "Dashboard Design", "Print Campaign", "Concept Art", 
     "Lettering Design", "Editorial Illustration", "Lifestyle Photography", 
@@ -114,7 +114,7 @@ export class ProjectService {
       7: 'solidwork.jpg',
       8: 'mico.jpg',
       9: 'bowl.jpg',
-      10: 'eva/robotdisplay.webp',
+      10: 'eve/robotdisplay.webp',
       11: 'ksense.jpg',
       12: 'ember.jpg',
       13: 'dancingpot.jpg',
