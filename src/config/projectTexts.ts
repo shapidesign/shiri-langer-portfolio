@@ -394,6 +394,8 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to transform a visual and cultural reference into a tangible object while maintaining a balance between expressive form and functional use for serving and presentation.</p>
       <div class="process-image-slider">
+        <img src="/assets/images/bowl/inspi1.webp" alt="A Bowl and A Pile design inspiration - African basket carrying" class="process-image-inline" />
+        <img src="/assets/images/bowl/inspi2.webp" alt="A Bowl and A Pile design inspiration - cultural reference" class="process-image-inline" />
         <img src="/assets/images/bowl/bowlsketch1.webp" alt="A Bowl and A Pile design process - challenges 1" class="process-image-inline" />
         <img src="/assets/images/bowl/bowlsketch2.webp" alt="A Bowl and A Pile design process - challenges 2" class="process-image-inline" />
       </div>
@@ -410,6 +412,8 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <p>The project began with sketching to explore form and composition, followed by 3D modeling in SolidWorks to refine proportions. 3D printing was used for form development and prototyping. The final pieces were created using ceramic slip casting, allowing for precise reproduction of the sculptural forms, and finished with glazing to enhance their visual appeal.</p>
     `,
     processImages: [
+      "/assets/images/bowl/inspi1.webp",
+      "/assets/images/bowl/inspi2.webp",
       "/assets/images/bowl/bowlsketch1.webp",
       "/assets/images/bowl/bowlsketch2.webp",
       "/assets/images/bowl/bowlsol1.webp",
