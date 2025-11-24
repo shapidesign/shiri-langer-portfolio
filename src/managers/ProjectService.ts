@@ -114,7 +114,7 @@ export class ProjectService {
       7: 'solidwork.jpg',
       8: 'mico.jpg',
       9: 'bowl.jpg',
-      10: 'eva.jpg',
+      10: 'eva/robotdisplay.webp',
       11: 'ksense.jpg',
       12: 'ember.jpg',
       13: 'dancingpot.jpg',

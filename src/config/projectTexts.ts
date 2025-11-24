@@ -388,21 +388,53 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 11,
     title: "EVA",
-    subtitle: "Furniture Design",
+    subtitle: "Design for Manufacturing (DFM) with Plastic Injection Molding",
     year: 2024,
-    tags: ["Furniture", "Sustainable Design", "Materials"],
-    description: "Sustainable furniture design using recycled materials.",
-    client: "Eco Furniture Co.",
-    fullDescription: "A chair design that combines sustainability with modern aesthetics.",
-    challenges: "Working with recycled materials while maintaining design quality.",
-    solutions: "Innovative material processing and construction techniques.",
-    technologies: ["Material Research", "Prototyping", "Life Cycle Analysis"],
-    results: "Award-winning design recognized for sustainability.",
+    tags: ["DFM", "Plastic injection molding", "SolidWorks", "Heat staking", "Lip & groove", "Prototyping"],
+    description: "An experimental project focused on Design for Manufacturing (DFM) using plastic injection molding, developed in the form of a toy robot to practice adapting a design to the requirements and constraints of industrial production.",
+    client: "",
+    fullDescription: "EVA is an experimental project focused on Design for Manufacturing (DFM) using plastic injection molding. While developed in the form of a toy robot, the main goal was to practice adapting a design to the requirements and constraints of industrial production.",
+    challenges: "The challenge was to create a design simple enough for efficient injection molding, while still incorporating functional connections and maintaining an engaging appearance.",
+    solutions: "The final design takes the shape of a robot with a one-wheel base and expressive arms, chosen to test balance and assembly solutions. The process emphasized details such as lip-and-groove joints and heat staking pins, which ensure structural strength and manufacturability in plastic injection.",
+    technologies: ["SolidWorks 3D modeling", "Design for injection molding", "Heat staking", "Lip-and-groove connections", "Prototyping", "Rendering"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/eva.jpg",
+      "/assets/images/eva/robotdisplay.webp",
+      "/assets/images/eva/robotgal1.webp",
+      "/assets/images/eva/robotgal2.webp"
     ],
     stickerColor: "#4CAF50", // Green
-    stickerImage: "/assets/images/sticker5.png"
+    stickerImage: "/assets/images/sticker5.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>EVA is an experimental project focused on Design for Manufacturing (DFM) using plastic injection molding. While developed in the form of a toy robot, the main goal was to practice adapting a design to the requirements and constraints of industrial production.</p>
+      
+      <h3>Challenges</h3>
+      <p>The challenge was to create a design simple enough for efficient injection molding, while still incorporating functional connections and maintaining an engaging appearance.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/eva/robotchal1.webp" alt="EVA design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/eva/robotchal2.webp" alt="EVA design process - challenges 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The final design takes the shape of a robot with a one-wheel base and expressive arms, chosen to test balance and assembly solutions. The process emphasized details such as lip-and-groove joints and heat staking pins, which ensure structural strength and manufacturability in plastic injection.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/eva/robotsol1.webp" alt="EVA design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/eva/robotsol2.webp" alt="EVA design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/eva/robotsol3.webp" alt="EVA design process - solutions 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project utilized SolidWorks 3D modeling to create a design optimized for plastic injection molding. Key manufacturing techniques included heat staking for assembly and lip-and-groove connections for structural integrity, followed by prototyping and rendering to visualize the final product.</p>
+    `,
+    processImages: [
+      "/assets/images/eva/robotchal1.webp",
+      "/assets/images/eva/robotchal2.webp",
+      "/assets/images/eva/robotsol1.webp",
+      "/assets/images/eva/robotsol2.webp",
+      "/assets/images/eva/robotsol3.webp"
+    ]
   },
   {
     id: 12,
