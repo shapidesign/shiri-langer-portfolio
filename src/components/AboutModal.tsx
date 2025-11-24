@@ -200,7 +200,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
                 }}
               >
                 <div className="highlight-preview">
-                  <img src="/assets/images/pita.JPG" alt="PITA" />
+                  <img src="/assets/images/pita/pita-display.webp" alt="PITA" />
                 </div>
                 <div className="highlight-content">
                   <h4>PITA (2023)</h4>
