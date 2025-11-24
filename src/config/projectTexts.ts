@@ -180,10 +180,11 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "Winner – FIT Sport Design Awards 2025",
     testimonial: undefined,
     gallery: [
-      "/assets/images/pita.JPG",
-      "/assets/images/pita3.jpg",
-      "/assets/images/pita4.jpg",
-      "/assets/images/pita5.jpg"
+      "/assets/images/pita/pita-display.webp",
+      "/assets/images/pita/pita-final.webp",
+      "/assets/images/pita/pitafinal3.webp",
+      "/assets/images/pita/pitafinal4.webp",
+      "/assets/images/pita/pitfinal2.webp"
     ],
     stickerColor: "#FF6B35", // Orange
     stickerImage: "/assets/images/sticker4.png",
@@ -194,23 +195,29 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to create a product that provides a safe and engaging balance experience while being portable, durable, and suitable for outdoor use. Another challenge was to find the right material and surface texture that could mimic the unbalanced sensation of physiotherapy cushions while working at a larger, environmental scale.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/pita7.JPG" alt="PITA design process - challenges" class="process-image-inline" />
+        <img src="/assets/images/pita/pitasketch1.webp" alt="PITA design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/pita/pitasketch02_2.webp" alt="PITA design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/pita/pitasketch03.webp" alt="PITA design process - challenges 3" class="process-image-inline" />
       </div>
       
       <h3>Solutions</h3>
       <p>The final design combines durable tarpaulin fabric with custom nylon straps for strength and portability. The training surface integrates TPU-printed textures for grip and embroidered details to guide foot placement. A carefully developed CMF strategy contrasting colors, tactile textiles, and smooth plastic finishes creates both visual impact and a stimulating sensory experience, making balance training engaging and effective.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/pita2.jpg" alt="PITA design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/pita6.jpg" alt="PITA design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/pita/pitaprog1.webp" alt="PITA design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/pita/pitaprog2.webp" alt="PITA design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/pita/pitaprog3.webp" alt="PITA design process - solutions 3" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project combined digital fabrication with textile craftsmanship. TPU 3D printing was used to create flexible grip textures, while laser cutting provided precision in shaping fabrics and straps. Sewing reinforced the straps, and embroidery added a distinctive logo detail. In addition, standard 3D printing with spray painting was applied for structural parts and visual accents.</p>
     `,
     processImages: [
-      "/assets/images/pita7.JPG",
-      "/assets/images/pita2.jpg",
-      "/assets/images/pita6.jpg"
+      "/assets/images/pita/pitasketch1.webp",
+      "/assets/images/pita/pitasketch02_2.webp",
+      "/assets/images/pita/pitasketch03.webp",
+      "/assets/images/pita/pitaprog1.webp",
+      "/assets/images/pita/pitaprog2.webp",
+      "/assets/images/pita/pitaprog3.webp"
     ]
   },
   {
