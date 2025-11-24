@@ -389,7 +389,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
     id: 11,
     title: "EVA",
     subtitle: "Design for Manufacturing (DFM) with Plastic Injection Molding",
-    year: 2024,
+    year: 2023,
     tags: ["DFM", "Plastic injection molding", "SolidWorks", "Heat staking", "Lip & groove", "Prototyping"],
     description: "An experimental project focused on Design for Manufacturing (DFM) using plastic injection molding, developed in the form of a toy robot to practice adapting a design to the requirements and constraints of industrial production.",
     client: "",
