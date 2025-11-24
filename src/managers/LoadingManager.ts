@@ -106,10 +106,10 @@ export class LoadingManager {
    */
   private preloadImages(): void {
     const imageUrls = [
-      '/images/alphabet2.png',
-      '/images/coffee-torn.png',
-      '/images/ksense.png',
-      '/images/shiri-paper.png'
+      '/assets/images/alphabet2.png',
+      '/assets/images/coffee-torn.png',
+      '/assets/images/ksense.png',
+      '/assets/images/shiri-paper.png'
     ];
 
     let loadedCount = 0;
