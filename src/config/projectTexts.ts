@@ -369,21 +369,53 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 10,
     title: "A Bowl and A Pile",
-    subtitle: "Product Design",
+    subtitle: "Ceramic Serving Bowls Inspired by African Culture",
     year: 2024,
-    tags: ["Product Design", "Ceramics", "Art"],
-    description: "Ceramic bowl design exploring form and function.",
-    client: "Ceramic Studio",
-    fullDescription: "A conceptual ceramic design that challenges traditional bowl aesthetics.",
-    challenges: "Creating functional art that serves both aesthetic and practical purposes.",
-    solutions: "Balanced organic forms with practical considerations.",
-    technologies: ["Clay Modeling", "Ceramic Firing", "3D Scanning"],
-    results: "Featured in design exhibitions and ceramic art shows.",
+    tags: ["Ceramics", "Slip casting", "Glazing", "3D modeling", "3D printing", "Cultural inspiration"],
+    description: "A set of ceramic serving bowls inspired by the way women in African cultures carry baskets on their heads. The project translates this cultural image into a sculptural design, creating bowls intended for serving, display, or as decorative objects in the home.",
+    client: "",
+    fullDescription: "A Bowl and A Pile is a set of ceramic serving bowls inspired by the way women in African cultures carry baskets on their heads. The project translates this cultural image into a sculptural design, creating bowls intended for serving, display, or as decorative objects in the home.",
+    challenges: "The challenge was to transform a visual and cultural reference into a tangible object while maintaining a balance between expressive form and functional use for serving and presentation.",
+    solutions: "By studying proportions and stacked compositions, I created bowls that can be displayed individually or arranged together as a sculptural centerpiece. The design preserves the elegance of the inspiration while offering multiple serving and display possibilities.",
+    technologies: ["Sketching", "3D modeling in SolidWorks", "3D printing for form development", "Ceramic slip casting", "Glazing"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/bowl.jpg",
+      "/assets/images/bowl/bowldisplay.webp",
+      "/assets/images/bowl/bowlgal1.webp",
+      "/assets/images/bowl/bowlgal2.webp"
     ],
     stickerColor: "#F18F01", // Yellow
-    stickerImage: "/assets/images/sticker4.png"
+    stickerImage: "/assets/images/sticker4.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>A Bowl and A Pile is a set of ceramic serving bowls inspired by the way women in African cultures carry baskets on their heads. The project translates this cultural image into a sculptural design, creating bowls intended for serving, display, or as decorative objects in the home.</p>
+      
+      <h3>Challenges</h3>
+      <p>The challenge was to transform a visual and cultural reference into a tangible object while maintaining a balance between expressive form and functional use for serving and presentation.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/bowl/bowlsketch1.webp" alt="A Bowl and A Pile design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsketch2.webp" alt="A Bowl and A Pile design process - challenges 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>By studying proportions and stacked compositions, I created bowls that can be displayed individually or arranged together as a sculptural centerpiece. The design preserves the elegance of the inspiration while offering multiple serving and display possibilities.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/bowl/bowlsol1.webp" alt="A Bowl and A Pile design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsolid1.webp" alt="A Bowl and A Pile design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsolid2.webp" alt="A Bowl and A Pile design process - solutions 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project began with sketching to explore form and composition, followed by 3D modeling in SolidWorks to refine proportions. 3D printing was used for form development and prototyping. The final pieces were created using ceramic slip casting, allowing for precise reproduction of the sculptural forms, and finished with glazing to enhance their visual appeal.</p>
+    `,
+    processImages: [
+      "/assets/images/bowl/bowlsketch1.webp",
+      "/assets/images/bowl/bowlsketch2.webp",
+      "/assets/images/bowl/bowlsol1.webp",
+      "/assets/images/bowl/bowlsolid1.webp",
+      "/assets/images/bowl/bowlsolid2.webp"
+    ]
   },
   {
     id: 11,

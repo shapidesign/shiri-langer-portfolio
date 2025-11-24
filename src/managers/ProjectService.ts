@@ -113,7 +113,7 @@ export class ProjectService {
       6: 'stool/DisplayStool.webp',
       7: 'solidwork.jpg',
       8: 'mico.jpg',
-      9: 'bowl.jpg',
+      9: 'bowl/bowldisplay.webp',
       10: 'eve/robotdisplay.webp',
       11: 'ksense.jpg',
       12: 'ember.jpg',
