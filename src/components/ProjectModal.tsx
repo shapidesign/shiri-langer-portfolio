@@ -101,9 +101,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               imageElement.removeEventListener('click', (imageElement as any)._processImageHandler, { capture: true });
             }
             
-            // Store reference for global handler
+            // Store reference for global handler - use getAttribute to preserve original path
+            const originalSrc = imageElement.getAttribute('src') || imageElement.src;
             processImageRefs.current.set(imageElement, {
-              src: imageElement.src,
+              src: originalSrc,
               rect: imageElement.getBoundingClientRect()
             });
             
@@ -112,7 +113,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               e.stopPropagation();
               e.preventDefault();
               
-              const imageSrc = imageElement.src;
+              // Use getAttribute to preserve the original src path, not the resolved URL
+              const imageSrc = imageElement.getAttribute('src') || imageElement.src;
               
               // Check if this image is in the project gallery
               const galleryIndex = project?.gallery.findIndex(galleryImg => {
@@ -323,9 +325,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             delete (imageElement as any)._processImageHandler;
           }
           
-          // Store reference
+          // Store reference - use getAttribute to preserve original path
+          const originalSrc = imageElement.getAttribute('src') || imageElement.src;
           processImageRefs.current.set(imageElement, {
-            src: imageElement.src,
+            src: originalSrc,
             rect: imageElement.getBoundingClientRect()
           });
           
@@ -334,7 +337,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             e.stopPropagation();
             e.preventDefault();
             
-            const imageSrc = imageElement.src;
+            // Use getAttribute to preserve the original src path, not the resolved URL
+            const imageSrc = imageElement.getAttribute('src') || imageElement.src;
             const galleryIndex = project?.gallery.findIndex(galleryImg => {
               const galleryFileName = galleryImg.split('/').pop() || '';
               const srcFileName = imageSrc.split('/').pop() || '';
