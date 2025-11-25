@@ -374,21 +374,57 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 9,
     title: "Mico",
-    subtitle: "Brand Design",
+    subtitle: "Flexible Adventure Toy for Children",
     year: 2024,
-    tags: ["Branding", "Logo Design", "Identity"],
-    description: "Complete brand identity for a micro-brewery.",
-    client: "Mico Brewery",
-    fullDescription: "Created a comprehensive brand identity including logo, packaging, and marketing materials.",
-    challenges: "Standing out in a competitive craft beer market.",
-    solutions: "Developed a unique visual identity that reflected the brewery's artisanal approach.",
-    technologies: ["Adobe Illustrator", "Adobe Photoshop", "Adobe InDesign"],
-    results: "Increased brand recognition and market share.",
+    tags: ["Toy design", "Beech wood", "Elastic bands", "Beads", "Child-safe colors", "Play interaction"],
+    description: "MICO is a flexible adventure toy inspired by childhood memories of hanging a rabbit doll everywhere and imagining it as part of a magical world. Designed with flexible arms, MICO can be hung in multiple ways, encouraging children to imagine endless scenarios and adventures.",
+    client: "",
+    fullDescription: "MICO is a flexible adventure toy inspired by my childhood memories of hanging my rabbit doll everywhere and imagining it as part of a magical world. Designed with flexible arms, MICO can be hung in multiple ways, encouraging children to imagine endless scenarios and adventures.",
+    challenges: "The challenge was to design a toy that sparks imagination while remaining safe and intuitive for very young children. Observations in a kindergarten (ages 1–3) revealed the need to focus on grip, tactile exploration, and playful interaction.",
+    solutions: "The toy was carefully designed to balance imagination and safety. It is built from beech wood beads and elastic bands for flexibility, with dimensions adapted so the beads cannot be swallowed by children. Durable, child-safe colors ensure long-lasting play. The result is a toy that can be held, hung, and reimagined in multiple ways, becoming both a playful tool and a companion.",
+    technologies: ["Concept development", "Prototyping and testing with children", "Woodwork with beech wood", "Integration of elastic bands", "Bead assembly", "Surface finishing with durable child-safe colors"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/mico.jpg",
+      "/assets/images/mico/micodis.webp",
+      "/assets/images/mico/micogal1.webp",
+      "/assets/images/mico/micogal2.webp"
     ],
     stickerColor: "#A23B72", // Purple
-    stickerImage: "/assets/images/sticker3.png"
+    stickerImage: "/assets/images/sticker3.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>MICO is a flexible adventure toy inspired by my childhood memories of hanging my rabbit doll everywhere and imagining it as part of a magical world. Designed with flexible arms, MICO can be hung in multiple ways, encouraging children to imagine endless scenarios and adventures.</p>
+      
+      <h3>Challenges</h3>
+      <p>The challenge was to design a toy that sparks imagination while remaining safe and intuitive for very young children. Observations in a kindergarten (ages 1–3) revealed the need to focus on grip, tactile exploration, and playful interaction.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/mico/micochal2.webp" alt="MICO design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/mico/micochal1.webp" alt="MICO design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/mico/micosol5.webp" alt="MICO design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/mico/micosol6.webp" alt="MICO design process - challenges 4" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The toy was carefully designed to balance imagination and safety. It is built from beech wood beads and elastic bands for flexibility, with dimensions adapted so the beads cannot be swallowed by children. Durable, child-safe colors ensure long-lasting play. The result is a toy that can be held, hung, and reimagined in multiple ways, becoming both a playful tool and a companion.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/mico/micosol1.webp" alt="MICO design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/mico/micosol2.webp" alt="MICO design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/mico/micosol3.webp" alt="MICO design process - solutions 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project began with concept development and prototyping, followed by extensive testing with children in a kindergarten setting. Woodwork with beech wood created the core structural elements, while elastic bands provided the flexibility essential to the toy's functionality. Careful bead assembly ensured safety through appropriate sizing, and surface finishing with durable child-safe colors guaranteed both visual appeal and long-lasting quality.</p>
+    `,
+    processImages: [
+      "/assets/images/mico/micochal2.webp",
+      "/assets/images/mico/micochal1.webp",
+      "/assets/images/mico/micosol5.webp",
+      "/assets/images/mico/micosol6.webp",
+      "/assets/images/mico/micosol1.webp",
+      "/assets/images/mico/micosol2.webp",
+      "/assets/images/mico/micosol3.webp"
+    ]
   },
   {
     id: 10,
