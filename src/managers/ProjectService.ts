@@ -106,7 +106,7 @@ export class ProjectService {
     const imageMap: Record<number, string> = {
       0: 'tomi/TomiDisplay1.webp',
       1: 'chair/chair-display-2.webp',
-      2: '3dfilters.png',
+      2: '3dfilters/filterdisplay.webp',
       3: 'pita/pita-display.webp',
       4: 'itamar.jpg',
       5: 'lamp.jpg',

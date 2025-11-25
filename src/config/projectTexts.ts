@@ -140,30 +140,54 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 3,
     title: "3D Filters",
-    subtitle: "Typography Design",
-    year: 2024,
-    tags: ["Typography", "Experimental", "Lettering"],
-    description: "Experimental typography project exploring the relationship between letters and visual communication.",
-    client: "Personal Project",
-    fullDescription: "An experimental typography project that explores the boundaries of letterform design and visual communication. This project challenges conventional notions of readability while maintaining the essential communicative function of typography.",
-    challenges: "Balancing artistic expression with functional typography was the primary challenge. We needed to create letterforms that were visually striking yet still recognizable and usable in various contexts.",
-    solutions: "We developed a modular letterform system where each letter could be deconstructed and reconstructed in multiple ways. The design uses geometric principles and optical illusions to create letters that shift and transform based on context and viewer perspective.",
-    technologies: ["Adobe Illustrator", "Glyphs", "Variable Fonts", "CSS"],
-    results: "The project was featured in Typography Daily and received recognition from the Type Directors Club. It has been used in several editorial and branding projects.",
-    testimonial: {
-      text: "This project pushes the boundaries of what typography can be. It's both artistic and functional, which is incredibly rare.",
-      author: "Emma Rodriguez",
-      role: "Typography Director, Design Studio"
-    },
+    subtitle: "3D-Printed Facial Accessories Exploring Beauty Rituals",
+    year: 2025,
+    tags: ["SLA 3D printing", "3D modeling", "Wearable design", "Critical design", "Beauty culture"],
+    description: "A collection of 3D-printed facial accessories that explores the tension between empowerment and insecurity within beauty rituals. Inspired by the quiet gestures of hidden beauty tools—like face-lifting stickers or patches—the project reimagines them not as invisible fixes, but as bold, expressive wearables that sit between ornament and function.",
+    client: "",
+    fullDescription: "3D FILTERS is a collection of 3D-printed facial accessories that explores the tension between empowerment and insecurity within beauty rituals. Inspired by the quiet gestures of hidden beauty tools—like face-lifting stickers or patches—the project reimagines them not as invisible fixes, but as bold, expressive wearables that sit between ornament and function.",
+    challenges: "The challenge was to translate tools meant for concealment into visible artifacts without losing their symbolic meaning. Another challenge was to design objects that feel both provocative and wearable, engaging users in reflection about beauty, identity, and control.",
+    solutions: "The project redefines hidden beauty tools by making them visible and expressive. Instead of concealing or correcting, the accessories highlight the traces of self-maintenance and transform them into bold design elements. Through this shift, 3D FILTERS challenges conventional ideals of beauty and opens a space for self-expression and reflection.",
+    technologies: ["3D modeling", "SLA 3D printing of lightweight structures", "Model finishing", "Visual storytelling for social media"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/3dfilters.png",
+      "/assets/images/3dfilters/filterdisplay.webp",
+      "/assets/images/3dfilters/filterg1.webp",
+      "/assets/images/3dfilters/filterg2.webp",
+      "/assets/images/3dfilters/filterg3.webp"
     ],
     stickerColor: "#FFD23F", // Sunny Yellow
     stickerImage: "/assets/images/sticker3.png",
-    links: {
-      behance: "https://behance.net/alphabet-project",
-      dribbble: "https://dribbble.com/shots/alphabet-project"
-    }
+    bodyText: `
+      <h2>About</h2>
+      <p>3D FILTERS is a collection of 3D-printed facial accessories that explores the tension between empowerment and insecurity within beauty rituals. Inspired by the quiet gestures of hidden beauty tools—like face-lifting stickers or patches—the project reimagines them not as invisible fixes, but as bold, expressive wearables that sit between ornament and function.</p>
+      
+      <h3>Challenges</h3>
+      <p>The challenge was to translate tools meant for concealment into visible artifacts without losing their symbolic meaning. Another challenge was to design objects that feel both provocative and wearable, engaging users in reflection about beauty, identity, and control.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/3dfilters/filterchal1.webp" alt="3D Filters design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filterchal2.webp" alt="3D Filters design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filterchal3.webp" alt="3D Filters design process - challenges 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The project redefines hidden beauty tools by making them visible and expressive. Instead of concealing or correcting, the accessories highlight the traces of self-maintenance and transform them into bold design elements. Through this shift, 3D FILTERS challenges conventional ideals of beauty and opens a space for self-expression and reflection.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/3dfilters/filtersol1.webp" alt="3D Filters design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filtersol2.webp" alt="3D Filters design process - solutions 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project utilized 3D modeling to create intricate lightweight structures optimized for facial wearability. SLA 3D printing enabled the production of precise, delicate forms with fine details, while careful model finishing ensured comfort and aesthetic quality. Visual storytelling through social media documentation played a crucial role in communicating the project's critical perspective on beauty culture.</p>
+    `,
+    processImages: [
+      "/assets/images/3dfilters/filterchal1.webp",
+      "/assets/images/3dfilters/filterchal2.webp",
+      "/assets/images/3dfilters/filterchal3.webp",
+      "/assets/images/3dfilters/filtersol1.webp",
+      "/assets/images/3dfilters/filtersol2.webp"
+    ]
   },
   {
     id: 4,
