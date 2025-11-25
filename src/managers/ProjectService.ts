@@ -115,7 +115,7 @@ export class ProjectService {
       8: 'mico/micodis.webp',
       9: 'bowl/bowldisplay.webp',
       10: 'eve/robotdisplay.webp',
-      11: 'ksense.jpg',
+      11: 'ksense/kdisplay.webp',
       12: 'ember.jpg',
       13: 'dancingpot.jpg',
       14: 'tambourine.JPG',

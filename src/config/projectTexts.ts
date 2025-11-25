@@ -591,21 +591,64 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 12,
     title: "K-SENSE",
-    subtitle: "Platform Design",
+    subtitle: "Smart Collar for Working Dogs in Rescue Missions",
     year: 2024,
-    tags: ["UI/UX", "Digital Platform", "Sensory Design"],
-    description: "Digital platform design focusing on sensory experiences.",
-    client: "K-SENSE",
-    fullDescription: "A comprehensive digital platform that enhances sensory experiences through technology.",
-    challenges: "Translating sensory experiences into digital interfaces.",
-    solutions: "Used advanced interaction design and multimedia elements.",
-    technologies: ["Figma", "After Effects", "Web Development"],
-    results: "Increased user engagement and platform adoption.",
+    tags: ["Smart product", "Wearable design", "Rescue missions", "Vital signs monitoring", "CAD modeling", "Team collaboration"],
+    description: "K-SENSE is a smart collar designed to monitor the vital signs of working dogs in military rescue units. Developed for the Oketz unit of the IDF, the product supports both dogs and their handlers during disaster rescue missions such as building collapses, where time and health monitoring are critical.",
+    client: "Oketz unit, IDF",
+    fullDescription: "K-SENSE is a smart collar designed to monitor the vital signs of working dogs in military rescue units. Developed for the Oketz unit of the IDF, the product supports both dogs and their handlers during disaster rescue missions such as building collapses, where time and health monitoring are critical.",
+    challenges: "The challenge was to design a wearable product for dogs that could provide real-time health data without interfering with their movement or performance. Another challenge was integrating multiple technologies—sensors, camera, flashlight, and communication interface—into a compact, durable, and comfortable device.",
+    solutions: "The final design is a modular smart collar that connects to a harness and integrates acoustic sensors, a camera, flashlight, and health-monitoring tools. It enables handlers to track the dogs' physical condition in real time and make informed decisions about rotation, rest, and task allocation. The device is rugged, lightweight, and specifically adapted for rescue environments.",
+    technologies: ["User research with rescue teams", "Concept development", "Interface design", "CAD modeling", "Prototyping", "Scenario building"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/ksense.jpg",
+      "/assets/images/ksense/kdisplay.webp",
+      "/assets/images/ksense/kgal1.webp",
+      "/assets/images/ksense/kgal2.webp",
+      "/assets/images/ksense/kgal3.webp",
+      "/assets/images/ksense/kgal4.webp",
+      "/assets/images/ksense/kgal5.webp"
     ],
     stickerColor: "#7FB069", // Light Green
-    stickerImage: "/assets/images/sticker6.png"
+    stickerImage: "/assets/images/sticker6.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>K-SENSE is a smart collar designed to monitor the vital signs of working dogs in military rescue units. Developed for the Oketz unit of the IDF, the product supports both dogs and their handlers during disaster rescue missions such as building collapses, where time and health monitoring are critical.</p>
+      
+      <h3>Challenges</h3>
+      <p>The challenge was to design a wearable product for dogs that could provide real-time health data without interfering with their movement or performance. Another challenge was integrating multiple technologies—sensors, camera, flashlight, and communication interface—into a compact, durable, and comfortable device.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/ksense/inspi1.webp" alt="K-SENSE design inspiration - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/ksense/inspi2.webp" alt="K-SENSE design inspiration - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/ksense/kchal1.webp" alt="K-SENSE design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/ksense/kchal2.webp" alt="K-SENSE design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/ksense/kchal3.webp" alt="K-SENSE design process - challenges 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The final design is a modular smart collar that connects to a harness and integrates acoustic sensors, a camera, flashlight, and health-monitoring tools. It enables handlers to track the dogs' physical condition in real time and make informed decisions about rotation, rest, and task allocation. The device is rugged, lightweight, and specifically adapted for rescue environments.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/ksense/ksol1.webp" alt="K-SENSE design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/ksense/ksol2.webp" alt="K-SENSE design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/ksense/ksol3.webp" alt="K-SENSE design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/ksense/ksol4.webp" alt="K-SENSE design process - solutions 4" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project began with user research conducted directly with rescue teams to understand operational needs and constraints. Concept development focused on creating a modular system that could integrate multiple technologies without compromising mobility. Interface design ensured intuitive operation under high-stress conditions, while CAD modeling and prototyping validated the design's durability and comfort. Scenario building helped anticipate real-world use cases and refine the product's functionality.</p>
+    `,
+    processImages: [
+      "/assets/images/ksense/inspi1.webp",
+      "/assets/images/ksense/inspi2.webp",
+      "/assets/images/ksense/kchal1.webp",
+      "/assets/images/ksense/kchal2.webp",
+      "/assets/images/ksense/kchal3.webp",
+      "/assets/images/ksense/ksol1.webp",
+      "/assets/images/ksense/ksol2.webp",
+      "/assets/images/ksense/ksol3.webp",
+      "/assets/images/ksense/ksol4.webp"
+    ]
   },
   {
     id: 13,
