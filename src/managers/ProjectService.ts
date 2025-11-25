@@ -108,7 +108,7 @@ export class ProjectService {
       1: 'chair/chair-display-2.webp',
       2: '3dfilters/filterdisplay.webp',
       3: 'pita/pita-display.webp',
-      4: 'itamar.jpg',
+      4: 'itamar/itadisp.webp',
       5: 'lamp.jpg',
       6: 'stool/DisplayStool.webp',
       7: 'solidwork.jpg',

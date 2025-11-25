@@ -247,30 +247,58 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 5,
     title: "Project Itamar",
-    subtitle: "Product Design & Photography",
+    subtitle: "Adaptive Surf Prosthesis",
     year: 2024,
-    tags: ["Product Design", "Photography", "Furniture"],
-    description: "Product design and photography for a collection of modern, minimalist furniture pieces.",
-    client: "Furniture Studio",
-    fullDescription: "A collaborative project with a furniture studio to design and photograph a collection of modern, minimalist furniture pieces. The focus was on creating timeless designs that emphasize function, comfort, and aesthetic appeal.",
-    challenges: "The furniture needed to appeal to both residential and commercial markets while maintaining a cohesive design language. We also needed to create compelling photography that would work for both online retail and print catalogs.",
-    solutions: "We developed a design system based on clean lines, natural materials, and modular construction. The photography uses natural lighting and minimalist staging to highlight the furniture's form and function without distraction.",
-    technologies: ["Adobe Photoshop", "Adobe Lightroom", "Sketch", "3D Modeling"],
-    results: "The furniture collection was featured in Design Milk and received orders from major retailers. The photography helped increase online sales by 30%.",
-    testimonial: {
-      text: "The design and photography perfectly showcase our furniture's quality and craftsmanship. It's exactly the aesthetic we were looking for.",
-      author: "David Kim",
-      role: "Creative Director, Furniture Studio"
-    },
+    tags: ["Adaptive design", "Prosthetics", "Special needs", "Adaptive sports", "3D modeling", "PETG", "TPU", "Team collaboration", "TOM Global (Tikkun Olam Makers) internship"],
+    description: "An adaptive surf prosthesis designed for Itamar, an amputee who was seriously injured by an explosion. Although he was already surfing with one hand, his dream was to improve his professional surfing skills, particularly mastering the \"pop-up\" movement—pushing the body up from the board to stand.",
+    client: "TOM Global (Tikkun Olam Makers)",
+    fullDescription: "The Itamar Project is an adaptive surf prosthesis designed for Itamar, an amputee who was seriously injured by an explosion. Although he was already surfing with one hand, his dream was to improve his professional surfing skills, particularly mastering the \"pop-up\" movement—pushing the body up from the board to stand. As part of my internship at TOM Global (Tikkun Olam Makers), our team developed a customized prosthesis to help him achieve this goal.",
+    challenges: "The main challenge was to design a prosthesis strong and ergonomic enough to withstand the forces of surfing, while also being comfortable, lightweight, and waterproof.",
+    solutions: "The prosthesis is composed of three parts: a sock made from special surfing fabric, a flexible interface, and a spoon-shaped paddle. These are connected by a locking mechanism and straps. My main role was 3D modeling the prototypes in SolidWorks and preparing files for 3D printing. The spoon was printed in PETG (waterproof and sunproof), while the flexible part was made from TPU for comfort and adaptability.",
+    technologies: ["3D modeling in SolidWorks", "3D printing in PETG and TPU", "Material testing", "User testing with athlete and trainer"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/itamar.jpg",
+      "/assets/images/itamar/itadisp.webp",
+      "/assets/images/itamar/itagal1.webp",
+      "/assets/images/itamar/itagal3.webp",
+      "/assets/images/itamar/itagal4.webp"
     ],
     stickerColor: "#6A4C93", // Deep Purple
     stickerImage: "/assets/images/sticker5.png",
-    links: {
-      live: "https://furniturestudio.com/collection",
-      behance: "https://behance.net/furniture-project"
-    }
+    bodyText: `
+      <h2>About</h2>
+      <p>The Itamar Project is an adaptive surf prosthesis designed for Itamar, an amputee who was seriously injured by an explosion. Although he was already surfing with one hand, his dream was to improve his professional surfing skills, particularly mastering the "pop-up" movement—pushing the body up from the board to stand. As part of my internship at TOM Global (Tikkun Olam Makers), our team developed a customized prosthesis to help him achieve this goal.</p>
+      
+      <h3>Challenges</h3>
+      <p>The main challenge was to design a prosthesis strong and ergonomic enough to withstand the forces of surfing, while also being comfortable, lightweight, and waterproof.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/itamar/itachal1.webp" alt="Project Itamar design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol3.webp" alt="Project Itamar design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol4.webp" alt="Project Itamar design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol5.webp" alt="Project Itamar design process - challenges 4" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The prosthesis is composed of three parts: a sock made from special surfing fabric, a flexible interface, and a spoon-shaped paddle. These are connected by a locking mechanism and straps. My main role was 3D modeling the prototypes in SolidWorks and preparing files for 3D printing. The spoon was printed in PETG (waterproof and sunproof), while the flexible part was made from TPU for comfort and adaptability.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/itamar/itaproto2.webp" alt="Project Itamar design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol1.webp" alt="Project Itamar design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol2.webp" alt="Project Itamar design process - solutions 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project utilized 3D modeling in SolidWorks to design and refine the prosthesis components, followed by 3D printing using PETG for the waterproof spoon element and TPU for the flexible interface. Extensive material testing ensured durability and performance, while user testing with the athlete and trainer validated the design's functionality and comfort in real surfing conditions.</p>
+    `,
+    processImages: [
+      "/assets/images/itamar/itachal1.webp",
+      "/assets/images/itamar/itasol3.webp",
+      "/assets/images/itamar/itasol4.webp",
+      "/assets/images/itamar/itasol5.webp",
+      "/assets/images/itamar/itaproto2.webp",
+      "/assets/images/itamar/itasol1.webp",
+      "/assets/images/itamar/itasol2.webp"
+    ]
   },
   {
     id: 6,
