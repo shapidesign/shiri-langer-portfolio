@@ -111,7 +111,7 @@ export class ProjectService {
       4: 'itamar/itadisp.webp',
       5: 'lamp.jpg',
       6: 'stool/DisplayStool.webp',
-      7: 'solidwork.jpg',
+      7: 'solidworks/Soliddisp.webp',
       8: 'mico/micodis.webp',
       9: 'bowl/bowldisplay.webp',
       10: 'eve/robotdisplay.webp',

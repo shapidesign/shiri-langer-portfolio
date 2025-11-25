@@ -382,22 +382,50 @@ export const PROJECT_TEXTS: ProjectText[] = [
   },
   {
     id: 8,
-    title: "Solidwork",
-    subtitle: "Software Design",
-    year: 2024,
-    tags: ["UI/UX", "Software Design", "Industrial"],
-    description: "User interface design for CAD software application.",
-    client: "Tech Company",
-    fullDescription: "Redesigned the user interface for better usability and workflow efficiency.",
-    challenges: "Complex software with many features and tools.",
-    solutions: "Streamlined interface with intuitive navigation and clear visual hierarchy.",
-    technologies: ["Figma", "Adobe XD", "User Research"],
-    results: "Improved user satisfaction and reduced learning curve by 40%.",
+    title: "Solidworks Camera",
+    subtitle: "Detailed 3D Model of Nikon D3200 Camera",
+    year: 2023,
+    tags: ["SolidWorks", "Advanced 3D modeling", "Assemblies", "Surface detailing", "Rendering"],
+    description: "A detailed 3D model of the Nikon D3200 camera, designed in SolidWorks to demonstrate precision and advanced control of the software. The project highlights my ability to handle complex geometries, assemblies, and surface detailing while producing realistic renderings.",
+    client: "",
+    fullDescription: "A detailed 3D model of the Nikon D3200 camera, designed in SolidWorks to demonstrate precision and advanced control of the software. The project highlights my ability to handle complex geometries, assemblies, and surface detailing while producing realistic renderings.",
+    challenges: "The main challenge was to replicate a consumer product with high accuracy, requiring attention to proportions, part connections, and surface finishes.",
+    solutions: "Through detailed modeling of each component and precise digital assembly, I achieved a realistic and accurate representation of the camera. The final renderings showcase material qualities and demonstrate full control over the SolidWorks environment.",
+    technologies: ["SolidWorks advanced 3D modeling", "Assemblies", "Surface detailing", "Material rendering"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/solidwork.jpg",
+      "/assets/images/solidworks/Soliddisp.webp",
+      "/assets/images/solidworks/Solidgal1.webp",
+      "/assets/images/solidworks/solidgal2.webp",
+      "/assets/images/solidworks/solidgal3.webp",
+      "/assets/images/solidworks/solidgal4.webp"
     ],
     stickerColor: "#2E86AB", // Blue
-    stickerImage: "/assets/images/sticker2.png"
+    stickerImage: "/assets/images/sticker2.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>A detailed 3D model of the Nikon D3200 camera, designed in SolidWorks to demonstrate precision and advanced control of the software. The project highlights my ability to handle complex geometries, assemblies, and surface detailing while producing realistic renderings.</p>
+      
+      <h3>Challenges</h3>
+      <p>The main challenge was to replicate a consumer product with high accuracy, requiring attention to proportions, part connections, and surface finishes.</p>
+      
+      <h3>Solutions</h3>
+      <p>Through detailed modeling of each component and precise digital assembly, I achieved a realistic and accurate representation of the camera. The final renderings showcase material qualities and demonstrate full control over the SolidWorks environment.</p>
+      
+      <h3>Process</h3>
+      <div class="process-image-slider">
+        <img src="/assets/images/solidworks/solidproc1.webp" alt="Solidworks Camera design process - process 1" class="process-image-inline" />
+        <img src="/assets/images/solidworks/solidproc2.webp" alt="Solidworks Camera design process - process 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project utilized SolidWorks advanced 3D modeling capabilities to create precise geometries and assemblies. Surface detailing techniques ensured accurate representation of the camera's complex forms, while material rendering brought the digital model to life with realistic textures and finishes.</p>
+    `,
+    processImages: [
+      "/assets/images/solidworks/solidproc1.webp",
+      "/assets/images/solidworks/solidproc2.webp"
+    ]
   },
   {
     id: 9,
