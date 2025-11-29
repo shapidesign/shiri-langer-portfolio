@@ -87,11 +87,24 @@ export class ProjectService {
       if (projectText.id === 17) continue;
       
       // Get display image - prefer first webp image over gif
+      // Always ensure paths start with /assets/images/
       let displayImage = this.getProjectImageById(projectText.id);
       if (projectText.gallery && projectText.gallery.length > 0) {
         // Find first webp image, or fall back to first image
         const webpImage = projectText.gallery.find(img => img.endsWith('.webp'));
-        displayImage = webpImage || projectText.gallery[0];
+        const selectedImage = webpImage || projectText.gallery[0];
+        
+        // Ensure the path is absolute (starts with /)
+        if (selectedImage && !selectedImage.startsWith('/')) {
+          displayImage = `/assets/images/${selectedImage}`;
+        } else {
+          displayImage = selectedImage;
+        }
+      }
+      
+      // Final check: ensure displayImage is a valid absolute path
+      if (displayImage && !displayImage.startsWith('/') && !displayImage.startsWith('http')) {
+        displayImage = `/assets/images/${displayImage}`;
       }
       
       const project: Project = {

@@ -180,7 +180,12 @@ const PortfolioGrid: React.FC = () => {
   
   // Generate grid cells with infinite repeating pattern
   const cells = useMemo(() => {
-    return projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
+    const generatedCells = projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
+    // Debug: log cell count (remove in production)
+    if (generatedCells.length === 0) {
+      console.warn('No grid cells generated!', { firstRow, firstCol, rowsToDraw, colsToDraw });
+    }
+    return generatedCells;
   }, [projectService, firstRow, firstCol, rowsToDraw, colsToDraw]);
   
   
