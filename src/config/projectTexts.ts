@@ -691,21 +691,52 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 15,
     title: "Tambourine",
-    subtitle: "Music Brand",
-    year: 2024,
-    tags: ["Branding", "Music", "Photography"],
-    description: "Brand identity and photography for music production.",
-    client: "Tambourine Music",
-    fullDescription: "Complete brand identity for a world music production company.",
-    challenges: "Capturing the energy and rhythm of music visually.",
-    solutions: "Dynamic photography and rhythmic typography.",
-    technologies: ["Photography", "Adobe Photoshop", "Brand Guidelines"],
-    results: "Enhanced brand recognition in the music industry.",
+    subtitle: "Handcrafted Musical Instrument Using Traditional Lamination",
+    year: 2022,
+    tags: ["Traditional lamination", "Veneer", "Jig design", "Leather stretching", "Musical instrument design", "Handcraft"],
+    description: "This project reinterprets the tambourine through the use of the traditional lamination technique, shaping thin layers of veneer around a custom jig. The goal was to design and produce the instrument entirely by hand, combining age-old methods with thoughtful material selection.",
+    client: "",
+    fullDescription: "This project reinterprets the tambourine through the use of the traditional lamination technique, shaping thin layers of veneer around a custom jig. The goal was to design and produce the instrument entirely by hand, combining age-old methods with thoughtful material selection.",
+    challenges: "The main challenge was to design and construct a jig that would enable precise lamination of veneer layers while ensuring the circular form remained strong and stable. Another challenge was to integrate all functional elements—stretched leather skin, ready-made metal cymbals, and grip holes—into a cohesive design.",
+    solutions: "The process began with building a jig from MDF, followed by gluing multiple veneer layers with carpenter's glue and stretching them around the jig until fully dried. Once removed, the laminated structure was sanded, cut, and refined before assembling the stretched leather surface, grip holes, and ready-made cymbals. All stages were completed by hand, resulting in an authentic instrument that merges traditional craftsmanship with careful material selection.",
+    technologies: ["Traditional lamination with veneer sheets", "Jig design and construction", "Leather stretching", "Drilling and finishing grip holes", "Assembly of ready-made metal cymbals", "Hand-finishing"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/tambourine.JPG",
+      "/assets/images/tambourine/tambdis.webp",
+      "/assets/images/tambourine/tambgal1.webp",
+      "/assets/images/tambourine/tambgal2.webp",
+      "/assets/images/tambourine/tambgal3.webp"
     ],
     stickerColor: "#4A90E2", // Medium Blue
-    stickerImage: "/assets/images/sticker3.png"
+    stickerImage: "/assets/images/sticker3.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>This project reinterprets the tambourine through the use of the traditional lamination technique, shaping thin layers of veneer around a custom jig. The goal was to design and produce the instrument entirely by hand, combining age-old methods with thoughtful material selection.</p>
+      
+      <h3>Challenges</h3>
+      <p>The main challenge was to design and construct a jig that would enable precise lamination of veneer layers while ensuring the circular form remained strong and stable. Another challenge was to integrate all functional elements—stretched leather skin, ready-made metal cymbals, and grip holes—into a cohesive design.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/tambourine/tambchal1.webp" alt="Tambourine design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambchal2.webp" alt="Tambourine design process - challenges 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The process began with building a jig from MDF, followed by gluing multiple veneer layers with carpenter's glue and stretching them around the jig until fully dried. Once removed, the laminated structure was sanded, cut, and refined before assembling the stretched leather surface, grip holes, and ready-made cymbals. All stages were completed by hand, resulting in an authentic instrument that merges traditional craftsmanship with careful material selection.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/tambourine/tambsol1.webp" alt="Tambourine design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambsol2.webp" alt="Tambourine design process - solutions 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project employed traditional lamination techniques using veneer sheets, which required careful jig design and construction to achieve the precise circular form. Leather stretching was performed manually to create the resonant surface, while grip holes were drilled and finished by hand. Ready-made metal cymbals were integrated into the design, and all surfaces received hand-finishing to complete the authentic, handcrafted instrument.</p>
+    `,
+    processImages: [
+      "/assets/images/tambourine/tambchal1.webp",
+      "/assets/images/tambourine/tambchal2.webp",
+      "/assets/images/tambourine/tambsol1.webp",
+      "/assets/images/tambourine/tambsol2.webp"
+    ]
   },
   {
     id: 16,

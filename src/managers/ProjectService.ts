@@ -118,7 +118,7 @@ export class ProjectService {
       11: 'ksense/kdisplay.webp',
       12: 'ember.jpg',
       13: 'dancingpot.jpg',
-      14: 'tambourine.JPG',
+      14: 'tambourine/tambdis.webp',
       15: 'coffee/cofdis.webp',
       16: 'Shiri.jpg'
     };
