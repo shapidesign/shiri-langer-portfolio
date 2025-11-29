@@ -79,108 +79,54 @@ export class ProjectService {
    */
   private generateProjects(): void {
     const projects: Project[] = [];
-    const projectMap = new Map<number, Project>();
     
-    // Create a map of all projects from PROJECT_TEXTS (excluding "About Me" - ID 17)
+    // Use actual project data from PROJECT_TEXTS
     for (const projectText of PROJECT_TEXTS) {
-      // Filter out "About Me" project (ID 17) - it should only open from About button
-      if (projectText.id === 17) continue;
-      
-      // Get display image - prefer first webp image over gif
-      // Always ensure paths start with /assets/images/
-      let displayImage = this.getProjectImageById(projectText.id);
-      if (projectText.gallery && projectText.gallery.length > 0) {
-        // Find first webp image, or fall back to first image
-        const webpImage = projectText.gallery.find(img => img.endsWith('.webp'));
-        const selectedImage = webpImage || projectText.gallery[0];
-        
-        // Ensure the path is absolute (starts with /)
-        if (selectedImage && !selectedImage.startsWith('/')) {
-          displayImage = `/assets/images/${selectedImage}`;
-        } else {
-          displayImage = selectedImage;
-        }
-      }
-      
-      // Final check: ensure displayImage is a valid absolute path
-      if (displayImage && !displayImage.startsWith('/') && !displayImage.startsWith('http')) {
-        displayImage = `/assets/images/${displayImage}`;
-      }
+      // Filter out "About Me" project (ID 16) - it should only open from About button
+      if (projectText.id === 16) continue;
       
       const project: Project = {
         id: projectText.id,
         title: projectText.title,
         subtitle: projectText.subtitle,
-        img: displayImage,
+        img: this.getProjectImage(projectText.id - 1), // Convert to 0-based index
         year: projectText.year,
         tags: projectText.tags,
         description: projectText.description,
         client: projectText.client
       };
       
-      projectMap.set(projectText.id, project);
-    }
-    
-    // Fixed project order as requested by user
-    // Line 1: 3d filter, bowl, chair, coffee machine, eva, ember, itamar, ksense
-    // Line 2: lamp, mico, pita, pot, stool, solid, tambourine, tomi
-    const fixedOrder: number[] = [
-      // Row 0 (Line 1)
-      3,   // 3D Filters
-      10,  // Bowl
-      2,   // Chair
-      16,  // Coffee Machine
-      11,  // EVE
-      13,  // Ember
-      5,   // Itamar
-      12,  // K-SENSE
-      // Row 1 (Line 2)
-      6,   // Lamp
-      9,   // MICO
-      4,   // PITA
-      14,  // Pot
-      7,   // Stool
-      8,   // Solidworks
-      15,  // Tambourine
-      1    // Tomi
-    ];
-    
-    // Build projects array in fixed order
-    for (const projectId of fixedOrder) {
-      const project = projectMap.get(projectId);
-      if (project) {
-        projects.push(project);
-      }
+      projects.push(project);
     }
     
     this.projects = projects;
   }
 
   /**
-   * Get project image path based on project ID
+   * Get project image path based on index
    */
-  private getProjectImageById(projectId: number): string {
+  private getProjectImage(index: number): string {
     const imageMap: Record<number, string> = {
-      1: 'tomi/TomiDisplay1.webp',
-      2: 'chair/chair-display-2.webp',
-      3: '3dfilters/filterdisplay.webp',
-      4: 'pita/pita-display.webp',
-      5: 'itamar/itadisp.webp',
-      6: 'lamp/lampdis.webp',
-      7: 'stool/DisplayStool.webp',
-      8: 'solidworks/Soliddisp.webp',
-      9: 'mico/micodis.webp',
-      10: 'bowl/bowldisplay.webp',
-      11: 'eve/robotdisplay.webp',
-      12: 'ksense/kdisplay.webp',
-      13: 'ember/emberdis.webp',
-      14: 'pot/disco plante 1 (convert.io).webp',
-      15: 'tambourine/tambdis.webp',
-      16: 'coffee/cofdis.webp',
-      17: 'Shiri.jpg' // About Me
+      0: 'tomi/TomiDisplay1.webp',
+      1: 'chair/chair-display-2.webp',
+      2: '3dfilters/filterdisplay.webp',
+      3: 'pita/pita-display.webp',
+      4: 'itamar/itadisp.webp',
+      5: 'lamp/lampdis.webp',
+      6: 'stool/DisplayStool.webp',
+      7: 'solidworks/Soliddisp.webp',
+      8: 'mico/micodis.webp',
+      9: 'bowl/bowldisplay.webp',
+      10: 'eve/robotdisplay.webp',
+      11: 'ksense/kdisplay.webp',
+      12: 'ember/emberdis.webp',
+      13: 'pot/disco plante 1 (convert.io).webp',
+      14: 'tambourine/tambdis.webp',
+      15: 'coffee/cofdis.webp',
+      16: 'Shiri.jpg'
     };
     
-    return `/assets/images/${imageMap[projectId] || 'default.jpg'}`;
+    return `/assets/images/${imageMap[index] || 'default.jpg'}`;
   }
 
   /**
@@ -198,81 +144,37 @@ export class ProjectService {
   }
 
   /**
-   * Hash function to generate a deterministic value from row and col
-   * This ensures the same position always shows the same project
+   * Get project index for grid position using a simple, reliable hash-based approach
    */
-  private hashPosition(row: number, col: number): number {
-    // Use a simple hash function that creates a deterministic value
-    // Combine row and col with prime numbers for good distribution
-    const hash = ((row * 73856093) ^ (col * 19349663)) >>> 0;
-    return hash;
-  }
-
-  /**
-   * Get project index for grid position using hash-based infinite grid
-   * Row 0 (line 1): 3d filter, bowl, chair, coffee, eva, ember, itamar, ksense
-   * Row 1 (line 2): lamp, mico, pita, pot, stool, solid, tambourine, tomi
-   * Uses hash-based positioning for infinite scrolling
-   */
-  public getProjectIndex(row: number, col: number): number | null {
-    // Normalize row to 0 or 1 (only 2 rows repeat)
-    let normalizedRow = row % 2;
-    if (normalizedRow < 0) {
-      normalizedRow = normalizedRow + 2;
-    }
-    if (normalizedRow < 0 || normalizedRow > 1) {
-      return null;
-    }
-    
-    // Ensure we have projects
-    if (this.projects.length === 0) {
-      return null;
-    }
-    
-    // Create cache key for this position
-    const cacheKey = `${normalizedRow},${col}`;
+  public getProjectIndex(row: number, col: number): number {
+    const key = `${row},${col}`;
     
     // Check cache first
-    if (this.projectCache.has(cacheKey)) {
-      const cachedIndex = this.projectCache.get(cacheKey)!;
-      if (cachedIndex >= 0 && cachedIndex < this.projects.length) {
-        return cachedIndex;
-      }
+    if (this.projectCache.has(key)) {
+      return this.projectCache.get(key)!;
     }
     
-    // For row 0, use projects 0-7, for row 1, use projects 8-15
-    const baseIndex = normalizedRow * 8;
-    const projectsInRow = 8;
-    
-    // Ensure baseIndex is valid
-    if (baseIndex >= this.projects.length) {
-      return null;
+    // Use a simple hash function that creates good distribution
+    // This ensures consistent results for the same position
+    let hash = 0;
+    const str = `${row},${col}`;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
     }
     
-    // Calculate how many projects are actually available for this row
-    const availableProjects = Math.min(projectsInRow, this.projects.length - baseIndex);
-    if (availableProjects === 0) {
-      return null;
-    }
-    
-    // Use hash to select which project from this row's set
-    const hash = this.hashPosition(normalizedRow, col);
-    const projectIndex = baseIndex + (hash % availableProjects);
-    
-    // Ensure index is valid
-    if (projectIndex < 0 || projectIndex >= this.projects.length) {
-      return null;
-    }
+    // Use hash to get a project index, ensuring it's within bounds
+    const projectIndex = Math.abs(hash) % this.projects.length;
     
     // Cache the result
-    this.projectCache.set(cacheKey, projectIndex);
+    this.projectCache.set(key, projectIndex);
     
     return projectIndex;
   }
 
   /**
-   * Generate grid cells for visible area with hash-based infinite grid
-   * Rows 0 and 1 repeat endlessly using hash-based positioning
+   * Generate grid cells for visible area with stable project assignment
    */
   public generateGridCells(
     firstRow: number,
@@ -282,28 +184,17 @@ export class ProjectService {
   ): GridCell[] {
     const cells: GridCell[] = [];
     
-    // Always generate exactly 2 rows (0 and 1) that repeat vertically
-    // Rows repeat vertically - always show exactly 2 rows (0 and 1)
-    for (let displayRow = 0; displayRow < Math.min(2, rowsToDraw); displayRow++) {
-      // Normalize row to 0 or 1 for hash calculation (infinite vertical repeat)
-      let normalizedRow = (firstRow + displayRow) % 2;
-      if (normalizedRow < 0) {
-        normalizedRow = normalizedRow + 2;
-      }
-      if (normalizedRow < 0 || normalizedRow > 1) {
-        continue;
-      }
-      
-      // Generate columns for the visible area - can be any number (infinite)
+    for (let r = 0; r < rowsToDraw; r++) {
       for (let c = 0; c < colsToDraw; c++) {
+        const row = firstRow + r;
         const col = firstCol + c;
         
-        const idx = this.getProjectIndex(normalizedRow, col);
+        // Get stable project index for this position
+        const idx = this.getProjectIndex(row, col);
         
-        // Only add cell if project index is valid and project exists
-        if (idx !== null && idx >= 0 && idx < this.projects.length && this.projects[idx]) {
-          // Use actual row position for rendering, but normalized row for project selection
-          cells.push({ row: firstRow + displayRow, col, projId: this.projects[idx].id });
+        // Safety check: ensure project exists
+        if (this.projects[idx]) {
+          cells.push({ row, col, projId: this.projects[idx].id });
         }
       }
     }

@@ -57,8 +57,8 @@
   color: var(--color-prussian-blue);
   margin: 0 0 var(--spacing-xs) 0;
   line-height: 1.2;
-  font-family: var(--font-heading);
-  font-weight: 500;
+  font-family: "space-grotesk-variable", sans-serif;
+  font-variation-settings: "wght" 500;
 }
 
 .project-modal-subtitle {
@@ -135,8 +135,9 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-xxl);
   flex: 1;
-  overflow: hidden;
-  min-height: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Project Gallery */
@@ -144,9 +145,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  overflow: hidden;
-  min-height: 0;
-  height: 100%;
+  position: sticky;
+  top: 0;
+  height: fit-content;
+  align-self: start;
 }
 
 .gallery-main {
@@ -338,18 +340,18 @@
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  min-height: 0;
-  height: 100%;
+  max-height: calc(90vh - 200px);
   padding-right: var(--spacing-sm);
 }
 
-/* Custom scrollbar styling for project details */
+/* Custom scrollbar for project details */
 .project-details::-webkit-scrollbar {
   width: 8px;
 }
 
 .project-details::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-background-alt);
+  border-radius: 4px;
 }
 
 .project-details::-webkit-scrollbar-thumb {
@@ -406,8 +408,8 @@
   margin: 0 0 var(--spacing-md) 0; /* More space below header to group with content */
   display: flex;
   align-items: center;
-  font-family: var(--font-heading);
-  font-weight: 500;
+  font-family: "space-grotesk-variable", sans-serif;
+  font-variation-settings: "wght" 500;
   gap: var(--spacing-sm);
 }
 
@@ -716,8 +718,8 @@
   color: var(--color-prussian-blue);
   margin: var(--spacing-xl) 0 var(--spacing-md) 0; /* More space above header, less below to group with content */
   font-weight: 600;
-  font-family: var(--font-heading);
-  font-weight: 500;
+  font-family: "space-grotesk-variable", sans-serif;
+  font-variation-settings: "wght" 500;
 }
 
 /* First heading in body text should have less top margin */

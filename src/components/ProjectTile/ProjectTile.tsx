@@ -58,7 +58,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
     >
       <img 
         ref={imgRef}
-        src={project.img || ''} 
+        src={project.img} 
         alt={project.title}
         className="project-tile-img"
         style={{
@@ -71,13 +71,8 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
           display: 'block'
         }}
         onLoad={handleImageLoad}
-        onError={(e) => {
-          // Log the failed image path for debugging
-          console.warn('Failed to load image:', project.img, 'for project:', project.title);
-          handleImageError();
-        }}
+        onError={handleImageError}
         loading="eager"
-        decoding="async"
       />
       
       {/* Project info overlay - only show on hover */}

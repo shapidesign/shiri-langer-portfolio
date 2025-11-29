@@ -36,8 +36,8 @@
   border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: var(--font-heading);
-  font-weight: 500;
+  font-family: "space-grotesk-variable", sans-serif;
+  font-variation-settings: "wght" 500;
   font-size: 0.9rem;
   color: var(--color-white-smoke);
   cursor: pointer;
@@ -79,8 +79,8 @@
   border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: var(--font-heading);
-  font-weight: 500;
+  font-family: "space-grotesk-variable", sans-serif;
+  font-variation-settings: "wght" 500;
   font-size: 0.9rem;
   color: var(--color-white-smoke);
   cursor: pointer;
@@ -98,14 +98,14 @@
 }
 
 .contact-btn:hover {
-  background: var(--color-tech-blue);
-  border-color: var(--color-tech-blue);
+  background: var(--color-grey-olive);
+  border-color: var(--color-grey-olive);
   transform: translateY(-2px);
     box-shadow: 
-    0 8px 24px rgba(42, 92, 170, 0.35),
-    0 0 8px var(--color-tech-blue),
+    0 8px 24px rgba(133, 183, 216, 0.35),
+    0 0 8px var(--color-grey-olive),
     0 0 12px var(--color-tech-blue),
-    0 0 16px rgba(42, 92, 170, 0.4);
+    0 0 16px rgba(77, 216, 255, 0.4);
 }
 
 .contact-btn svg {

@@ -36,47 +36,46 @@ const PortfolioGrid: React.FC = () => {
   const gridConfig: ProjectConfig = useMemo(() => {
     const { width } = screenSize;
     
-    // All screen sizes: 2 rows with 8 projects each (16 total visible)
     if (width <= 480) {
-      // Mobile phones - 2 rows: 8+8 projects (will scroll horizontally)
+      // Mobile phones - 2 rows: 2+2 projects
       return {
-        tileWidth: 140,
-        tileHeight: 180,
-        tileGap: 10,
-        visibleCols: 8,
+        tileWidth: 200,
+        tileHeight: 250,
+        tileGap: 15,
+        visibleCols: 2,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
       };
     } else if (width <= 768) {
-      // Tablets - 2 rows: 8+8 projects
+      // Tablets - 2 rows: 3+3 projects
       return {
-        tileWidth: 180,
-        tileHeight: 240,
-        tileGap: 12,
-        visibleCols: 8,
+        tileWidth: 250,
+        tileHeight: 320,
+        tileGap: 18,
+        visibleCols: 3,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
       };
     } else if (width <= 1024) {
-      // Small desktop - 2 rows: 8+8 projects
+      // Small desktop - 2 rows: 4+4 projects
       return {
-        tileWidth: 220,
-        tileHeight: 290,
-        tileGap: 16,
-        visibleCols: 8,
+        tileWidth: 280,
+        tileHeight: 360,
+        tileGap: 20,
+        visibleCols: 4,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
       };
     } else {
-      // Large desktop - 2 rows: 8+8 projects
+      // Large desktop - 2 rows: 5+5 projects
       return {
-        tileWidth: 250,
-        tileHeight: 330,
+        tileWidth: 300,
+        tileHeight: 400,
         tileGap: 20,
-        visibleCols: 8,
+        visibleCols: 5,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
@@ -169,23 +168,14 @@ const PortfolioGrid: React.FC = () => {
   const baseLeft = (vw - gridConfig.visibleCols * (gridConfig.tileWidth + gridConfig.tileGap)) / 2;
   const baseTop = (vh - gridConfig.visibleRows * (gridConfig.tileHeight + gridConfig.tileGap)) / 2;
   
-  // Calculate visible area for infinite repeating grid
   const firstCol = Math.floor((camX - baseLeft) / (gridConfig.tileWidth + gridConfig.tileGap)) - gridConfig.marginCols;
   const firstRow = Math.floor((camY - baseTop) / (gridConfig.tileHeight + gridConfig.tileGap)) - gridConfig.marginRows;
+  const colsToDraw = gridConfig.visibleCols + gridConfig.marginCols * 2;
+  const rowsToDraw = gridConfig.visibleRows + gridConfig.marginRows * 2;
   
-  // Generate more columns to ensure infinite pattern is visible
-  // Add extra margin to show repeating pattern clearly
-  const colsToDraw = gridConfig.visibleCols + (gridConfig.marginCols * 4);
-  const rowsToDraw = Math.max(2, gridConfig.visibleRows + gridConfig.marginRows * 2);
-  
-  // Generate grid cells with infinite repeating pattern
+  // Generate grid cells
   const cells = useMemo(() => {
-    const generatedCells = projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
-    // Debug: log cell count (remove in production)
-    if (generatedCells.length === 0) {
-      console.warn('No grid cells generated!', { firstRow, firstCol, rowsToDraw, colsToDraw });
-    }
-    return generatedCells;
+    return projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
   }, [projectService, firstRow, firstCol, rowsToDraw, colsToDraw]);
   
   
@@ -233,19 +223,13 @@ const PortfolioGrid: React.FC = () => {
         {cells.map(({ row, col, projId }) => {
           const project = projectService.getProjectById(projId);
           if (!project) return null;
-          // Filter out "About Me" project (ID 17) - it should only open from About button
-          if (projId === 17) return null;
-
-          // Calculate row offset: only row 1 (odd rows) shifts one tile to the right
-          // Row 0 stays in place, row 1 shifts right
-          const normalizedRow = row % 2;
-          const isOddRow = normalizedRow === 1;
-          const rowOffset = isOddRow ? (gridConfig.tileWidth + gridConfig.tileGap) : 0;
+          // Filter out "About Me" project (ID 16) - it should only open from About button
+          if (projId === 16) return null;
 
           return (
             <ProjectTile
               key={`${row}:${col}`}
-              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + rowOffset + offset.x}
+              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + offset.x}
               top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap) + offset.y}
               width={gridConfig.tileWidth}
               height={gridConfig.tileHeight}
