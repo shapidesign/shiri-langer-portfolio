@@ -185,21 +185,10 @@ export class ProjectService {
   }
 
   /**
-   * Hash function to generate a deterministic value from row and col
-   * This ensures the same position always shows the same project
-   */
-  private hashPosition(row: number, col: number): number {
-    // Use a simple hash function that creates a deterministic value
-    // Combine row and col with prime numbers for good distribution
-    const hash = ((row * 73856093) ^ (col * 19349663)) >>> 0;
-    return hash;
-  }
-
-  /**
-   * Get project index for grid position using hash-based infinite grid
+   * Get project index for grid position using simple repeating pattern
    * Row 0 (line 1): 3d filter, bowl, chair, coffee, eva, ember, itamar, ksense
    * Row 1 (line 2): lamp, mico, pita, pot, stool, solid, tambourine, tomi
-   * Uses hash-based positioning for infinite scrolling
+   * Projects repeat every 8 columns, with each repetition shifting one position to the right
    */
   public getProjectIndex(row: number, col: number): number | null {
     // Normalize row to 0 or 1 (only 2 rows repeat)
@@ -216,20 +205,8 @@ export class ProjectService {
       return null;
     }
     
-    // Create cache key for this position
-    const cacheKey = `${normalizedRow},${col}`;
-    
-    // Check cache first
-    if (this.projectCache.has(cacheKey)) {
-      const cachedIndex = this.projectCache.get(cacheKey)!;
-      if (cachedIndex >= 0 && cachedIndex < this.projects.length) {
-        return cachedIndex;
-      }
-    }
-    
     // For row 0, use projects 0-7, for row 1, use projects 8-15
     const baseIndex = normalizedRow * 8;
-    const projectsInRow = 8;
     
     // Ensure baseIndex is valid
     if (baseIndex >= this.projects.length) {
@@ -237,22 +214,26 @@ export class ProjectService {
     }
     
     // Calculate how many projects are actually available for this row
-    const availableProjects = Math.min(projectsInRow, this.projects.length - baseIndex);
+    const availableProjects = Math.min(8, this.projects.length - baseIndex);
     if (availableProjects === 0) {
       return null;
     }
     
-    // Use hash to select which project from this row's set
-    const hash = this.hashPosition(normalizedRow, col);
-    const projectIndex = baseIndex + (hash % availableProjects);
+    // Calculate which cycle we're in (every 8 columns = one cycle)
+    const cycle = Math.floor(col / 8);
+    const positionInCycle = ((col % 8) + 8) % 8; // Ensure positive modulo
+    
+    // Each cycle shifts one position to the right for visual interest
+    const shift = cycle % availableProjects;
+    const shiftedPosition = (positionInCycle + shift) % availableProjects;
+    
+    // Calculate final project index
+    const projectIndex = baseIndex + shiftedPosition;
     
     // Ensure index is valid
     if (projectIndex < 0 || projectIndex >= this.projects.length) {
       return null;
     }
-    
-    // Cache the result
-    this.projectCache.set(cacheKey, projectIndex);
     
     return projectIndex;
   }
