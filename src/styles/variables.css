@@ -4,7 +4,7 @@
   --color-prussian-blue: #0f2740;
   --color-tech-blue: #2a5caa;
   --color-bronze-spice: #c65a1e;
-  --color-grey-olive: #8a8f93;
+  --color-grey-olive: #85B7D8; /* Sky */
   --color-white-smoke: #f4f4f4;
   
   /* Semantic Color Mappings */
@@ -14,8 +14,8 @@
   --color-background: #f4f4f4; /* White Smoke - Main background */
   --color-background-alt: #f4f4f4; /* White Smoke - Alternative background */
   --color-text: #0f2740; /* Prussian Blue - Main text color */
-  --color-text-light: #8a8f93; /* Grey Olive - Secondary/muted text */
-  --color-border: #8a8f93; /* Grey Olive - Borders and dividers */
+  --color-text-light: #85B7D8; /* Sky - Secondary/muted text */
+  --color-border: #85B7D8; /* Sky - Borders and dividers */
   --color-hover: #2a5caa; /* Tech Blue - Hover states */
   
 

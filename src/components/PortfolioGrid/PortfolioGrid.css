@@ -55,14 +55,14 @@
 }
 
 .about-btn:hover {
-  background: var(--color-tech-blue);
-  border-color: var(--color-tech-blue);
+  background: var(--color-grey-olive);
+  border-color: var(--color-grey-olive);
   transform: translateY(-2px);
     box-shadow: 
-    0 8px 24px rgba(5, 123, 193, 0.35),
-    0 0 8px var(--color-tech-blue),
-    0 0 12px var(--color-tech-blue),
-    0 0 16px rgba(77, 216, 255, 0.4);
+    0 8px 24px rgba(133, 183, 216, 0.35),
+    0 0 8px var(--color-grey-olive),
+    0 0 12px var(--color-grey-olive),
+    0 0 16px rgba(133, 183, 216, 0.4);
 }
 
 .about-btn svg {
@@ -98,12 +98,12 @@
 }
 
 .contact-btn:hover {
-  background: var(--color-tech-blue);
-  border-color: var(--color-tech-blue);
+  background: var(--color-grey-olive);
+  border-color: var(--color-grey-olive);
   transform: translateY(-2px);
     box-shadow: 
-    0 8px 24px rgba(5, 123, 193, 0.35),
-    0 0 8px var(--color-tech-blue),
+    0 8px 24px rgba(133, 183, 216, 0.35),
+    0 0 8px var(--color-grey-olive),
     0 0 12px var(--color-tech-blue),
     0 0 16px rgba(77, 216, 255, 0.4);
 }

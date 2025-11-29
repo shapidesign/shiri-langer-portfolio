@@ -69,6 +69,11 @@
 .about-modal-close svg {
   width: 20px;
   height: 20px;
+  color: var(--color-white-smoke);
+}
+
+.about-modal-close:hover svg {
+  color: var(--color-white-smoke);
 }
 
 /* Header Section with Hero Image */
@@ -492,12 +497,12 @@
   background: var(--color-tech-blue);
   border-color: var(--color-tech-blue);
   transform: translateY(-2px);
+  color: var(--color-white-smoke);
   box-shadow: 
     0 8px 24px rgba(21, 35, 32, 0.25),
     0 0 8px var(--color-secondary),
     0 0 12px var(--color-secondary),
     0 0 16px rgba(24, 119, 115, 0.4);
-  color: var(--color-prussian-blue);
 }
 
 /* Animations */

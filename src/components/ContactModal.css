@@ -58,7 +58,7 @@
   padding: var(--spacing-sm);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  color: var(--color-secondary);
+  color: var(--color-prussian-blue);
   transition: all var(--transition-fast);
   display: flex;
   align-items: center;
@@ -66,8 +66,12 @@
 }
 
 .modal-close-btn:hover {
-  background: var(--color-hover);
-  color: var(--color-primary);
+  background: var(--color-tech-blue);
+  color: var(--color-white-smoke);
+}
+
+.modal-close-btn:hover svg {
+  color: var(--color-white-smoke);
 }
 
 .modal-close-btn:focus {
@@ -155,7 +159,7 @@
 
 .contact-label {
   font-size: 0.875rem;
-  color: var(--color-secondary);
+  color: var(--color-prussian-blue);
   font-weight: 700;
   font-family: var(--font-primary);
 }
@@ -212,10 +216,10 @@
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  background: var(--color-secondary);
-  color: var(--color-background);
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(250, 228, 80, 0.1);
+  background: var(--color-background);
+  color: var(--color-text);
+  border-color: var(--color-bronze-spice);
+  box-shadow: 0 0 0 3px rgba(198, 90, 30, 0.1);
 }
 
 .form-input::placeholder,
@@ -279,14 +283,14 @@
 }
 
 .btn-primary:hover {
-  background: var(--color-tech-blue);
-  border-color: var(--color-tech-blue);
+  background: var(--color-grey-olive);
+  border-color: var(--color-grey-olive);
   transform: translateY(-2px);
   box-shadow: 
-    0 8px 24px rgba(5, 123, 193, 0.35),
-    0 0 8px var(--color-tech-blue),
-    0 0 12px var(--color-tech-blue),
-    0 0 16px rgba(77, 216, 255, 0.4);
+    0 8px 24px rgba(133, 183, 216, 0.35),
+    0 0 8px var(--color-grey-olive),
+    0 0 12px var(--color-grey-olive),
+    0 0 16px rgba(133, 183, 216, 0.4);
   color: var(--color-prussian-blue);
 }
 
