@@ -21,6 +21,12 @@ body {
   -moz-osx-font-smoothing: grayscale !important;
 }
 
+/* Headings use Space Grotesk Variable */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-variation-settings: "wght" 500;
+}
+
 /* Ensure App component is transparent */
 .App {
   background: transparent !important;

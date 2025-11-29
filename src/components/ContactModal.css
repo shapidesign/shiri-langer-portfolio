@@ -46,7 +46,8 @@
   font-weight: 700;
   color: var(--color-twilight-bliss);
   margin: 0;
-  font-family: "Chivo Mono", monospace;
+  font-family: "space-grotesk-variable", sans-serif;
+  font-variation-settings: "wght" 500;
   font-weight: 800;
   font-variation-settings: "ital" 0, "wght" 700;
 }
@@ -93,7 +94,7 @@
   color: var(--color-star-of-life);
   line-height: 1.6;
   margin: 0;
-  font-family: "unitext", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 400;
 }
 
@@ -156,7 +157,7 @@
   font-size: 0.875rem;
   color: var(--color-secondary);
   font-weight: 700;
-  font-family: "unitext", sans-serif;
+  font-family: var(--font-primary);
 }
 
 .contact-value {
@@ -166,7 +167,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: "unitext", sans-serif;
+  font-family: var(--font-primary);
 }
 
 /* Contact Form */
@@ -192,7 +193,7 @@
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-text);
-  font-family: "unitext", sans-serif;
+  font-family: var(--font-primary);
 }
 
 .form-input,
@@ -201,7 +202,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   font-size: 1rem;
-  font-family: "unitext", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 400;
   background: var(--color-background);
   color: var(--color-text);
@@ -250,7 +251,7 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   border: none;
-  font-family: "unitext", sans-serif;
+  font-family: var(--font-primary);
 }
 
 .btn-primary {
@@ -259,7 +260,8 @@
   border: 2px solid var(--color-twilight-bliss);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: "Chivo Mono", monospace;
+  font-family: "space-grotesk-variable", sans-serif;
+  font-variation-settings: "wght" 500;
   font-weight: 800;
   font-variation-settings: "ital" 0, "wght" 600;
   font-size: 0.9rem;

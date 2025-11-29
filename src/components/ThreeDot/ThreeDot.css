@@ -102,6 +102,6 @@
 .three-dot-text {
   font-size: 14px;
   font-weight: 500;
-  font-family: "unitext", sans-serif;
+  font-family: var(--font-primary);
 }
 

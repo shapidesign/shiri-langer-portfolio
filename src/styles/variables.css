@@ -21,8 +21,12 @@
   
 
   
-  --font-primary: "unitext", sans-serif;
+  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: "space-grotesk-variable", sans-serif;
   --font-secondary: 'Source Code Pro', 'Monaco', 'Consolas', monospace;
+  
+  /* Space Grotesk Variable font settings */
+  --font-heading-weight: 500;
   
   --spacing-xs: 4px;
   --spacing-sm: 8px;

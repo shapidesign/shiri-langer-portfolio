@@ -1,4 +1,4 @@
-import { Project, ProjectTemplate, ProjectConfig, GridCell } from '../types/Project';
+import { Project, ProjectConfig, GridCell } from '../types/Project';
 import { PROJECT_TEXTS } from '../config/projectTexts';
 
 /**
