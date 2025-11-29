@@ -177,26 +177,35 @@ export class ProjectService {
   }
 
   /**
-   * Get project index for grid position using fixed order
+   * Get project index for grid position using infinite repeating pattern
    * Row 0 (line 1): 3d filter, bowl, chair, coffee, eva, ember, itamar, ksense
    * Row 1 (line 2): lamp, mico, pita, pot, stool, solid, tambourine, tomi
+   * Each repetition of the 8-project sequence shifts one position to the right
    */
   public getProjectIndex(row: number, col: number): number | null {
-    // Only show the first two rows (rows 0 and 1) with fixed project order
-    // Clamp row to 0-1 and col to 0-7
-    const clampedRow = Math.max(0, Math.min(1, row));
-    const clampedCol = Math.max(0, Math.min(7, col));
-    
-    // If the requested row/col is outside bounds, return null
-    if (row < 0 || row > 1 || col < 0 || col >= 8) {
+    // Only use rows 0 and 1, but allow columns to extend infinitely
+    const normalizedRow = row % 2;
+    if (normalizedRow < 0) {
+      normalizedRow = ((normalizedRow % 2) + 2) % 2;
+    }
+    if (normalizedRow > 1) {
       return null;
     }
     
+    // Calculate which repetition cycle we're in (every 8 columns = one cycle)
+    const cycle = Math.floor(col / 8);
+    const positionInCycle = ((col % 8) + 8) % 8; // Ensure positive modulo
+    
+    // Each cycle shifts one position to the right (starts at a later project)
+    // Cycle 0: projects 0-7, Cycle 1: projects 1-0 (wrapped), Cycle 2: projects 2-1 (wrapped), etc.
+    const shift = cycle % 8;
+    const shiftedPosition = (positionInCycle + shift) % 8;
+    
     // Fixed mapping: row 0 has projects 0-7, row 1 has projects 8-15
-    const projectIndex = clampedRow * 8 + clampedCol;
+    const projectIndex = normalizedRow * 8 + shiftedPosition;
     
     // Ensure we don't go out of bounds
-    if (projectIndex >= this.projects.length) {
+    if (projectIndex < 0 || projectIndex >= this.projects.length) {
       return null;
     }
     
@@ -204,8 +213,8 @@ export class ProjectService {
   }
 
   /**
-   * Generate grid cells - always returns all 16 projects (2 rows x 8 columns)
-   * Fixed layout with no repetition
+   * Generate grid cells for visible area with infinite repeating pattern
+   * Rows 0 and 1 repeat endlessly, with each repetition shifting one position to the right
    */
   public generateGridCells(
     firstRow: number,
@@ -215,11 +224,22 @@ export class ProjectService {
   ): GridCell[] {
     const cells: GridCell[] = [];
     
-    // Always generate all 16 projects - fixed 2 rows x 8 columns layout
-    // No infinite scroll, no repetition, just the fixed order
-    for (let row = 0; row <= 1; row++) {
-      for (let col = 0; col <= 7; col++) {
-        const idx = this.getProjectIndex(row, col);
+    // Generate cells for the visible area, but allow infinite columns
+    // Only generate rows 0 and 1 (they repeat)
+    const startRow = Math.max(0, Math.min(1, firstRow));
+    const endRow = Math.min(1, firstRow + rowsToDraw - 1);
+    
+    // Generate columns for the visible area (can extend beyond 0-7)
+    const startCol = firstCol;
+    const endCol = firstCol + colsToDraw - 1;
+    
+    for (let row = startRow; row <= endRow; row++) {
+      for (let col = startCol; col <= endCol; col++) {
+        // Normalize row to 0-1 (for repeating)
+        const normalizedRow = row % 2;
+        if (normalizedRow < 0) continue;
+        
+        const idx = this.getProjectIndex(normalizedRow, col);
         
         // Only add cell if project index is valid
         if (idx !== null && this.projects[idx]) {

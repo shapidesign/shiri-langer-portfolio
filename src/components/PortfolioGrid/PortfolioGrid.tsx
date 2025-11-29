@@ -169,17 +169,16 @@ const PortfolioGrid: React.FC = () => {
   const baseLeft = (vw - gridConfig.visibleCols * (gridConfig.tileWidth + gridConfig.tileGap)) / 2;
   const baseTop = (vh - gridConfig.visibleRows * (gridConfig.tileHeight + gridConfig.tileGap)) / 2;
   
-  // Always generate all 16 projects (2 rows x 8 columns) - fixed layout
-  // Parameters are ignored since we always generate all projects
-  const firstCol = 0;
-  const firstRow = 0;
-  const colsToDraw = 8;
-  const rowsToDraw = 2;
+  // Calculate visible area for infinite repeating grid
+  const firstCol = Math.floor((camX - baseLeft) / (gridConfig.tileWidth + gridConfig.tileGap)) - gridConfig.marginCols;
+  const firstRow = Math.floor((camY - baseTop) / (gridConfig.tileHeight + gridConfig.tileGap)) - gridConfig.marginRows;
+  const colsToDraw = gridConfig.visibleCols + gridConfig.marginCols * 2;
+  const rowsToDraw = gridConfig.visibleRows + gridConfig.marginRows * 2;
   
-  // Generate grid cells - always returns all 16 projects
+  // Generate grid cells with infinite repeating pattern
   const cells = useMemo(() => {
     return projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
-  }, [projectService]);
+  }, [projectService, firstRow, firstCol, rowsToDraw, colsToDraw]);
   
   
   return (
@@ -229,8 +228,10 @@ const PortfolioGrid: React.FC = () => {
           // Filter out "About Me" project (ID 17) - it should only open from About button
           if (projId === 17) return null;
 
-          // Calculate row offset: odd rows (1, 3, 5...) shift one tile to the right
-          const isOddRow = row % 2 !== 0;
+          // Calculate row offset: only row 1 (odd rows) shifts one tile to the right
+          // Row 0 stays in place, row 1 shifts right
+          const normalizedRow = row % 2;
+          const isOddRow = normalizedRow === 1;
           const rowOffset = isOddRow ? (gridConfig.tileWidth + gridConfig.tileGap) : 0;
 
           return (
