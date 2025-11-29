@@ -710,21 +710,53 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 16,
     title: "Coffee Machine",
-    subtitle: "Product Design",
-    year: 2024,
-    tags: ["Product Design", "Coffee", "Industrial Design"],
-    description: "Coffee machine design inspired by Israeli artist Yaakov Kaufman.",
-    client: "Coffee Company",
-    fullDescription: "A specialty coffee machine that combines functionality with artistic inspiration.",
-    challenges: "Integrating artistic elements with technical requirements.",
-    solutions: "Collaborated with artists and engineers for optimal design.",
-    technologies: ["CAD Modeling", "Prototyping", "Material Selection"],
-    results: "Award-winning design featured in design publications.",
+    subtitle: "Conceptual Design Inspired by Yaacov Kaufman",
+    year: 2023,
+    tags: ["Conceptual design", "Coffee machine", "Yaacov Kaufman inspiration", "3D modeling", "3D printing", "Foam modeling", "Laser cutting", "Graphic design"],
+    description: "A conceptual coffee machine inspired by the works of artist and designer Yaacov Kaufman, exploring how artistic language can be expressed in a practical household product.",
+    client: "",
+    fullDescription: "A conceptual coffee machine inspired by the works of artist and designer Yaacov Kaufman, exploring how artistic language can be expressed in a practical household product.",
+    challenges: "The main challenge was to merge the visual identity of contemporary art with the functionality of a domestic appliance, while creating a form that feels both expressive and approachable.",
+    solutions: "The design emphasizes the dialogue between wooden surfaces and a bent metal tube, creating depth and three-dimensionality in the overall form. This combination highlights sculptural qualities while keeping the machine recognizable and functional as a coffee product.",
+    technologies: ["3D modeling", "3D printing", "Foam sketch models", "Spray painting", "Laser cutting", "Graphic sticker design", "Surface finishing"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/coffeemachine.jpg",
+      "/assets/images/coffee/cofdis.webp",
+      "/assets/images/coffee/cofgal1.webp",
+      "/assets/images/coffee/cofgal2.webp",
+      "/assets/images/coffee/cofgal3.webp",
+      "/assets/images/coffee/cofgal4.webp"
     ],
     stickerColor: "#E91E63", // Hot Pink
-    stickerImage: "/assets/images/sticker4.png"
+    stickerImage: "/assets/images/sticker4.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>A conceptual coffee machine inspired by the works of artist and designer Yaacov Kaufman, exploring how artistic language can be expressed in a practical household product.</p>
+      
+      <h3>Challenges</h3>
+      <p>The main challenge was to merge the visual identity of contemporary art with the functionality of a domestic appliance, while creating a form that feels both expressive and approachable.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/coffee/cofxhal1.webp" alt="Coffee Machine design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/coffee/coffeechal2.webp" alt="Coffee Machine design process - challenges 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The design emphasizes the dialogue between wooden surfaces and a bent metal tube, creating depth and three-dimensionality in the overall form. This combination highlights sculptural qualities while keeping the machine recognizable and functional as a coffee product.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/coffee/cofsol1.webp" alt="Coffee Machine design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/coffee/cofsol2.webp" alt="Coffee Machine design process - solutions 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project utilized 3D modeling to develop the initial concept, followed by 3D printing and foam sketch models to explore form and proportions. Spray painting and surface finishing techniques were applied to achieve the desired aesthetic, while laser cutting was used for precise component fabrication. Graphic sticker design added final details to complete the visual identity.</p>
+    `,
+    processImages: [
+      "/assets/images/coffee/cofxhal1.webp",
+      "/assets/images/coffee/coffeechal2.webp",
+      "/assets/images/coffee/cofsol1.webp",
+      "/assets/images/coffee/cofsol2.webp"
+    ]
   },
   {
     id: 17,

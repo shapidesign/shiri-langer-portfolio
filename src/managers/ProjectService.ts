@@ -119,7 +119,7 @@ export class ProjectService {
       12: 'ember.jpg',
       13: 'dancingpot.jpg',
       14: 'tambourine.JPG',
-      15: 'coffeemachine.jpg',
+      15: 'coffee/cofdis.webp',
       16: 'Shiri.jpg'
     };
     
