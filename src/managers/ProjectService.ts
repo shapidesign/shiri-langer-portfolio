@@ -82,6 +82,9 @@ export class ProjectService {
     
     // Use actual project data from PROJECT_TEXTS
     for (const projectText of PROJECT_TEXTS) {
+      // Filter out "About Me" project (ID 16) - it should only open from About button
+      if (projectText.id === 16) continue;
+      
       const project: Project = {
         id: projectText.id,
         title: projectText.title,

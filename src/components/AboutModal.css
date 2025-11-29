@@ -411,10 +411,10 @@
 
 .tool-tag:hover {
   background: var(--color-bronze-spice);
-  color: var(--color-prussian-blue);
+  color: var(--color-white-smoke);
   border-color: var(--color-bronze-spice);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(250, 228, 80, 0.3);
+  box-shadow: 0 4px 8px rgba(198, 90, 30, 0.3);
 }
 
 /* CTA Section */

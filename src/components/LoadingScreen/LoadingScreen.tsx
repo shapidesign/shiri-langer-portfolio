@@ -31,7 +31,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
         </div>
         <ThreeDot
           variant="pulsate"
-          color="#E3FF00"
+          color="#c65a1e"
           size="medium"
           text=""
           textColor=""

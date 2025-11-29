@@ -24,7 +24,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 0.75rem;
   text-align: center;
   width: 100%;
   height: 100%;
@@ -36,12 +36,9 @@
 .loading-text h2 {
   color: var(--color-white-smoke);
   font-size: 2.2rem;
-  font-weight: 900;
-  margin: 0 0 2rem 0;
+  margin: 0;
   font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
-  font-weight: 800;
-  font-variation-settings: "ital" 0, "wght" 400;
+  font-variation-settings: "wght" 700;
   letter-spacing: -0.02em;
 }
 
@@ -121,7 +118,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .loading-container {
-    gap: 1.5rem;
+    gap: 0.5rem;
   }
   
   .loading-text h2 {

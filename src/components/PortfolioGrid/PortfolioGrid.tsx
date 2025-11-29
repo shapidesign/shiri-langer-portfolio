@@ -154,12 +154,8 @@ const PortfolioGrid: React.FC = () => {
   
   // Handle project tile click
   const handleProjectClick = (projectId: number) => {
-    if (projectId === 17) { // About Me project
-      setIsAboutModalOpen(true);
-    } else {
-      setSelectedProjectId(projectId);
-      setIsProjectModalOpen(true);
-    }
+    setSelectedProjectId(projectId);
+    setIsProjectModalOpen(true);
   };
   
   // Calculate grid positioning
@@ -227,6 +223,8 @@ const PortfolioGrid: React.FC = () => {
         {cells.map(({ row, col, projId }) => {
           const project = projectService.getProjectById(projId);
           if (!project) return null;
+          // Filter out "About Me" project (ID 16) - it should only open from About button
+          if (projId === 16) return null;
 
           return (
             <ProjectTile
