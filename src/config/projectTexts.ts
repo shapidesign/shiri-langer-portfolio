@@ -302,30 +302,55 @@ export const PROJECT_TEXTS: ProjectText[] = [
   },
   {
     id: 6,
-    title: "Lamp Design",
-    subtitle: "Art Direction & Design",
-    year: 2024,
-    tags: ["Art Direction", "Paper Art", "Exhibition"],
-    description: "Art direction and design for a collection of paper art pieces exploring texture, form, and negative space.",
-    client: "Art Gallery",
-    fullDescription: "An art direction project for a gallery exhibition featuring innovative paper art pieces. The project involved creating a cohesive visual identity for the exhibition while highlighting the unique qualities of each individual piece.",
-    challenges: "The exhibition needed to work in a physical gallery space while also having a strong digital presence. We had to balance the delicate nature of paper art with bold, memorable design elements.",
-    solutions: "We developed a design system that uses paper textures and subtle shadows to echo the physical artworks. The typography and layout create a sense of airiness and lightness that complements the paper medium.",
-    technologies: ["Adobe Illustrator", "Adobe Photoshop", "Adobe InDesign", "Figma"],
-    results: "The exhibition attracted 3,000+ visitors and received coverage in several art publications. The digital catalog helped reach an additional 15,000 people online.",
-    testimonial: {
-      text: "The art direction perfectly complemented our paper artworks. It created a cohesive experience that elevated the entire exhibition.",
-      author: "Maria Santos",
-      role: "Gallery Director"
-    },
+    title: "Lamp",
+    subtitle: "Industrial-Inspired Flexible Lighting for Large Workspaces",
+    year: 2022,
+    tags: ["Lamp design", "Industrial mechanics", "Linear motion", "Bearings", "Iron finishing", "3D printing", "LED lighting"],
+    description: "This lamp was inspired by the mechanics of industrial cranes and heavy machines that move on central axes. Designed for use on large sketch tables, it provides strong and flexible lighting while allowing smooth movement across the workspace.",
+    client: "",
+    fullDescription: "This lamp was inspired by the mechanics of industrial cranes and heavy machines that move on central axes. Designed for use on large sketch tables, it provides strong and flexible lighting while allowing smooth movement across the workspace.",
+    challenges: "The main challenge was to design a lamp that could move linearly while remaining stable, yet still allow adjustment across multiple axes. The structure needed to balance freedom of movement with reliability and durability.",
+    solutions: "The final system is built around a main iron rod tilted into a diamond-like angle, along which two iron wheels move. A third wheel, fixed on a bearing, ensures stability on the square iron profile. To provide additional balance, the system rests on two weighted legs that anchor the lamp firmly. This combination creates a structure that is both mobile and stable, while LED lighting and custom 3D-printed parts complete the design with efficiency and precision.",
+    technologies: ["Iron profile finishing", "Integration of wheels and bearings", "Weighted base assembly", "3D printing of custom components", "LED electronics"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/lamp.jpg",
+      "/assets/images/lamp/lampdis.webp",
+      "/assets/images/lamp/lampgal1.webp",
+      "/assets/images/lamp/lampgal2.webp",
+      "/assets/images/lamp/IMG_9965.mp4"
     ],
     stickerColor: "#8E24AA", // Rich Purple
     stickerImage: "/assets/images/sticker6.png",
-    links: {
-      behance: "https://behance.net/paper-art-project"
-    }
+    bodyText: `
+      <h2>About</h2>
+      <p>This lamp was inspired by the mechanics of industrial cranes and heavy machines that move on central axes. Designed for use on large sketch tables, it provides strong and flexible lighting while allowing smooth movement across the workspace.</p>
+      
+      <h3>Challenges</h3>
+      <p>The main challenge was to design a lamp that could move linearly while remaining stable, yet still allow adjustment across multiple axes. The structure needed to balance freedom of movement with reliability and durability.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/lamp/IMG_3094.webp" alt="Lamp design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/lamp/IMG_9829.webp" alt="Lamp design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/lamp/IMG_9778.webp" alt="Lamp design process - challenges 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Solutions</h3>
+      <p>The final system is built around a main iron rod tilted into a diamond-like angle, along which two iron wheels move. A third wheel, fixed on a bearing, ensures stability on the square iron profile. To provide additional balance, the system rests on two weighted legs that anchor the lamp firmly. This combination creates a structure that is both mobile and stable, while LED lighting and custom 3D-printed parts complete the design with efficiency and precision.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/lamp/IMG_9798.webp" alt="Lamp design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/lamp/IMG_9867.webp" alt="Lamp design process - solutions 2" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project involved careful iron profile finishing to achieve the desired surface quality, followed by precise integration of wheels and bearings to enable smooth linear motion. The weighted base assembly was designed to provide stability without compromising mobility. Custom 3D-printed components were developed to integrate LED electronics seamlessly, completing the functional and aesthetic design of the lamp.</p>
+    `,
+    processImages: [
+      "/assets/images/lamp/IMG_3094.webp",
+      "/assets/images/lamp/IMG_9829.webp",
+      "/assets/images/lamp/IMG_9778.webp",
+      "/assets/images/lamp/IMG_9798.webp",
+      "/assets/images/lamp/IMG_9867.webp"
+    ]
   },
   {
     id: 7,

@@ -109,7 +109,7 @@ export class ProjectService {
       2: '3dfilters/filterdisplay.webp',
       3: 'pita/pita-display.webp',
       4: 'itamar/itadisp.webp',
-      5: 'lamp.jpg',
+      5: 'lamp/lampdis.webp',
       6: 'stool/DisplayStool.webp',
       7: 'solidworks/Soliddisp.webp',
       8: 'mico/micodis.webp',
