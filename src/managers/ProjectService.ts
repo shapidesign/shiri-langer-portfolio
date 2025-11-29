@@ -90,7 +90,9 @@ export class ProjectService {
         id: projectText.id,
         title: projectText.title,
         subtitle: projectText.subtitle,
-        img: this.getProjectImageById(projectText.id), // Use project ID directly
+        img: projectText.gallery && projectText.gallery.length > 0 
+          ? projectText.gallery[0] // Use first gallery image as display image
+          : this.getProjectImageById(projectText.id), // Fallback to ID mapping
         year: projectText.year,
         tags: projectText.tags,
         description: projectText.description,
