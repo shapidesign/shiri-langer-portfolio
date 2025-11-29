@@ -86,13 +86,19 @@ export class ProjectService {
       // Filter out "About Me" project (ID 17) - it should only open from About button
       if (projectText.id === 17) continue;
       
+      // Get display image - prefer first webp image over gif
+      let displayImage = this.getProjectImageById(projectText.id);
+      if (projectText.gallery && projectText.gallery.length > 0) {
+        // Find first webp image, or fall back to first image
+        const webpImage = projectText.gallery.find(img => img.endsWith('.webp'));
+        displayImage = webpImage || projectText.gallery[0];
+      }
+      
       const project: Project = {
         id: projectText.id,
         title: projectText.title,
         subtitle: projectText.subtitle,
-        img: projectText.gallery && projectText.gallery.length > 0 
-          ? projectText.gallery[0] // Use first gallery image as display image
-          : this.getProjectImageById(projectText.id), // Fallback to ID mapping
+        img: displayImage,
         year: projectText.year,
         tags: projectText.tags,
         description: projectText.description,
@@ -205,6 +211,11 @@ export class ProjectService {
       return null;
     }
     
+    // Ensure we have projects
+    if (this.projects.length === 0) {
+      return null;
+    }
+    
     // Create cache key for this position
     const cacheKey = `${normalizedRow},${col}`;
     
@@ -216,18 +227,29 @@ export class ProjectService {
       }
     }
     
-    // Use hash to determine project index
     // For row 0, use projects 0-7, for row 1, use projects 8-15
     const baseIndex = normalizedRow * 8;
-    const rowProjects = this.projects.slice(baseIndex, baseIndex + 8);
+    const projectsInRow = 8;
     
-    if (rowProjects.length === 0) {
+    // Ensure baseIndex is valid
+    if (baseIndex >= this.projects.length) {
+      return null;
+    }
+    
+    // Calculate how many projects are actually available for this row
+    const availableProjects = Math.min(projectsInRow, this.projects.length - baseIndex);
+    if (availableProjects === 0) {
       return null;
     }
     
     // Use hash to select which project from this row's set
     const hash = this.hashPosition(normalizedRow, col);
-    const projectIndex = baseIndex + (hash % rowProjects.length);
+    const projectIndex = baseIndex + (hash % availableProjects);
+    
+    // Ensure index is valid
+    if (projectIndex < 0 || projectIndex >= this.projects.length) {
+      return null;
+    }
     
     // Cache the result
     this.projectCache.set(cacheKey, projectIndex);
@@ -247,13 +269,16 @@ export class ProjectService {
   ): GridCell[] {
     const cells: GridCell[] = [];
     
-    // Always generate rows 0 and 1 for the infinite pattern
+    // Always generate exactly 2 rows (0 and 1) that repeat vertically
     // Rows repeat vertically - always show exactly 2 rows (0 and 1)
-    for (let displayRow = 0; displayRow < 2; displayRow++) {
-      // Normalize row to 0 or 1 for hash calculation
+    for (let displayRow = 0; displayRow < Math.min(2, rowsToDraw); displayRow++) {
+      // Normalize row to 0 or 1 for hash calculation (infinite vertical repeat)
       let normalizedRow = (firstRow + displayRow) % 2;
       if (normalizedRow < 0) {
         normalizedRow = normalizedRow + 2;
+      }
+      if (normalizedRow < 0 || normalizedRow > 1) {
+        continue;
       }
       
       // Generate columns for the visible area - can be any number (infinite)
@@ -262,8 +287,8 @@ export class ProjectService {
         
         const idx = this.getProjectIndex(normalizedRow, col);
         
-        // Only add cell if project index is valid
-        if (idx !== null && this.projects[idx]) {
+        // Only add cell if project index is valid and project exists
+        if (idx !== null && idx >= 0 && idx < this.projects.length && this.projects[idx]) {
           // Use actual row position for rendering, but normalized row for project selection
           cells.push({ row: firstRow + displayRow, col, projId: this.projects[idx].id });
         }

@@ -366,7 +366,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
     technologies: ["Rocking stool", "Balance", "Metal bending", "Wood integration", "Welding", "Prototyping"],
     results: "",
     gallery: [
-      "/assets/images/stool/Stoolgmain.webp",
+      "/assets/images/stool/DisplayStool.webp",
       "/assets/images/stool/Stoolg1.webp",
       "/assets/images/stool/Stoolg2.webp",
       "/assets/images/stool/Stoolg3.webp"
