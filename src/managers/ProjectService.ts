@@ -82,8 +82,8 @@ export class ProjectService {
     
     // Use actual project data from PROJECT_TEXTS
     for (const projectText of PROJECT_TEXTS) {
-      // Filter out "About Me" project (ID 16) - it should only open from About button
-      if (projectText.id === 16) continue;
+      // Filter out "About Me" project (ID 17) - it should only open from About button
+      if (projectText.id === 17) continue;
       
       const project: Project = {
         id: projectText.id,
@@ -144,37 +144,29 @@ export class ProjectService {
   }
 
   /**
-   * Get project index for grid position using a simple, reliable hash-based approach
+   * Get project index for grid position using organized grid layout
+   * Projects are placed in a predictable, organized manner for easy discovery
    */
-  public getProjectIndex(row: number, col: number): number {
-    const key = `${row},${col}`;
-    
-    // Check cache first
-    if (this.projectCache.has(key)) {
-      return this.projectCache.get(key)!;
+  public getProjectIndex(row: number, col: number): number | null {
+    if (this.projects.length === 0) {
+      return null;
     }
     
-    // Use a simple hash function that creates good distribution
-    // This ensures consistent results for the same position
-    let hash = 0;
-    const str = `${row},${col}`;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
+    // Calculate total columns per row based on visible columns config
+    // This creates an organized grid where users can easily find projects
+    const colsPerRow = this.config.visibleCols || 8;
     
-    // Use hash to get a project index, ensuring it's within bounds
-    const projectIndex = Math.abs(hash) % this.projects.length;
+    // Calculate the linear index in the grid
+    const linearIndex = row * colsPerRow + col;
     
-    // Cache the result
-    this.projectCache.set(key, projectIndex);
+    // Map to project index (projects repeat if grid is larger than project count)
+    const projectIndex = linearIndex % this.projects.length;
     
     return projectIndex;
   }
 
   /**
-   * Generate grid cells for visible area with stable project assignment
+   * Generate grid cells for visible area with organized, predictable layout
    */
   public generateGridCells(
     firstRow: number,
@@ -184,17 +176,24 @@ export class ProjectService {
   ): GridCell[] {
     const cells: GridCell[] = [];
     
+    if (this.projects.length === 0) {
+      return cells;
+    }
+    
+    const colsPerRow = this.config.visibleCols || 8;
+    
     for (let r = 0; r < rowsToDraw; r++) {
       for (let c = 0; c < colsToDraw; c++) {
         const row = firstRow + r;
         const col = firstCol + c;
         
-        // Get stable project index for this position
-        const idx = this.getProjectIndex(row, col);
+        // Calculate project index using organized grid layout
+        const linearIndex = row * colsPerRow + col;
+        const projectIndex = linearIndex % this.projects.length;
         
         // Safety check: ensure project exists
-        if (this.projects[idx]) {
-          cells.push({ row, col, projId: this.projects[idx].id });
+        if (this.projects[projectIndex]) {
+          cells.push({ row, col, projId: this.projects[projectIndex].id });
         }
       }
     }
