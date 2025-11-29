@@ -172,8 +172,11 @@ const PortfolioGrid: React.FC = () => {
   // Calculate visible area for infinite repeating grid
   const firstCol = Math.floor((camX - baseLeft) / (gridConfig.tileWidth + gridConfig.tileGap)) - gridConfig.marginCols;
   const firstRow = Math.floor((camY - baseTop) / (gridConfig.tileHeight + gridConfig.tileGap)) - gridConfig.marginRows;
-  const colsToDraw = gridConfig.visibleCols + gridConfig.marginCols * 2;
-  const rowsToDraw = gridConfig.visibleRows + gridConfig.marginRows * 2;
+  
+  // Generate more columns to ensure infinite pattern is visible
+  // Add extra margin to show repeating pattern clearly
+  const colsToDraw = gridConfig.visibleCols + (gridConfig.marginCols * 4);
+  const rowsToDraw = Math.max(2, gridConfig.visibleRows + gridConfig.marginRows * 2);
   
   // Generate grid cells with infinite repeating pattern
   const cells = useMemo(() => {

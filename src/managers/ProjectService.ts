@@ -225,29 +225,21 @@ export class ProjectService {
   ): GridCell[] {
     const cells: GridCell[] = [];
     
-    // Generate cells for the visible area, but allow infinite columns
-    // Only generate rows 0 and 1 (they repeat)
-    const startRow = Math.max(0, Math.min(1, firstRow));
-    const endRow = Math.min(1, firstRow + rowsToDraw - 1);
-    
-    // Generate columns for the visible area (can extend beyond 0-7)
-    const startCol = firstCol;
-    const endCol = firstCol + colsToDraw - 1;
-    
-    for (let row = startRow; row <= endRow; row++) {
-      for (let col = startCol; col <= endCol; col++) {
-        // Normalize row to 0-1 (for repeating)
-        let normalizedRow = row % 2;
-        if (normalizedRow < 0) {
-          normalizedRow = normalizedRow + 2;
-        }
-        if (normalizedRow < 0 || normalizedRow > 1) continue;
+    // Always generate rows 0 and 1 for the infinite pattern
+    // Rows repeat vertically - always show exactly 2 rows (0 and 1)
+    for (let displayRow = 0; displayRow < 2; displayRow++) {
+      const normalizedRow = displayRow; // Always 0 or 1
+      
+      // Generate columns for the visible area - can be any number (infinite)
+      for (let c = 0; c < colsToDraw; c++) {
+        const col = firstCol + c;
         
         const idx = this.getProjectIndex(normalizedRow, col);
         
         // Only add cell if project index is valid
         if (idx !== null && this.projects[idx]) {
-          cells.push({ row, col, projId: this.projects[idx].id });
+          // Use displayRow for positioning but normalizedRow for project selection
+          cells.push({ row: displayRow, col, projId: this.projects[idx].id });
         }
       }
     }
