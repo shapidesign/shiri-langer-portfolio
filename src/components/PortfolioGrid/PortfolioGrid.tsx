@@ -36,46 +36,47 @@ const PortfolioGrid: React.FC = () => {
   const gridConfig: ProjectConfig = useMemo(() => {
     const { width } = screenSize;
     
+    // All screen sizes: 2 rows with 8 projects each (16 total visible)
     if (width <= 480) {
-      // Mobile phones - 2 rows: 2+2 projects
+      // Mobile phones - 2 rows: 8+8 projects (will scroll horizontally)
       return {
-        tileWidth: 200,
-        tileHeight: 250,
-        tileGap: 15,
-        visibleCols: 2,
+        tileWidth: 140,
+        tileHeight: 180,
+        tileGap: 10,
+        visibleCols: 8,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
       };
     } else if (width <= 768) {
-      // Tablets - 2 rows: 3+3 projects
+      // Tablets - 2 rows: 8+8 projects
       return {
-        tileWidth: 250,
-        tileHeight: 320,
-        tileGap: 18,
-        visibleCols: 3,
+        tileWidth: 180,
+        tileHeight: 240,
+        tileGap: 12,
+        visibleCols: 8,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
       };
     } else if (width <= 1024) {
-      // Small desktop - 2 rows: 4+4 projects
+      // Small desktop - 2 rows: 8+8 projects
       return {
-        tileWidth: 280,
-        tileHeight: 360,
-        tileGap: 20,
-        visibleCols: 4,
+        tileWidth: 220,
+        tileHeight: 290,
+        tileGap: 16,
+        visibleCols: 8,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
       };
     } else {
-      // Large desktop - 2 rows: 5+5 projects
+      // Large desktop - 2 rows: 8+8 projects
       return {
-        tileWidth: 300,
-        tileHeight: 400,
+        tileWidth: 250,
+        tileHeight: 330,
         tileGap: 20,
-        visibleCols: 5,
+        visibleCols: 8,
         visibleRows: 2,
         marginCols: 2,
         marginRows: 1
@@ -226,10 +227,14 @@ const PortfolioGrid: React.FC = () => {
           // Filter out "About Me" project (ID 16) - it should only open from About button
           if (projId === 16) return null;
 
+          // Calculate row offset: odd rows (1, 3, 5...) shift one tile to the right
+          const isOddRow = row % 2 !== 0;
+          const rowOffset = isOddRow ? (gridConfig.tileWidth + gridConfig.tileGap) : 0;
+
           return (
             <ProjectTile
               key={`${row}:${col}`}
-              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + offset.x}
+              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + rowOffset + offset.x}
               top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap) + offset.y}
               width={gridConfig.tileWidth}
               height={gridConfig.tileHeight}
