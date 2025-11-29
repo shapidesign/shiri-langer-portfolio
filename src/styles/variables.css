@@ -1,23 +1,22 @@
 /* CSS Variables - Official Color Palette */
 :root {
   /* Official Palette Colors - Solid Colors Only */
-  --color-crystal-cut: #F8F4ED; /* Crystal Cut - Very light off-white */
-  --color-angelic-white: #F4EDE4; /* Angelic White - Warmer off-white */
-  --color-lime-jelly: #E3FF00; /* Lime Jelly - Bright lime green */
-  --color-azure-cloud: #4DD8FF; /* Azure Cloud - Bright sky blue */
-  --color-star-of-life: #057BC1; /* Star of Life - Medium rich blue */
-  --color-twilight-bliss: #083645; /* Twilight Bliss - Dark navy blue */
+  --color-prussian-blue: #0f2740;
+  --color-tech-blue: #2a5caa;
+  --color-bronze-spice: #c65a1e;
+  --color-grey-olive: #8a8f93;
+  --color-white-smoke: #f4f4f4;
   
   /* Semantic Color Mappings */
-  --color-primary: #4DD8FF; /* Azure Cloud - Primary brand color */
-  --color-secondary: #057BC1; /* Star of Life - Secondary brand color */
-  --color-accent: #E3FF00; /* Lime Jelly - Accent/highlight color */
-  --color-background: #F8F4ED; /* Crystal Cut - Main background */
-  --color-background-alt: #F4EDE4; /* Angelic White - Alternative background */
-  --color-text: #083645; /* Twilight Bliss - Main text color */
-  --color-text-light: #057BC1; /* Star of Life - Secondary text */
-  --color-border: #4DD8FF; /* Azure Cloud - Borders and dividers */
-  --color-hover: #057BC1; /* Star of Life - Hover states */
+  --color-primary: #2a5caa; /* Tech Blue - Primary brand color */
+  --color-secondary: #c65a1e; /* Bronze Spice - Secondary/accent color */
+  --color-accent: #c65a1e; /* Bronze Spice - Accent/highlight color */
+  --color-background: #f4f4f4; /* White Smoke - Main background */
+  --color-background-alt: #f4f4f4; /* White Smoke - Alternative background */
+  --color-text: #0f2740; /* Prussian Blue - Main text color */
+  --color-text-light: #8a8f93; /* Grey Olive - Secondary/muted text */
+  --color-border: #8a8f93; /* Grey Olive - Borders and dividers */
+  --color-hover: #2a5caa; /* Tech Blue - Hover states */
   
 
   

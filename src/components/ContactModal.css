@@ -44,7 +44,7 @@
 .modal-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-twilight-bliss);
+  color: var(--color-prussian-blue);
   margin: 0;
   font-family: "space-grotesk-variable", sans-serif;
   font-variation-settings: "wght" 500;
@@ -91,7 +91,7 @@
 }
 
 .contact-intro {
-  color: var(--color-star-of-life);
+  color: var(--color-tech-blue);
   line-height: 1.6;
   margin: 0;
   font-family: var(--font-primary);
@@ -117,7 +117,7 @@
 
 .contact-method:hover {
   background: transparent;
-  border: 1px solid var(--color-azure-cloud);
+  border: 1px solid var(--color-tech-blue);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -130,7 +130,7 @@
 
 .contact-method.clickable:hover {
   background: transparent;
-  border: 1px solid var(--color-azure-cloud);
+  border: 1px solid var(--color-tech-blue);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -138,12 +138,12 @@
 .contact-icon {
   width: 40px;
   height: 40px;
-  background: var(--color-twilight-bliss);
+  background: var(--color-prussian-blue);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   flex-shrink: 0;
 }
 
@@ -162,7 +162,7 @@
 
 .contact-value {
   font-size: 1rem;
-  color: var(--color-star-of-life);
+  color: var(--color-tech-blue);
   font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
@@ -255,9 +255,9 @@
 }
 
 .btn-primary {
-  background: var(--color-twilight-bliss);
-  color: var(--color-crystal-cut);
-  border: 2px solid var(--color-twilight-bliss);
+  background: var(--color-prussian-blue);
+  color: var(--color-white-smoke);
+  border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: "space-grotesk-variable", sans-serif;
@@ -274,20 +274,20 @@
   gap: var(--spacing-sm);
   box-shadow: 
     0 4px 12px rgba(8, 54, 69, 0.15),
-    0 0 4px var(--color-twilight-bliss);
+    0 0 4px var(--color-prussian-blue);
   animation: smoothPulse 4s ease-in-out infinite;
 }
 
 .btn-primary:hover {
-  background: var(--color-azure-cloud);
-  border-color: var(--color-azure-cloud);
+  background: var(--color-tech-blue);
+  border-color: var(--color-tech-blue);
   transform: translateY(-2px);
   box-shadow: 
     0 8px 24px rgba(5, 123, 193, 0.35),
-    0 0 8px var(--color-azure-cloud),
-    0 0 12px var(--color-azure-cloud),
+    0 0 8px var(--color-tech-blue),
+    0 0 12px var(--color-tech-blue),
     0 0 16px rgba(77, 216, 255, 0.4);
-  color: var(--color-twilight-bliss);
+  color: var(--color-prussian-blue);
 }
 
 .btn-primary:focus {
@@ -335,18 +335,18 @@
   0% {
     box-shadow: 
       0 4px 12px rgba(8, 54, 69, 0.15),
-      0 0 2px var(--color-twilight-bliss);
+      0 0 2px var(--color-prussian-blue);
   }
   50% {
     box-shadow: 
       0 4px 12px rgba(8, 54, 69, 0.15),
-      0 0 6px var(--color-twilight-bliss),
-      0 0 8px var(--color-twilight-bliss);
+      0 0 6px var(--color-prussian-blue),
+      0 0 8px var(--color-prussian-blue);
   }
   100% {
     box-shadow: 
       0 4px 12px rgba(8, 54, 69, 0.15),
-      0 0 2px var(--color-twilight-bliss);
+      0 0 2px var(--color-prussian-blue);
   }
 }
 

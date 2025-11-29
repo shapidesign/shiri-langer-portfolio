@@ -32,14 +32,14 @@
   position: fixed;
   top: var(--spacing-lg);
   left: var(--spacing-lg);
-  background: var(--color-twilight-bliss);
-  border: 2px solid var(--color-twilight-bliss);
+  background: var(--color-prussian-blue);
+  border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: "space-grotesk-variable", sans-serif;
   font-variation-settings: "wght" 500;
   font-size: 0.9rem;
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   cursor: pointer;
   transition: all var(--transition-fast);
   backdrop-filter: blur(10px);
@@ -50,18 +50,18 @@
   gap: var(--spacing-sm);
     box-shadow: 
     0 4px 12px rgba(8, 54, 69, 0.15),
-    0 0 4px var(--color-twilight-bliss);
+    0 0 4px var(--color-prussian-blue);
   animation: smoothPulse 4s ease-in-out infinite;
 }
 
 .about-btn:hover {
-  background: var(--color-star-of-life);
-  border-color: var(--color-azure-cloud);
+  background: var(--color-tech-blue);
+  border-color: var(--color-tech-blue);
   transform: translateY(-2px);
     box-shadow: 
     0 8px 24px rgba(5, 123, 193, 0.35),
-    0 0 8px var(--color-azure-cloud),
-    0 0 12px var(--color-azure-cloud),
+    0 0 8px var(--color-tech-blue),
+    0 0 12px var(--color-tech-blue),
     0 0 16px rgba(77, 216, 255, 0.4);
 }
 
@@ -75,14 +75,14 @@
   position: fixed;
   top: var(--spacing-lg);
   right: var(--spacing-lg);
-  background: var(--color-twilight-bliss);
-  border: 2px solid var(--color-twilight-bliss);
+  background: var(--color-prussian-blue);
+  border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: "space-grotesk-variable", sans-serif;
   font-variation-settings: "wght" 500;
   font-size: 0.9rem;
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   cursor: pointer;
   transition: all var(--transition-fast);
   backdrop-filter: blur(10px);
@@ -93,18 +93,18 @@
   gap: var(--spacing-sm);
     box-shadow: 
     0 4px 12px rgba(8, 54, 69, 0.15),
-    0 0 4px var(--color-twilight-bliss);
+    0 0 4px var(--color-prussian-blue);
   animation: smoothPulse 4s ease-in-out infinite;
 }
 
 .contact-btn:hover {
-  background: var(--color-star-of-life);
-  border-color: var(--color-azure-cloud);
+  background: var(--color-tech-blue);
+  border-color: var(--color-tech-blue);
   transform: translateY(-2px);
     box-shadow: 
     0 8px 24px rgba(5, 123, 193, 0.35),
-    0 0 8px var(--color-azure-cloud),
-    0 0 12px var(--color-azure-cloud),
+    0 0 8px var(--color-tech-blue),
+    0 0 12px var(--color-tech-blue),
     0 0 16px rgba(77, 216, 255, 0.4);
 }
 
@@ -118,18 +118,18 @@
   0% {
     box-shadow: 
       0 4px 12px rgba(8, 54, 69, 0.15),
-      0 0 2px var(--color-twilight-bliss);
+      0 0 2px var(--color-prussian-blue);
   }
   50% {
     box-shadow: 
       0 4px 12px rgba(8, 54, 69, 0.15),
-      0 0 6px var(--color-twilight-bliss),
-      0 0 8px var(--color-twilight-bliss);
+      0 0 6px var(--color-prussian-blue),
+      0 0 8px var(--color-prussian-blue);
   }
   100% {
     box-shadow: 
       0 4px 12px rgba(8, 54, 69, 0.15),
-      0 0 2px var(--color-twilight-bliss);
+      0 0 2px var(--color-prussian-blue);
   }
 }
 

@@ -5,7 +5,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: var(--color-twilight-bliss);
+  background: var(--color-prussian-blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +34,7 @@
 
 /* Loading Text */
 .loading-text h2 {
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   font-size: 2.2rem;
   font-weight: 900;
   margin: 0 0 2rem 0;
@@ -46,7 +46,7 @@
 }
 
 .loading-text p {
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   font-size: 1.1rem;
   margin: 0 0 2rem 0;
   font-family: var(--font-primary);
@@ -92,7 +92,7 @@
 }
 
 .progress-segment.filled {
-  background: var(--color-star-of-life);
+  background: var(--color-tech-blue);
   box-shadow: 
     0 0 4px rgba(5, 123, 193, 0.4),
     0 0 8px rgba(5, 123, 193, 0.2);
@@ -111,7 +111,7 @@
 
 
 .progress-text {
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   font-size: 1rem;
   font-family: var(--font-primary);
   font-weight: 500;

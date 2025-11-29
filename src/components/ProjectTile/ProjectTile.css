@@ -38,7 +38,7 @@
   left: var(--spacing-md);
   right: var(--spacing-md);
   background: none;
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   padding: 0;
   opacity: 0;
   transform: translateY(20px);
@@ -62,9 +62,9 @@
   font-weight: 700;
   margin: 0;
   line-height: 1.3;
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   letter-spacing: -0.02em;
-  background: var(--color-twilight-bliss);
+  background: var(--color-prussian-blue);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-md);
   display: inline-block;
@@ -77,11 +77,11 @@
   font-size: 0.7rem;
   font-weight: 500;
   margin: 0;
-  color: var(--color-crystal-cut);
+  color: var(--color-white-smoke);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   text-align: left;
-  background: var(--color-star-of-life);
+  background: var(--color-tech-blue);
   padding: 2px var(--spacing-xs);
   border-radius: var(--radius-sm);
   display: inline-block;
