@@ -697,21 +697,37 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 14,
     title: "Dancing Pot",
-    subtitle: "Ceramic Design",
-    year: 2024,
-    tags: ["Ceramics", "Art", "Functional Design"],
-    description: "Ceramic pot design with dynamic, flowing forms.",
-    client: "Ceramic Artist",
-    fullDescription: "A series of ceramic pots that appear to be in motion.",
-    challenges: "Creating stable forms that suggest movement.",
-    solutions: "Careful balance of weight distribution and visual flow.",
-    technologies: ["Clay Sculpting", "Glazing Techniques", "Firing Processes"],
-    results: "Exhibited in ceramic art galleries and design shows.",
+    subtitle: "Interactive Music-Responsive Plant Pot",
+    year: 2025,
+    tags: ["Interactive design", "Relaxation object", "Music-responsive design", "Arduino", "PCB", "Coding", "3D printing", "Prototyping"],
+    description: "Developed during my student exchange at IED Milan, Dancing Pot is an interactive home object that transforms the calming task of watering plants into an even more joyful and relaxing experience. Designed for adults, it responds to music with gentle, rhythmic movement, turning a simple daily ritual into a playful, multi-sensory moment.",
+    client: "",
+    fullDescription: "Developed during my student exchange at IED Milan, Dancing Pot is an interactive home object that transforms the calming task of watering plants into an even more joyful and relaxing experience. Designed for adults, it responds to music with gentle, rhythmic movement, turning a simple daily ritual into a playful, multi-sensory moment.",
+    challenges: "The main challenge was to design a functional prototype that could generate smooth, controlled motion while remaining stable as a pot. Another challenge was integrating electronics seamlessly into a domestic object without compromising its aesthetic or usability.",
+    solutions: "The final prototype was built using Arduino and a custom PCB board, programmed to respond and \"dance\" to music played through a dedicated mobile app. The synchronization of water, sound, and movement creates a soothing yet joyful interaction. The pot's body was produced through 3D printing, ensuring precise integration of electronic components in a clean and minimal form.",
+    technologies: ["Arduino programming", "PCB integration", "Coding", "Electronics assembly", "3D modeling and 3D printing"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/dancingpot.jpg",
+      "/assets/images/pot/disco plante 1 (convert.io).webp",
+      "/assets/images/pot/potgal1 (convert.io).webp",
+      "/assets/images/pot/potgal2.webp"
     ],
     stickerColor: "#9C27B0", // Purple
-    stickerImage: "/assets/images/sticker2.png"
+    stickerImage: "/assets/images/sticker2.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>Developed during my student exchange at IED Milan, Dancing Pot is an interactive home object that transforms the calming task of watering plants into an even more joyful and relaxing experience. Designed for adults, it responds to music with gentle, rhythmic movement, turning a simple daily ritual into a playful, multi-sensory moment.</p>
+      
+      <h3>Challenges</h3>
+      <p>The main challenge was to design a functional prototype that could generate smooth, controlled motion while remaining stable as a pot. Another challenge was integrating electronics seamlessly into a domestic object without compromising its aesthetic or usability.</p>
+      
+      <h3>Solutions</h3>
+      <p>The final prototype was built using Arduino and a custom PCB board, programmed to respond and "dance" to music played through a dedicated mobile app. The synchronization of water, sound, and movement creates a soothing yet joyful interaction. The pot's body was produced through 3D printing, ensuring precise integration of electronic components in a clean and minimal form.</p>
+      
+      <h3>Techniques</h3>
+      <p>The project required Arduino programming to control the motion responses, along with custom PCB integration to manage the electronic components efficiently. Coding enabled the synchronization between music input and physical movement, while careful electronics assembly ensured reliable operation. 3D modeling and 3D printing allowed for precise housing of the electronic components within an aesthetically pleasing form.</p>
+    `
   },
   {
     id: 15,

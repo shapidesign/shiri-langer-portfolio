@@ -117,7 +117,7 @@ export class ProjectService {
       10: 'eve/robotdisplay.webp',
       11: 'ksense/kdisplay.webp',
       12: 'ember.jpg',
-      13: 'dancingpot.jpg',
+      13: 'pot/disco plante 1 (convert.io).webp',
       14: 'tambourine/tambdis.webp',
       15: 'coffee/cofdis.webp',
       16: 'Shiri.jpg'
