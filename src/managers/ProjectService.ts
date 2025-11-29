@@ -179,14 +179,24 @@ export class ProjectService {
   }
 
   /**
-   * Get project index for grid position using infinite repeating pattern
+   * Hash function to generate a deterministic value from row and col
+   * This ensures the same position always shows the same project
+   */
+  private hashPosition(row: number, col: number): number {
+    // Use a simple hash function that creates a deterministic value
+    // Combine row and col with prime numbers for good distribution
+    const hash = ((row * 73856093) ^ (col * 19349663)) >>> 0;
+    return hash;
+  }
+
+  /**
+   * Get project index for grid position using hash-based infinite grid
    * Row 0 (line 1): 3d filter, bowl, chair, coffee, eva, ember, itamar, ksense
    * Row 1 (line 2): lamp, mico, pita, pot, stool, solid, tambourine, tomi
-   * Each repetition of the 8-project sequence shifts one position to the right
+   * Uses hash-based positioning for infinite scrolling
    */
   public getProjectIndex(row: number, col: number): number | null {
-    // Only use rows 0 and 1, but allow columns to extend infinitely
-    // Handle negative row values with proper modulo
+    // Normalize row to 0 or 1 (only 2 rows repeat)
     let normalizedRow = row % 2;
     if (normalizedRow < 0) {
       normalizedRow = normalizedRow + 2;
@@ -195,29 +205,39 @@ export class ProjectService {
       return null;
     }
     
-    // Calculate which repetition cycle we're in (every 8 columns = one cycle)
-    const cycle = Math.floor(col / 8);
-    const positionInCycle = ((col % 8) + 8) % 8; // Ensure positive modulo
+    // Create cache key for this position
+    const cacheKey = `${normalizedRow},${col}`;
     
-    // Each cycle shifts one position to the right (starts at a later project)
-    // Cycle 0: projects 0-7, Cycle 1: projects 1-0 (wrapped), Cycle 2: projects 2-1 (wrapped), etc.
-    const shift = cycle % 8;
-    const shiftedPosition = (positionInCycle + shift) % 8;
+    // Check cache first
+    if (this.projectCache.has(cacheKey)) {
+      const cachedIndex = this.projectCache.get(cacheKey)!;
+      if (cachedIndex >= 0 && cachedIndex < this.projects.length) {
+        return cachedIndex;
+      }
+    }
     
-    // Fixed mapping: row 0 has projects 0-7, row 1 has projects 8-15
-    const projectIndex = normalizedRow * 8 + shiftedPosition;
+    // Use hash to determine project index
+    // For row 0, use projects 0-7, for row 1, use projects 8-15
+    const baseIndex = normalizedRow * 8;
+    const rowProjects = this.projects.slice(baseIndex, baseIndex + 8);
     
-    // Ensure we don't go out of bounds
-    if (projectIndex < 0 || projectIndex >= this.projects.length) {
+    if (rowProjects.length === 0) {
       return null;
     }
+    
+    // Use hash to select which project from this row's set
+    const hash = this.hashPosition(normalizedRow, col);
+    const projectIndex = baseIndex + (hash % rowProjects.length);
+    
+    // Cache the result
+    this.projectCache.set(cacheKey, projectIndex);
     
     return projectIndex;
   }
 
   /**
-   * Generate grid cells for visible area with infinite repeating pattern
-   * Rows 0 and 1 repeat endlessly, with each repetition shifting one position to the right
+   * Generate grid cells for visible area with hash-based infinite grid
+   * Rows 0 and 1 repeat endlessly using hash-based positioning
    */
   public generateGridCells(
     firstRow: number,
@@ -230,7 +250,11 @@ export class ProjectService {
     // Always generate rows 0 and 1 for the infinite pattern
     // Rows repeat vertically - always show exactly 2 rows (0 and 1)
     for (let displayRow = 0; displayRow < 2; displayRow++) {
-      const normalizedRow = displayRow; // Always 0 or 1
+      // Normalize row to 0 or 1 for hash calculation
+      let normalizedRow = (firstRow + displayRow) % 2;
+      if (normalizedRow < 0) {
+        normalizedRow = normalizedRow + 2;
+      }
       
       // Generate columns for the visible area - can be any number (infinite)
       for (let c = 0; c < colsToDraw; c++) {
@@ -240,8 +264,8 @@ export class ProjectService {
         
         // Only add cell if project index is valid
         if (idx !== null && this.projects[idx]) {
-          // Use displayRow for positioning but normalizedRow for project selection
-          cells.push({ row: displayRow, col, projId: this.projects[idx].id });
+          // Use actual row position for rendering, but normalized row for project selection
+          cells.push({ row: firstRow + displayRow, col, projId: this.projects[idx].id });
         }
       }
     }
