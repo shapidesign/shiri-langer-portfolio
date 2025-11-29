@@ -184,11 +184,12 @@ export class ProjectService {
    */
   public getProjectIndex(row: number, col: number): number | null {
     // Only use rows 0 and 1, but allow columns to extend infinitely
-    const normalizedRow = row % 2;
+    // Handle negative row values with proper modulo
+    let normalizedRow = row % 2;
     if (normalizedRow < 0) {
-      normalizedRow = ((normalizedRow % 2) + 2) % 2;
+      normalizedRow = normalizedRow + 2;
     }
-    if (normalizedRow > 1) {
+    if (normalizedRow < 0 || normalizedRow > 1) {
       return null;
     }
     
