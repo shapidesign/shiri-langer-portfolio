@@ -24,6 +24,7 @@
 .project-tile:hover {
   transform: translateY(-1px) translateZ(0);
   box-shadow: 0 6px 16px rgba(21, 35, 32, 0.25);
+  /* Removed orange stroke - only shadow on hover */
 }
 
 .project-tile:hover .project-tile-img {
@@ -95,26 +96,7 @@
   position: relative;
 }
 
-/* Teal stroke and glow effect directly on image border */
-.project-tile::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  border: 2px solid var(--color-secondary);
-  border-radius: 8px;
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.2s ease;
-  box-shadow: 0 0 16px rgba(24, 119, 115, 0.6);
-}
-
-.project-tile:hover::before {
-  opacity: 1;
-}
+/* Removed orange stroke - keeping only shadow on hover */
 
 
 /* Responsive Design */

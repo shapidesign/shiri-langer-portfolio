@@ -130,10 +130,9 @@
   color: var(--color-prussian-blue);
   margin: 0 0 var(--spacing-sm) 0;
   letter-spacing: -0.02em;
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
   font-weight: 800;
-  font-variation-settings: "ital" 0, "wght" 700;
+  font-weight: 700;
 }
 
 .about-hero-content h2 {
@@ -142,10 +141,9 @@
   color: var(--color-prussian-blue);
   margin: 0 0 var(--spacing-md) 0;
   letter-spacing: 0.01em;
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
   font-weight: 800;
-  font-variation-settings: "ital" 0, "wght" 400;
+  font-weight: 400;
 }
 
 .about-intro {
@@ -206,10 +204,9 @@
   margin: 0 0 var(--spacing-lg) 0;
   position: relative;
   padding-left: var(--spacing-md);
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
   font-weight: 800;
-  font-variation-settings: "ital" 0, "wght" 700;
+  font-weight: 700;
 }
 
 .about-section h3::before {
@@ -474,10 +471,9 @@
   border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
   font-weight: 800;
-  font-variation-settings: "ital" 0, "wght" 600;
+  font-weight: 600;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-white-smoke);

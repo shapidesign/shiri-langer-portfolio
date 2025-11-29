@@ -53,12 +53,11 @@
 
 .project-modal-title {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--color-prussian-blue);
   margin: 0 0 var(--spacing-xs) 0;
   line-height: 1.2;
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
 }
 
 .project-modal-subtitle {
@@ -403,13 +402,12 @@
 
 .section-title {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-prussian-blue);
   margin: 0 0 var(--spacing-md) 0; /* More space below header to group with content */
   display: flex;
   align-items: center;
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
   gap: var(--spacing-sm);
 }
 
@@ -717,9 +715,8 @@
 .body-text-content h6 {
   color: var(--color-prussian-blue);
   margin: var(--spacing-xl) 0 var(--spacing-md) 0; /* More space above header, less below to group with content */
-  font-weight: 600;
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-weight: 500;
+  font-family: var(--font-heading);
 }
 
 /* First heading in body text should have less top margin */

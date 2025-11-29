@@ -36,8 +36,7 @@
   border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
   font-size: 0.9rem;
   color: var(--color-white-smoke);
   cursor: pointer;
@@ -79,8 +78,7 @@
   border: 2px solid var(--color-prussian-blue);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
-  font-family: "space-grotesk-variable", sans-serif;
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-heading);
   font-size: 0.9rem;
   color: var(--color-white-smoke);
   cursor: pointer;
