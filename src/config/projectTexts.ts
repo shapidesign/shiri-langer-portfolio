@@ -678,21 +678,47 @@ export const PROJECT_TEXTS: ProjectText[] = [
   {
     id: 13,
     title: "Ember",
-    subtitle: "Lighting Design",
-    year: 2024,
-    tags: ["Lighting", "Product Design", "Materials"],
-    description: "Innovative lighting design inspired by natural fire.",
-    client: "Lighting Studio",
-    fullDescription: "A table lamp that mimics the movement and warmth of embers.",
-    challenges: "Creating realistic fire effects with safe materials.",
-    solutions: "Used LED technology and specialized diffusers.",
-    technologies: ["3D Modeling", "LED Programming", "Material Testing"],
-    results: "Patent-pending design with commercial interest.",
+    subtitle: "Wildfire Safety Survival Kit",
+    year: 2025,
+    tags: ["Wildfire safety", "Survival kit", "Design research", "Filter design", "Protective vest", "3D printing", "Laser cutting", "CMF"],
+    description: "Developed during my student exchange at IED Milan, Ember is a design research project addressing the growing threat of wildfires spreading into civilian areas. The project explored not only product development but also market positioning—researching competitors, defining target users, and presenting the concept to potential investors.",
+    client: "",
+    fullDescription: "Developed during my student exchange at IED Milan, Ember is a design research project addressing the growing threat of wildfires spreading into civilian areas. The project explored not only product development but also market positioning—researching competitors, defining target users, and presenting the concept to potential investors.",
+    challenges: "The main challenge was to design two complementary products that speak the same design language: a quick-to-use filter worn around the neck and a protective vest that sprays water mixed with fire-resistant liquid. Both had to meet real safety demands while being compact, consumer-oriented, and convincing for stakeholders.",
+    solutions: "Extensive research into fire-resistant filters led to the use of charcoal-based filtration for effectiveness and compactness. The vest was inspired by professional firefighting liquids, which are safe for humans but effective in slowing fire spread. The CMF strategy emphasized visibility, enabling users to be easily located by rescue teams. Together, the two objects create a coherent survival kit that is practical, recognizable, and user-focused.",
+    technologies: ["Design research", "User research", "3D modeling", "3D printing", "Laser cutting", "CMF development", "Product visualization"],
+    results: "",
+    testimonial: undefined,
     gallery: [
-      "/assets/images/ember.jpg",
+      "/assets/images/ember/emberdis.webp",
+      "/assets/images/ember/embergal1.webp",
+      "/assets/images/ember/embergal2.webp"
     ],
     stickerColor: "#FF5722", // Deep Orange
-    stickerImage: "/assets/images/sticker1.png"
+    stickerImage: "/assets/images/sticker1.png",
+    bodyText: `
+      <h2>About</h2>
+      <p>Developed during my student exchange at IED Milan, Ember is a design research project addressing the growing threat of wildfires spreading into civilian areas. The project explored not only product development but also market positioning—researching competitors, defining target users, and presenting the concept to potential investors.</p>
+      
+      <h3>Challenges</h3>
+      <p>The main challenge was to design two complementary products that speak the same design language: a quick-to-use filter worn around the neck and a protective vest that sprays water mixed with fire-resistant liquid. Both had to meet real safety demands while being compact, consumer-oriented, and convincing for stakeholders.</p>
+      
+      <h3>Solutions</h3>
+      <p>Extensive research into fire-resistant filters led to the use of charcoal-based filtration for effectiveness and compactness. The vest was inspired by professional firefighting liquids, which are safe for humans but effective in slowing fire spread. The CMF strategy emphasized visibility, enabling users to be easily located by rescue teams. Together, the two objects create a coherent survival kit that is practical, recognizable, and user-focused.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/ember/embersol.webp" alt="Ember design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/ember/embersol1.webp" alt="Ember design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/ember/embersol2.webp" alt="Ember design process - solutions 3" class="process-image-inline" />
+      </div>
+      
+      <h3>Techniques</h3>
+      <p>The project began with extensive design research and user research to understand the needs of people facing wildfire threats. 3D modeling enabled the development of both the filter and vest designs, while 3D printing and laser cutting facilitated rapid prototyping. CMF development ensured the visibility and recognizability of the products, and product visualization techniques were used to communicate the concept effectively to stakeholders and potential investors.</p>
+    `,
+    processImages: [
+      "/assets/images/ember/embersol.webp",
+      "/assets/images/ember/embersol1.webp",
+      "/assets/images/ember/embersol2.webp"
+    ]
   },
   {
     id: 14,
