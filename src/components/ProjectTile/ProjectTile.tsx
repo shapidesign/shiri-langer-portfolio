@@ -73,6 +73,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         onLoad={handleImageLoad}
         onError={handleImageError}
         loading="lazy"
+        decoding="async"
       />
       
       {/* Project info overlay - only show on hover */}

@@ -169,15 +169,17 @@ const PortfolioGrid: React.FC = () => {
   const baseLeft = (vw - gridConfig.visibleCols * (gridConfig.tileWidth + gridConfig.tileGap)) / 2;
   const baseTop = (vh - gridConfig.visibleRows * (gridConfig.tileHeight + gridConfig.tileGap)) / 2;
   
-  const firstCol = Math.floor((camX - baseLeft) / (gridConfig.tileWidth + gridConfig.tileGap)) - gridConfig.marginCols;
-  const firstRow = Math.floor((camY - baseTop) / (gridConfig.tileHeight + gridConfig.tileGap)) - gridConfig.marginRows;
-  const colsToDraw = gridConfig.visibleCols + gridConfig.marginCols * 2;
-  const rowsToDraw = gridConfig.visibleRows + gridConfig.marginRows * 2;
+  // Always generate all 16 projects (2 rows x 8 columns) - fixed layout
+  // Parameters are ignored since we always generate all projects
+  const firstCol = 0;
+  const firstRow = 0;
+  const colsToDraw = 8;
+  const rowsToDraw = 2;
   
-  // Generate grid cells
+  // Generate grid cells - always returns all 16 projects
   const cells = useMemo(() => {
     return projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
-  }, [projectService, firstRow, firstCol, rowsToDraw, colsToDraw]);
+  }, [projectService]);
   
   
   return (

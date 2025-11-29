@@ -181,26 +181,31 @@ export class ProjectService {
    * Row 0 (line 1): 3d filter, bowl, chair, coffee, eva, ember, itamar, ksense
    * Row 1 (line 2): lamp, mico, pita, pot, stool, solid, tambourine, tomi
    */
-  public getProjectIndex(row: number, col: number): number {
+  public getProjectIndex(row: number, col: number): number | null {
     // Only show the first two rows (rows 0 and 1) with fixed project order
+    // Clamp row to 0-1 and col to 0-7
+    const clampedRow = Math.max(0, Math.min(1, row));
+    const clampedCol = Math.max(0, Math.min(7, col));
+    
+    // If the requested row/col is outside bounds, return null
     if (row < 0 || row > 1 || col < 0 || col >= 8) {
-      // For rows outside the fixed layout, return a default project
-      return 0;
+      return null;
     }
     
     // Fixed mapping: row 0 has projects 0-7, row 1 has projects 8-15
-    const projectIndex = row * 8 + col;
+    const projectIndex = clampedRow * 8 + clampedCol;
     
     // Ensure we don't go out of bounds
     if (projectIndex >= this.projects.length) {
-      return 0;
+      return null;
     }
     
     return projectIndex;
   }
 
   /**
-   * Generate grid cells for visible area with stable project assignment
+   * Generate grid cells - always returns all 16 projects (2 rows x 8 columns)
+   * Fixed layout with no repetition
    */
   public generateGridCells(
     firstRow: number,
@@ -210,16 +215,14 @@ export class ProjectService {
   ): GridCell[] {
     const cells: GridCell[] = [];
     
-    for (let r = 0; r < rowsToDraw; r++) {
-      for (let c = 0; c < colsToDraw; c++) {
-        const row = firstRow + r;
-        const col = firstCol + c;
-        
-        // Get stable project index for this position
+    // Always generate all 16 projects - fixed 2 rows x 8 columns layout
+    // No infinite scroll, no repetition, just the fixed order
+    for (let row = 0; row <= 1; row++) {
+      for (let col = 0; col <= 7; col++) {
         const idx = this.getProjectIndex(row, col);
         
-        // Safety check: ensure project exists
-        if (this.projects[idx]) {
+        // Only add cell if project index is valid
+        if (idx !== null && this.projects[idx]) {
           cells.push({ row, col, projId: this.projects[idx].id });
         }
       }
