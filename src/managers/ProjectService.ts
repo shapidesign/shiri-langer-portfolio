@@ -237,8 +237,11 @@ export class ProjectService {
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
         // Normalize row to 0-1 (for repeating)
-        const normalizedRow = row % 2;
-        if (normalizedRow < 0) continue;
+        let normalizedRow = row % 2;
+        if (normalizedRow < 0) {
+          normalizedRow = normalizedRow + 2;
+        }
+        if (normalizedRow < 0 || normalizedRow > 1) continue;
         
         const idx = this.getProjectIndex(normalizedRow, col);
         
