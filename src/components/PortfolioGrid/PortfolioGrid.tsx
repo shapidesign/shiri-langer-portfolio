@@ -224,8 +224,8 @@ const PortfolioGrid: React.FC = () => {
         {cells.map(({ row, col, projId }) => {
           const project = projectService.getProjectById(projId);
           if (!project) return null;
-          // Filter out "About Me" project (ID 16) - it should only open from About button
-          if (projId === 16) return null;
+          // Filter out "About Me" project (ID 17) - it should only open from About button
+          if (projId === 17) return null;
 
           // Calculate row offset: odd rows (1, 3, 5...) shift one tile to the right
           const isOddRow = row % 2 !== 0;

@@ -132,7 +132,7 @@
 .project-modal-content {
   padding: var(--spacing-xl);
   display: grid;
-  grid-template-columns: 3.23fr 1fr;
+  grid-template-columns: 1fr 3.23fr;
   gap: var(--spacing-xxl);
   flex: 1;
   overflow: hidden;

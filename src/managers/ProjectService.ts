@@ -79,11 +79,12 @@ export class ProjectService {
    */
   private generateProjects(): void {
     const projects: Project[] = [];
+    const projectMap = new Map<number, Project>();
     
-    // Use actual project data from PROJECT_TEXTS
+    // Create a map of all projects from PROJECT_TEXTS (excluding "About Me" - ID 17)
     for (const projectText of PROJECT_TEXTS) {
-      // Filter out "About Me" project (ID 16) - it should only open from About button
-      if (projectText.id === 16) continue;
+      // Filter out "About Me" project (ID 17) - it should only open from About button
+      if (projectText.id === 17) continue;
       
       const project: Project = {
         id: projectText.id,
@@ -96,7 +97,39 @@ export class ProjectService {
         client: projectText.client
       };
       
-      projects.push(project);
+      projectMap.set(projectText.id, project);
+    }
+    
+    // Fixed project order as requested by user
+    // Line 1: 3d filter, bowl, chair, coffee machine, eva, ember, itamar, ksense
+    // Line 2: lamp, mico, pita, pot, stool, solid, tambourine, tomi
+    const fixedOrder: number[] = [
+      // Row 0 (Line 1)
+      3,   // 3D Filters
+      10,  // Bowl
+      2,   // Chair
+      16,  // Coffee Machine
+      11,  // EVE
+      13,  // Ember
+      5,   // Itamar
+      12,  // K-SENSE
+      // Row 1 (Line 2)
+      6,   // Lamp
+      9,   // MICO
+      4,   // PITA
+      14,  // Pot
+      7,   // Stool
+      8,   // Solidworks
+      15,  // Tambourine
+      1    // Tomi
+    ];
+    
+    // Build projects array in fixed order
+    for (const projectId of fixedOrder) {
+      const project = projectMap.get(projectId);
+      if (project) {
+        projects.push(project);
+      }
     }
     
     this.projects = projects;
@@ -144,31 +177,24 @@ export class ProjectService {
   }
 
   /**
-   * Get project index for grid position using a simple, reliable hash-based approach
+   * Get project index for grid position using fixed order
+   * Row 0 (line 1): 3d filter, bowl, chair, coffee, eva, ember, itamar, ksense
+   * Row 1 (line 2): lamp, mico, pita, pot, stool, solid, tambourine, tomi
    */
   public getProjectIndex(row: number, col: number): number {
-    const key = `${row},${col}`;
-    
-    // Check cache first
-    if (this.projectCache.has(key)) {
-      return this.projectCache.get(key)!;
+    // Only show the first two rows (rows 0 and 1) with fixed project order
+    if (row < 0 || row > 1 || col < 0 || col >= 8) {
+      // For rows outside the fixed layout, return a default project
+      return 0;
     }
     
-    // Use a simple hash function that creates good distribution
-    // This ensures consistent results for the same position
-    let hash = 0;
-    const str = `${row},${col}`;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
+    // Fixed mapping: row 0 has projects 0-7, row 1 has projects 8-15
+    const projectIndex = row * 8 + col;
+    
+    // Ensure we don't go out of bounds
+    if (projectIndex >= this.projects.length) {
+      return 0;
     }
-    
-    // Use hash to get a project index, ensuring it's within bounds
-    const projectIndex = Math.abs(hash) % this.projects.length;
-    
-    // Cache the result
-    this.projectCache.set(key, projectIndex);
     
     return projectIndex;
   }
