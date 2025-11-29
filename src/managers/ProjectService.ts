@@ -144,29 +144,56 @@ export class ProjectService {
   }
 
   /**
-   * Get project index for grid position using organized grid layout
-   * Projects are placed in a predictable, organized manner for easy discovery
+   * Get project index for grid position using hash-based approach
+   * This creates a randomized but consistent grid layout
    */
-  public getProjectIndex(row: number, col: number): number | null {
-    if (this.projects.length === 0) {
-      return null;
+  public getProjectIndex(row: number, col: number, avoidProjectIds: number[] = []): number {
+    const key = `${row},${col}`;
+    
+    // Check cache first
+    if (this.projectCache.has(key)) {
+      const cachedIndex = this.projectCache.get(key)!;
+      // If cached project is in avoid list, we'll need to recalculate
+      if (avoidProjectIds.length > 0 && this.projects[cachedIndex] && avoidProjectIds.includes(this.projects[cachedIndex].id)) {
+        // Fall through to recalculate with avoidance
+      } else {
+        return cachedIndex;
+      }
     }
     
-    // Calculate total columns per row based on visible columns config
-    // This creates an organized grid where users can easily find projects
-    const colsPerRow = this.config.visibleCols || 8;
+    // Use a simple hash function that creates good distribution
+    // This ensures consistent results for the same position
+    let hash = 0;
+    const str = `${row},${col}`;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
     
-    // Calculate the linear index in the grid
-    const linearIndex = row * colsPerRow + col;
+    // Try to find a project that's not in the avoid list
+    let attempts = 0;
+    let projectIndex = Math.abs(hash) % this.projects.length;
+    const maxAttempts = this.projects.length * 2; // Prevent infinite loop
     
-    // Map to project index (projects repeat if grid is larger than project count)
-    const projectIndex = linearIndex % this.projects.length;
+    while (attempts < maxAttempts) {
+      if (this.projects[projectIndex] && !avoidProjectIds.includes(this.projects[projectIndex].id)) {
+        break;
+      }
+      // Try next project, using hash with variation
+      projectIndex = (projectIndex + 1) % this.projects.length;
+      attempts++;
+    }
+    
+    // Cache the result
+    this.projectCache.set(key, projectIndex);
     
     return projectIndex;
   }
 
   /**
-   * Generate grid cells for visible area with organized, predictable layout
+   * Generate grid cells for visible area with hash-based layout
+   * Avoids placing same projects next to each other (horizontally or vertically adjacent)
    */
   public generateGridCells(
     firstRow: number,
@@ -176,24 +203,40 @@ export class ProjectService {
   ): GridCell[] {
     const cells: GridCell[] = [];
     
-    if (this.projects.length === 0) {
-      return cells;
-    }
-    
-    const colsPerRow = this.config.visibleCols || 8;
+    // Create a map to track project IDs at each position for duplicate avoidance
+    const positionMap = new Map<string, number>();
     
     for (let r = 0; r < rowsToDraw; r++) {
       for (let c = 0; c < colsToDraw; c++) {
         const row = firstRow + r;
         const col = firstCol + c;
         
-        // Calculate project index using organized grid layout
-        const linearIndex = row * colsPerRow + col;
-        const projectIndex = linearIndex % this.projects.length;
+        // Collect IDs to avoid (adjacent cells: left and above)
+        const avoidProjectIds: number[] = [];
+        
+        // Check left neighbor
+        const leftKey = `${row},${col - 1}`;
+        if (positionMap.has(leftKey)) {
+          avoidProjectIds.push(positionMap.get(leftKey)!);
+        }
+        
+        // Check top neighbor
+        const topKey = `${row - 1},${col}`;
+        if (positionMap.has(topKey)) {
+          avoidProjectIds.push(positionMap.get(topKey)!);
+        }
+        
+        // Get project index with avoidance logic
+        const idx = this.getProjectIndex(row, col, avoidProjectIds);
         
         // Safety check: ensure project exists
-        if (this.projects[projectIndex]) {
-          cells.push({ row, col, projId: this.projects[projectIndex].id });
+        if (this.projects[idx]) {
+          const projId = this.projects[idx].id;
+          cells.push({ row, col, projId });
+          
+          // Store in position map for future reference
+          const currentKey = `${row},${col}`;
+          positionMap.set(currentKey, projId);
         }
       }
     }
