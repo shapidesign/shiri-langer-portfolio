@@ -120,12 +120,12 @@ export class ProjectService {
   }
 
   /**
-   * Get project index for grid position using hash-based approach
-   * This creates a randomized but consistent grid layout
+   * Get project index for grid position using improved hash-based approach
+   * Creates more randomized and interesting distributions
    */
   public getProjectIndex(row: number, col: number, avoidProjectIds: number[] = []): number {
     const key = `${row},${col}`;
-    
+
     // Check cache first
     if (this.projectCache.has(key)) {
       const cachedIndex = this.projectCache.get(key)!;
@@ -136,35 +136,76 @@ export class ProjectService {
         return cachedIndex;
       }
     }
-    
-    // Use a simple hash function that creates good distribution
-    // This ensures consistent results for the same position
-    let hash = 0;
-    const str = `${row},${col}`;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    
+
+    // Use multiple hash functions for more randomization
+    const hash1 = this.djb2Hash(`${row},${col}`);
+    const hash2 = this.sdbmHash(`${row},${col},salt1`);
+    const hash3 = this.jenkinsHash(`${row},${col},salt2`);
+
+    // Combine hashes for more entropy
+    const combinedHash = (hash1 * hash2 + hash3) >>> 0;
+
+    // Add some row/column bias to create more interesting patterns
+    const rowBias = (row * 17) % this.projects.length;
+    const colBias = (col * 23) % this.projects.length;
+
+    let projectIndex = (combinedHash + rowBias + colBias) % this.projects.length;
+
     // Try to find a project that's not in the avoid list
     let attempts = 0;
-    let projectIndex = Math.abs(hash) % this.projects.length;
-    const maxAttempts = this.projects.length * 2; // Prevent infinite loop
-    
+    const maxAttempts = this.projects.length * 3; // More attempts for better distribution
+
     while (attempts < maxAttempts) {
       if (this.projects[projectIndex] && !avoidProjectIds.includes(this.projects[projectIndex].id)) {
         break;
       }
-      // Try next project, using hash with variation
-      projectIndex = (projectIndex + 1) % this.projects.length;
+      // Use a more random step pattern
+      const step = (attempts % 3 === 0) ? 7 : (attempts % 3 === 1) ? 11 : 13;
+      projectIndex = (projectIndex + step) % this.projects.length;
       attempts++;
     }
-    
+
+    // If we couldn't find a valid project, use fallback
+    if (attempts >= maxAttempts) {
+      projectIndex = Math.abs(combinedHash) % this.projects.length;
+    }
+
     // Cache the result
     this.projectCache.set(key, projectIndex);
-    
+
     return projectIndex;
+  }
+
+  /**
+   * Multiple hash functions for better randomization
+   */
+  private djb2Hash(str: string): number {
+    let hash = 5381;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    }
+    return hash >>> 0;
+  }
+
+  private sdbmHash(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + (hash << 6) + (hash << 16) - hash;
+    }
+    return hash >>> 0;
+  }
+
+  private jenkinsHash(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash += str.charCodeAt(i);
+      hash += (hash << 10);
+      hash ^= (hash >>> 6);
+    }
+    hash += (hash << 3);
+    hash ^= (hash >>> 11);
+    hash += (hash << 15);
+    return hash >>> 0;
   }
 
   /**
