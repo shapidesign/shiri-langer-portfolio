@@ -11,8 +11,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // Debug logging
-  console.log('ContactModal rendered, isOpen:', isOpen);
 
   // Handle escape key to close modal
   useEffect(() => {

@@ -89,7 +89,7 @@ export class ProjectService {
         id: projectText.id,
         title: projectText.title,
         subtitle: projectText.subtitle,
-        img: this.getProjectImage(projectText.id - 1), // Convert to 0-based index
+        img: this.getProjectImageById(projectText.id), // Use ID-based lookup
         year: projectText.year,
         tags: projectText.tags,
         description: projectText.description,
@@ -103,30 +103,30 @@ export class ProjectService {
   }
 
   /**
-   * Get project image path based on index
+   * Get project image path based on project ID
    */
-  private getProjectImage(index: number): string {
+  private getProjectImageById(projectId: number): string {
     const imageMap: Record<number, string> = {
-      0: 'tomi/TomiDisplay1.webp',
-      1: 'chair/chair-display-2.webp',
-      2: '3dfilters/filterdisplay.webp',
-      3: 'pita/pita-display.webp',
-      4: 'itamar/itadisp.webp',
-      5: 'lamp/lampdis.webp',
-      6: 'stool/DisplayStool.webp',
-      7: 'solidworks/Soliddisp.webp',
-      8: 'mico/micodis.webp',
-      9: 'bowl/bowldisplay.webp',
-      10: 'eve/robotdisplay.webp',
-      11: 'ksense/kdisplay.webp',
-      12: 'ember/emberdis.webp',
-      13: 'pot/disco plante 1 (convert.io).webp',
-      14: 'tambourine/tambdis.webp',
-      15: 'coffee/cofdis.webp',
-      16: 'Shiri.jpg'
+      1: '/assets/images/tomi/TomiDisplay1.webp',
+      2: '/assets/images/chair/chair-display-2.webp',
+      3: '/assets/images/3dfilters/filterdisplay.webp',
+      4: '/assets/images/pita/pita-display.webp',
+      5: '/assets/images/itamar/itadisp.webp',
+      6: '/assets/images/lamp/lampdis.webp',
+      7: '/assets/images/stool/DisplayStool.webp',
+      8: '/assets/images/solidworks/Soliddisp.webp',
+      9: '/assets/images/mico/micodis.webp',
+      10: '/assets/images/bowl/bowldisplay.webp',
+      11: '/assets/images/eve/robotdisplay.webp',
+      12: '/assets/images/ksense/kdisplay.webp',
+      13: '/assets/images/ember/emberdis.webp',
+      14: '/assets/images/pot/disco plante 1 (convert.io).webp',
+      15: '/assets/images/tambourine/tambdis.webp',
+      16: '/assets/images/coffee/cofdis.webp',
+      17: '/assets/images/Shiri.jpg'
     };
     
-    return `/assets/images/${imageMap[index] || 'default.jpg'}`;
+    return imageMap[projectId] || '/assets/images/default.jpg';
   }
 
   /**

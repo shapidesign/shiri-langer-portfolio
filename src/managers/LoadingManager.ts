@@ -105,11 +105,24 @@ export class LoadingManager {
    * Preload project images
    */
   private preloadImages(): void {
+    // Preload display images for projects
     const imageUrls = [
-      '/assets/images/alphabet2.png',
-      '/assets/images/coffee-torn.png',
-      '/assets/images/ksense.png',
-      '/assets/images/shiri-paper.png'
+      '/assets/images/tomi/TomiDisplay1.webp',
+      '/assets/images/chair/chair-display-2.webp',
+      '/assets/images/3dfilters/filterdisplay.webp',
+      '/assets/images/pita/pita-display.webp',
+      '/assets/images/itamar/itadisp.webp',
+      '/assets/images/lamp/lampdis.webp',
+      '/assets/images/stool/DisplayStool.webp',
+      '/assets/images/solidworks/Soliddisp.webp',
+      '/assets/images/mico/micodis.webp',
+      '/assets/images/bowl/bowldisplay.webp',
+      '/assets/images/eve/robotdisplay.webp',
+      '/assets/images/ksense/kdisplay.webp',
+      '/assets/images/ember/emberdis.webp',
+      '/assets/images/pot/disco plante 1 (convert.io).webp',
+      '/assets/images/tambourine/tambdis.webp',
+      '/assets/images/coffee/cofdis.webp'
     ];
 
     let loadedCount = 0;
