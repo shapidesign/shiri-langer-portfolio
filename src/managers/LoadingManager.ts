@@ -135,15 +135,34 @@ export class LoadingManager {
       const checkImagesLoaded = () => {
         loadedCount++;
         if (loadedCount === totalImages) {
-          this.markLoaded('images');
+          // Ensure a minimum loading time to prevent flashing
+          // and give time for decoding
+          setTimeout(() => {
+            this.markLoaded('images');
+          }, 500);
         }
       };
 
       imageUrls.forEach(url => {
         const img = new Image();
-        img.onload = checkImagesLoaded;
-        img.onerror = checkImagesLoaded; // Count as loaded even if error (don't block)
         img.src = url;
+        
+        // Use decode() for better readiness check (modern browsers)
+        // Cast to any to avoid TS type narrowing issues
+        const imgAny = img as any;
+        
+        if (typeof imgAny.decode === 'function') {
+          imgAny.decode()
+            .then(checkImagesLoaded)
+            .catch(() => {
+              // Fallback if decode fails
+              checkImagesLoaded(); 
+            });
+        } else {
+          // Standard onload fallback for older browsers
+          img.onload = checkImagesLoaded;
+          img.onerror = checkImagesLoaded;
+        }
       });
     }).catch(() => {
       // If imports fail, mark as loaded to not block the app

@@ -1,10 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
-  <path
-    d="M20 12L6 20V4L20 12Z"
-    fill="#4DD8FF"
-    stroke="#4DD8FF"
-    stroke-width="2"
-    stroke-linejoin="round"
-  />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    text { font-family: 'Montserrat', sans-serif; font-weight: 900; }
+  </style>
+  <text x="50%" y="55%" font-size="40" fill="black" text-anchor="middle" dominant-baseline="middle">SL</text>
 </svg>
-

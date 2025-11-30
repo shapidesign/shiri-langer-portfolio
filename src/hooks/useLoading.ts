@@ -15,7 +15,14 @@ export const useLoading = () => {
     loadingManager.initialize();
 
     // Set up loading complete callback
-    loadingManager.onLoadingComplete(handleLoadingComplete);
+    const onComplete = () => {
+        // Add a small buffer to ensure visual stability
+        setTimeout(() => {
+            handleLoadingComplete();
+        }, 500);
+    };
+
+    loadingManager.onLoadingComplete(onComplete);
 
     // Update progress periodically
     const progressInterval = setInterval(() => {
@@ -23,7 +30,7 @@ export const useLoading = () => {
     }, 100);
 
     return () => {
-      loadingManager.removeCallback(handleLoadingComplete);
+      loadingManager.removeCallback(onComplete);
       clearInterval(progressInterval);
     };
   }, [loadingManager, handleLoadingComplete]);

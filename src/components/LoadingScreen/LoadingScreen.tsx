@@ -7,24 +7,22 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
-  const [isComplete, setIsComplete] = useState(false);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
-  useEffect(() => {
-    // Simulate loading time then fade out
-    const loadingTimeout = setTimeout(() => {
-      setIsComplete(true);
-      setTimeout(() => {
-        onLoadingComplete();
-      }, 500); // Fade out delay
-    }, 2000); // Show loading animation for 2 seconds
-
-    return () => {
-      clearTimeout(loadingTimeout);
-    };
-  }, [onLoadingComplete]);
-
+  // Listen for parent signaling completion (unmounting will happen via parent)
+  // But actually, the parent unmounts this component when loading is done.
+  // We want to trigger a fade out animation first?
+  // The current architecture in App.tsx is:
+  // if (isLoading) return <LoadingScreen />
+  // This means unmount is immediate.
+  // App.tsx has: if (!isLoading) setTimeout(() => setShowMainApp(true), 500)
+  // This handles the MainApp fade in, but LoadingScreen just disappears.
+  
+  // To handle this properly without changing App.tsx structure too much:
+  // The LoadingScreen is purely presentational. The delay should be in useLoading or LoadingManager.
+  
   return (
-    <div className={`loading-screen ${isComplete ? 'fade-out' : ''}`}>
+    <div className="loading-screen">
       <div className="loading-container">
         <div className="loading-text">
           <h2>Loading Portfolio</h2>
