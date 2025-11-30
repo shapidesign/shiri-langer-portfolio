@@ -96,6 +96,9 @@ export class LoadingManager {
     // Mark components as loaded (React components are ready)
     setTimeout(() => this.markLoaded('components'), 200);
 
+    // Mark drag as loaded (drag functionality is ready with components)
+    setTimeout(() => this.markLoaded('drag'), 250);
+
     // Skip image preloading for faster load - images will load naturally in tiles
   }
 
