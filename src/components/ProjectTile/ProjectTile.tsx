@@ -63,9 +63,9 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         return;
       }
     }
-    
-    // If all fallbacks failed, try to use a default image based on project
-    // At minimum, mark as loaded to show something
+
+    // If all fallbacks failed, use a placeholder to prevent console errors
+    // Use a solid color background instead of a broken image
     setImageLoaded(true);
   };
 
