@@ -59,7 +59,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       setIsImageMaximized(true);
     }
   }, []);
-
+  
   // Initialize pinch zoom on maximized image
   useEffect(() => {
     if (isImageMaximized && imageRef.current) {
@@ -81,10 +81,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     const initInlineSliders = () => {
       // Wait for DOM to be ready, especially after gallery closes
       requestAnimationFrame(() => {
-        const sliders = document.querySelectorAll('.process-image-slider');
-        sliders.forEach(slider => {
-          const sliderElement = slider as HTMLElement;
-          const images = slider.querySelectorAll('.process-image-inline');
+      const sliders = document.querySelectorAll('.process-image-slider');
+      sliders.forEach(slider => {
+        const sliderElement = slider as HTMLElement;
+        const images = slider.querySelectorAll('.process-image-inline');
           
           // Add click handlers to process images to enlarge them
           images.forEach((img) => {
