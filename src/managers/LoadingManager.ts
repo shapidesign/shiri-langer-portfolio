@@ -40,13 +40,12 @@ export class LoadingManager {
   public isAllLoaded(): boolean {
     const requiredStates = [
       'fonts',
-      'images',
       'effects',
       'animations',
       'components',
       'drag'
     ];
-    
+
     return requiredStates.every(state => this.loadingStates.get(state) === true);
   }
 
@@ -86,89 +85,20 @@ export class LoadingManager {
    */
   private preloadAssets(): void {
     // Mark fonts as loaded (they're already loaded via CSS)
-    setTimeout(() => this.markLoaded('fonts'), 100);
-
-    // Preload images
-    this.preloadImages();
+    setTimeout(() => this.markLoaded('fonts'), 50);
 
     // Mark effects as loaded (they're CSS-based)
-    setTimeout(() => this.markLoaded('effects'), 200);
+    setTimeout(() => this.markLoaded('effects'), 100);
 
     // Mark animations as loaded (they're CSS-based)
-    setTimeout(() => this.markLoaded('animations'), 300);
+    setTimeout(() => this.markLoaded('animations'), 150);
 
     // Mark components as loaded (React components are ready)
-    setTimeout(() => this.markLoaded('components'), 400);
+    setTimeout(() => this.markLoaded('components'), 200);
+
+    // Skip image preloading for faster load - images will load naturally in tiles
   }
 
-  /**
-   * Preload project images
-   * Uses gallery arrays from PROJECT_TEXTS as single source of truth
-   */
-  private preloadImages(): void {
-    // Use dynamic import to avoid circular dependencies
-    Promise.all([
-      import('../config/projectTexts'),
-      import('../utils/imagePathUtils')
-    ]).then(([{ PROJECT_TEXTS }, { getDisplayImage }]) => {
-      // Get display images from each project's gallery
-      const imageUrls: string[] = [];
-      
-      PROJECT_TEXTS.forEach(project => {
-        if (project.id !== 17 && project.gallery && project.gallery.length > 0) {
-          const displayImage = getDisplayImage(project.gallery);
-          if (displayImage && !imageUrls.includes(displayImage)) {
-            imageUrls.push(displayImage);
-          }
-        }
-      });
-
-      let loadedCount = 0;
-      const totalImages = imageUrls.length;
-
-      if (totalImages === 0) {
-        // If no images to load, mark as loaded immediately
-        this.markLoaded('images');
-        return;
-      }
-
-      const checkImagesLoaded = () => {
-        loadedCount++;
-        if (loadedCount === totalImages) {
-          // Ensure a minimum loading time to prevent flashing
-          // and give time for decoding
-          setTimeout(() => {
-            this.markLoaded('images');
-          }, 500);
-        }
-      };
-
-      imageUrls.forEach(url => {
-        const img = new Image();
-        img.src = url;
-        
-        // Use decode() for better readiness check (modern browsers)
-        // Cast to any to avoid TS type narrowing issues
-        const imgAny = img as any;
-        
-        if (typeof imgAny.decode === 'function') {
-          imgAny.decode()
-            .then(checkImagesLoaded)
-            .catch(() => {
-              // Fallback if decode fails
-              checkImagesLoaded(); 
-            });
-        } else {
-          // Standard onload fallback for older browsers
-          img.onload = checkImagesLoaded;
-          img.onerror = checkImagesLoaded;
-        }
-      });
-    }).catch(() => {
-      // If imports fail, mark as loaded to not block the app
-      this.markLoaded('images');
-    });
-  }
 
   /**
    * Get loading progress (0-100)

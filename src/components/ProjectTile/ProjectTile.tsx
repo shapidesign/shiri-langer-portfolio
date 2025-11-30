@@ -99,8 +99,6 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          opacity: imageLoaded ? 1 : 0.5,
-          transition: 'opacity 0.1s ease',
           borderRadius: 8,
           display: 'block'
         }}
