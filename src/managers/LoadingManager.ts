@@ -103,43 +103,51 @@ export class LoadingManager {
 
   /**
    * Preload project images
+   * Uses gallery arrays from PROJECT_TEXTS as single source of truth
    */
   private preloadImages(): void {
-    // Preload display images for projects
-    const imageUrls = [
-      '/assets/images/tomi/TomiDisplay1.webp',
-      '/assets/images/chair/chair-display-2.webp',
-      '/assets/images/3dfilters/filterdisplay.webp',
-      '/assets/images/pita/pita-display.webp',
-      '/assets/images/itamar/itadisp.webp',
-      '/assets/images/lamp/lampdis.webp',
-      '/assets/images/stool/DisplayStool.webp',
-      '/assets/images/solidworks/Soliddisp.webp',
-      '/assets/images/mico/micodis.webp',
-      '/assets/images/bowl/bowldisplay.webp',
-      '/assets/images/eve/robotdisplay.webp',
-      '/assets/images/ksense/kdisplay.webp',
-      '/assets/images/ember/emberdis.webp',
-      '/assets/images/pot/disco plante 1 (convert.io).webp',
-      '/assets/images/tambourine/tambdis.webp',
-      '/assets/images/coffee/cofdis.webp'
-    ];
+    // Use dynamic import to avoid circular dependencies
+    Promise.all([
+      import('../config/projectTexts'),
+      import('../utils/imagePathUtils')
+    ]).then(([{ PROJECT_TEXTS }, { getDisplayImage }]) => {
+      // Get display images from each project's gallery
+      const imageUrls: string[] = [];
+      
+      PROJECT_TEXTS.forEach(project => {
+        if (project.id !== 17 && project.gallery && project.gallery.length > 0) {
+          const displayImage = getDisplayImage(project.gallery);
+          if (displayImage && !imageUrls.includes(displayImage)) {
+            imageUrls.push(displayImage);
+          }
+        }
+      });
 
-    let loadedCount = 0;
-    const totalImages = imageUrls.length;
+      let loadedCount = 0;
+      const totalImages = imageUrls.length;
 
-    const checkImagesLoaded = () => {
-      loadedCount++;
-      if (loadedCount === totalImages) {
+      if (totalImages === 0) {
+        // If no images to load, mark as loaded immediately
         this.markLoaded('images');
+        return;
       }
-    };
 
-    imageUrls.forEach(url => {
-      const img = new Image();
-      img.onload = checkImagesLoaded;
-      img.onerror = checkImagesLoaded; // Count as loaded even if error
-      img.src = url;
+      const checkImagesLoaded = () => {
+        loadedCount++;
+        if (loadedCount === totalImages) {
+          this.markLoaded('images');
+        }
+      };
+
+      imageUrls.forEach(url => {
+        const img = new Image();
+        img.onload = checkImagesLoaded;
+        img.onerror = checkImagesLoaded; // Count as loaded even if error (don't block)
+        img.src = url;
+      });
+    }).catch(() => {
+      // If imports fail, mark as loaded to not block the app
+      this.markLoaded('images');
     });
   }
 

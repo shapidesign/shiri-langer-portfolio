@@ -1,5 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Project } from '../../types/Project';
+import { PROJECT_TEXTS } from '../../config/projectTexts';
+import { getDisplayImage, getFallbackImage, normalizeImagePath } from '../../utils/imagePathUtils';
 import './ProjectTile.css';
 
 interface ProjectTileProps {
@@ -24,14 +26,46 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   onOpen
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string>(project.img);
+  const [fallbackIndex, setFallbackIndex] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
+
+  // Get gallery images for this project as fallbacks
+  const projectText = PROJECT_TEXTS.find(p => p.id === project.id);
+  const galleryImages = projectText?.gallery || [];
+
+  // Initialize image source from gallery - use gallery as single source of truth
+  useEffect(() => {
+    if (galleryImages.length > 0) {
+      // Use getDisplayImage which prefers .webp and handles normalization
+      const displayImage = getDisplayImage(galleryImages);
+      setImageSrc(displayImage);
+    } else {
+      // Fallback to project.img if no gallery (shouldn't happen, but be safe)
+      setImageSrc(normalizeImagePath(project.img));
+    }
+    setFallbackIndex(0);
+    setImageLoaded(false);
+  }, [project.id, project.img, galleryImages]);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
 
   const handleImageError = () => {
-    // If image fails to load, still show it to avoid blank spaces
+    // Try fallback images from gallery
+    if (galleryImages.length > fallbackIndex + 1) {
+      const nextFallback = galleryImages[fallbackIndex + 1];
+      if (nextFallback) {
+        setFallbackIndex(fallbackIndex + 1);
+        setImageSrc(normalizeImagePath(nextFallback));
+        setImageLoaded(false);
+        return;
+      }
+    }
+    
+    // If all fallbacks failed, try to use a default image based on project
+    // At minimum, mark as loaded to show something
     setImageLoaded(true);
   };
 
@@ -58,7 +92,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
     >
       <img 
         ref={imgRef}
-        src={project.img} 
+        src={imageSrc} 
         alt={project.title}
         className="project-tile-img"
         style={{
@@ -73,6 +107,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         onLoad={handleImageLoad}
         onError={handleImageError}
         loading="eager"
+        key={`${project.id}-${fallbackIndex}`}
       />
       
       {/* Project info overlay - only show on hover */}

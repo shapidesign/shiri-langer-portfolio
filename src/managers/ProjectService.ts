@@ -1,5 +1,6 @@
 import { Project, ProjectConfig, GridCell } from '../types/Project';
 import { PROJECT_TEXTS } from '../config/projectTexts';
+import { getDisplayImage } from '../utils/imagePathUtils';
 
 /**
  * ProjectService - Manages project data and grid generation
@@ -89,7 +90,7 @@ export class ProjectService {
         id: projectText.id,
         title: projectText.title,
         subtitle: projectText.subtitle,
-        img: this.getProjectImageById(projectText.id), // Use ID-based lookup
+        img: getDisplayImage(projectText.gallery || []), // Use gallery as single source of truth
         year: projectText.year,
         tags: projectText.tags,
         description: projectText.description,
@@ -102,32 +103,7 @@ export class ProjectService {
     this.projects = projects;
   }
 
-  /**
-   * Get project image path based on project ID
-   */
-  private getProjectImageById(projectId: number): string {
-    const imageMap: Record<number, string> = {
-      1: '/assets/images/tomi/TomiDisplay1.webp',
-      2: '/assets/images/chair/chair-display-2.webp',
-      3: '/assets/images/3dfilters/filterdisplay.webp',
-      4: '/assets/images/pita/pita-display.webp',
-      5: '/assets/images/itamar/itadisp.webp',
-      6: '/assets/images/lamp/lampdis.webp',
-      7: '/assets/images/stool/DisplayStool.webp',
-      8: '/assets/images/solidworks/Soliddisp.webp',
-      9: '/assets/images/mico/micodis.webp',
-      10: '/assets/images/bowl/bowldisplay.webp',
-      11: '/assets/images/eve/robotdisplay.webp',
-      12: '/assets/images/ksense/kdisplay.webp',
-      13: '/assets/images/ember/emberdis.webp',
-      14: '/assets/images/pot/disco plante 1 (convert.io).webp',
-      15: '/assets/images/tambourine/tambdis.webp',
-      16: '/assets/images/coffee/cofdis.webp',
-      17: '/assets/images/Shiri.jpg'
-    };
-    
-    return imageMap[projectId] || '/assets/images/default.jpg';
-  }
+  // Removed getProjectImageById - now using gallery[0] as single source of truth
 
   /**
    * Get project by ID
