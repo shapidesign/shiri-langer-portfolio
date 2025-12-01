@@ -158,6 +158,7 @@
   height: fit-content;
   align-self: start;
   margin-top: 0; /* Ensure no top margin */
+  order: 2; /* Align to the right of layout (desktop) */
 }
 
 .gallery-main {
@@ -357,6 +358,7 @@
   -webkit-overflow-scrolling: touch;
   max-height: calc(90vh - 200px);
   padding-right: var(--spacing-sm);
+  order: 1; /* Align to the left of layout (desktop) */
 }
 
 /* Custom scrollbar for project details */
@@ -636,6 +638,15 @@
     padding: var(--spacing-lg);
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+  }
+  
+  /* Restore order on mobile: Gallery first, Details second */
+  .project-gallery {
+    order: 0;
+  }
+  
+  .project-details {
+    order: 1;
   }
   
   .gallery-thumbnails {
