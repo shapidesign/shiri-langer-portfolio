@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { ProjectText, getProjectText } from '../config/projectTexts';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 import { usePinchZoom } from '../hooks/usePinchZoom';
+import { OptimizedImage } from './OptimizedImage/OptimizedImage';
 import './ProjectModal.css';
 
 interface ProjectModalProps {
@@ -66,6 +67,19 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       initPinchZoom(imageRef.current);
     }
   }, [isImageMaximized, initPinchZoom]);
+
+  // Preload all gallery images when modal opens for smooth navigation
+  useEffect(() => {
+    if (isOpen && project?.gallery) {
+      // Preload all gallery images in background
+      project.gallery.forEach(imageSrc => {
+        if (imageSrc) {
+          const img = new Image();
+          img.src = imageSrc;
+        }
+      });
+    }
+  }, [isOpen, project?.gallery]);
 
 
 
@@ -672,14 +686,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                   </svg>
                 </button>
               )}
-              <img 
-                ref={imageRef}
-                src={project.gallery[currentImageIndex]} 
+              <OptimizedImage
+                src={project.gallery[currentImageIndex]}
                 alt={project.title}
                 className="gallery-main-image"
                 onClick={handleImageClick}
                 style={{ cursor: 'pointer' }}
                 title="Click to enlarge"
+                priority={true} // High priority for main gallery image
               />
               {project.gallery.length > 1 && (
                 <button 
@@ -698,11 +712,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             {project.gallery.length > 1 && (
               <div className="gallery-thumbnails">
                 {project.gallery.map((image, index) => (
-                  <img 
+                  <OptimizedImage
                     key={index}
-                    src={image} 
+                    src={image}
                     alt={`${project.title} - Image ${index + 1}`}
                     className={`gallery-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                    width={80}
+                    height={60}
+                    loading="lazy"
+                    thumbnail={true}
+                    thumbnail={true}
                     onClick={(e) => {
                       e.stopPropagation();
                       if (index === currentImageIndex) {

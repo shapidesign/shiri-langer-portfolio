@@ -13,6 +13,7 @@ export interface OptimizedImageProps {
   onClick?: (e: React.MouseEvent) => void;
   title?: string;
   priority?: boolean; // For above-the-fold images
+  thumbnail?: boolean; // For gallery thumbnails - reduces quality for faster loading
 }
 
 /**
@@ -35,10 +36,12 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   onClick,
   title,
   priority = false,
+  thumbnail = false,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [useWebP, setUseWebP] = useState(false);
+  const [showBlur, setShowBlur] = useState(!thumbnail); // Skip blur for thumbnails
   const imgRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -71,7 +74,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   // Setup Intersection Observer for lazy loading
   useEffect(() => {
-    if (priority || loading === 'eager' || !imgRef.current) {
+    if (priority || loading === 'eager' || thumbnail || !imgRef.current) {
       return;
     }
 
@@ -107,6 +110,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   const handleLoad = () => {
     setImageLoaded(true);
+    // Hide blur after a short delay for smooth transition
+    setTimeout(() => setShowBlur(false), 200);
     onLoad?.();
   };
 
@@ -117,16 +122,15 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   // Use optimized src or fallback to original
   const optimizedSrcs = getOptimizedSrc(src);
-  const shouldLazyLoad = loading === 'lazy' && !priority;
-  
-  // For WebP, we'll use a picture element with source tags
-  // For now, try WebP first if available, fallback to original
-  const primarySrc = optimizedSrcs.webp || optimizedSrcs.original;
+  const shouldLazyLoad = loading === 'lazy' && !priority && !thumbnail;
+
+  // For thumbnails, use original src to avoid WebP overhead
+  const primarySrc = thumbnail ? optimizedSrcs.original : (optimizedSrcs.webp || optimizedSrcs.original);
   const fallbackSrc = optimizedSrcs.original;
-  
+
   const imgSrc = shouldLazyLoad && imgRef.current?.dataset.src ? undefined : primarySrc;
   const dataSrc = shouldLazyLoad ? primarySrc : undefined;
-  const dataSrcSet = optimizedSrcs.webp && shouldLazyLoad ? `${optimizedSrcs.webp} 1x, ${optimizedSrcs.original} 1x` : undefined;
+  const dataSrcSet = optimizedSrcs.webp && shouldLazyLoad && !thumbnail ? `${optimizedSrcs.webp} 1x, ${optimizedSrcs.original} 1x` : undefined;
 
   // Calculate aspect ratio for CLS prevention
   const aspectRatio = width && height ? `${width} / ${height}` : undefined;
@@ -143,27 +147,47 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         ...style,
       }}
     >
-      {/* Placeholder for CLS prevention */}
-      {!imageLoaded && (
+      {/* Blur placeholder for smooth loading (skip for thumbnails) */}
+      {showBlur && !imageError && !thumbnail && (
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            backgroundColor: '#f0f0f0',
+            backgroundImage: `url(${primarySrc})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(10px) brightness(0.8)',
+            transform: 'scale(1.1)', // Prevent blur edges from showing
+            opacity: 0.8,
+            transition: 'opacity 0.3s ease-out',
+          }}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Simple placeholder for thumbnails or CLS prevention */}
+      {!imageLoaded && (thumbnail || !showBlur) && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: thumbnail ? '#f0f0f0' : '#f5f5f5',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
           aria-hidden="true"
         >
-          <div
-            style={{
-              width: '40%',
-              height: '40%',
-              backgroundColor: '#ddd',
-              borderRadius: '4px',
-            }}
-          />
+          {thumbnail ? null : (
+            <div
+              style={{
+                width: '40%',
+                height: '40%',
+                backgroundColor: '#e0e0e0',
+                borderRadius: '4px',
+              }}
+            />
+          )}
         </div>
       )}
 
