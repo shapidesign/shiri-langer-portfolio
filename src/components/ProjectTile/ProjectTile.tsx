@@ -126,7 +126,8 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         style={{
           borderRadius: 8,
         }}
-        loading="lazy"
+        loading="eager" // Load immediately to prevent scroll lag
+        priority={true} // High priority
         onError={handleImageError}
         key={`${project.id}-${fallbackIndex}`}
       />
