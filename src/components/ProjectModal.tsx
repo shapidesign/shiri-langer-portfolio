@@ -721,7 +721,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                     height={60}
                     loading="lazy"
                     thumbnail={true}
-                    thumbnail={true}
                     onClick={(e) => {
                       e.stopPropagation();
                       if (index === currentImageIndex) {
