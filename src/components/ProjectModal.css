@@ -32,6 +32,7 @@
   transform: scale(0.85) translateY(40px);
   animation: projectModalSlideIn 0.4s ease-out forwards;
   border: 1px solid var(--color-border);
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -99,23 +100,31 @@
   font-weight: 700;
 }
 
+/* Round blue close button - consistent with About modal */
 .project-modal-close-btn {
-  background: none;
-  border: none;
-  padding: var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  color: var(--color-prussian-blue);
-  transition: all var(--transition-fast);
+  position: absolute;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  background: var(--color-prussian-blue);
+  border: 2px solid var(--color-prussian-blue);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  cursor: pointer;
+  color: var(--color-white-smoke);
+  transition: all var(--transition-normal);
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(8, 54, 69, 0.15);
 }
 
 .project-modal-close-btn:hover {
   background: var(--color-tech-blue);
-  color: var(--color-white-smoke);
+  border-color: var(--color-tech-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(5, 123, 193, 0.35);
 }
 
 .project-modal-close-btn:hover svg {

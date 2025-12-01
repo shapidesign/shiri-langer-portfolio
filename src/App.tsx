@@ -10,9 +10,17 @@ import './App.css';
 function App() {
   const { isLoading, onLoadingComplete } = useLoading();
   const [showMainApp, setShowMainApp] = useState(false);
+
+  // Deployment verification v1.8.90
+  useEffect(() => {
+    console.log('🚀 Shiri Langer Portfolio v1.8.90 - Optimized for performance');
+  }, []);
   
   // Initialize Lenis smooth scrolling (respects prefers-reduced-motion)
   const { lenisManager } = useLenisScroll(!isLoading);
+
+  // Version verification for deployment
+  console.log('🚀 Shiri Langer Portfolio v1.8.90 - Fully Optimized');
 
   useEffect(() => {
     if (!isLoading) {

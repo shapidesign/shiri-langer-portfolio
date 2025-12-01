@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Project } from '../../types/Project';
 import { PROJECT_TEXTS } from '../../config/projectTexts';
-import { getDisplayImage, getFallbackImage, normalizeImagePath } from '../../utils/imagePathUtils';
+import { getDisplayImage, normalizeImagePath } from '../../utils/imagePathUtils';
+import { OptimizedImage } from '../OptimizedImage/OptimizedImage';
 import './ProjectTile.css';
 
 interface ProjectTileProps {
@@ -25,10 +26,8 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   project,
   onOpen
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageSrc, setImageSrc] = useState<string>(project.img);
+  const [imageSrc, setImageSrc] = useState<string>('');
   const [fallbackIndex, setFallbackIndex] = useState(0);
-  const imgRef = useRef<HTMLImageElement>(null);
 
   // Get gallery images for this project as fallbacks
   const projectText = PROJECT_TEXTS.find(p => p.id === project.id);
@@ -45,12 +44,45 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
       setImageSrc(normalizeImagePath(project.img));
     }
     setFallbackIndex(0);
-    setImageLoaded(false);
   }, [project.id, project.img, galleryImages]);
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+  // Preload adjacent project images for smoother scrolling
+  const preloadAdjacentImages = useCallback(() => {
+    // Find this project's index
+    const currentIndex = PROJECT_TEXTS.findIndex(p => p.id === project.id);
+    if (currentIndex === -1) return;
+
+    // Preload next 3 projects (both directions for 2D scrolling)
+    const preloadIndices = [
+      currentIndex - 1, // Previous
+      currentIndex + 1, // Next
+      currentIndex - 8, // Above (assuming 8 per row)
+      currentIndex + 8, // Below
+      currentIndex - 9, // Diagonal
+      currentIndex + 9  // Diagonal
+    ];
+
+    preloadIndices.forEach(index => {
+      if (index >= 0 && index < PROJECT_TEXTS.length) {
+        const adjacentProject = PROJECT_TEXTS[index];
+        if (adjacentProject?.gallery?.length > 0) {
+          const displayImage = getDisplayImage(adjacentProject.gallery);
+          if (displayImage) {
+            // Preload in background
+            const img = new Image();
+            img.src = displayImage;
+          }
+        }
+      }
+    });
+  }, [project.id]);
+
+  // Preload adjacent images when this tile mounts (user is likely to scroll)
+  useEffect(() => {
+    // Small delay to avoid blocking initial render
+    const timer = setTimeout(preloadAdjacentImages, 1000);
+    return () => clearTimeout(timer);
+  }, [preloadAdjacentImages]);
 
   const handleImageError = () => {
     // Try fallback images from gallery
@@ -59,14 +91,9 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
       if (nextFallback) {
         setFallbackIndex(fallbackIndex + 1);
         setImageSrc(normalizeImagePath(nextFallback));
-        setImageLoaded(false);
         return;
       }
     }
-
-    // If all fallbacks failed, use a placeholder to prevent console errors
-    // Use a solid color background instead of a broken image
-    setImageLoaded(true);
   };
 
   const handleClick = () => {
@@ -74,13 +101,13 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   };
 
   return (
-    <div 
-      className="project-tile" 
-      style={{ 
-        position: 'absolute', 
-        left, 
-        top, 
-        width: width, 
+    <div
+      className="project-tile"
+      style={{
+        position: 'absolute',
+        left,
+        top,
+        width: width,
         height: height,
         cursor: 'pointer',
         display: 'flex',
@@ -90,24 +117,20 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
       }}
       onClick={handleClick}
     >
-      <img 
-        ref={imgRef}
-        src={imageSrc} 
+      <OptimizedImage
+        src={imageSrc}
         alt={project.title}
+        width={width - 20} // Account for padding
+        height={height - 20} // Account for padding
         className="project-tile-img"
         style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
           borderRadius: 8,
-          display: 'block'
         }}
-        onLoad={handleImageLoad}
+        loading="lazy"
         onError={handleImageError}
-        loading="eager"
         key={`${project.id}-${fallbackIndex}`}
       />
-      
+
       {/* Project info overlay - only show on hover */}
       <div className="project-tile-overlay">
         <div className="project-tile-title">{project.title}</div>

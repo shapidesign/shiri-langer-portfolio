@@ -99,7 +99,42 @@ export class LoadingManager {
     // Mark drag as loaded (drag functionality is ready with components)
     setTimeout(() => this.markLoaded('drag'), 250);
 
-    // Skip image preloading for faster load - images will load naturally in tiles
+    // Preload first few project images for instant loading experience
+    this.preloadInitialImages();
+  }
+
+  /**
+   * Preload first few project images for immediate availability
+   */
+  private preloadInitialImages(): void {
+    // Use dynamic import to avoid circular dependencies
+    Promise.all([
+      import('../config/projectTexts'),
+      import('../utils/imagePathUtils')
+    ]).then(([{ PROJECT_TEXTS }, { getDisplayImage }]) => {
+      // Preload only the first 4-6 projects that are most likely to be seen first
+      const preloadCount = 6;
+      const preloadUrls: string[] = [];
+
+      for (let i = 0; i < Math.min(preloadCount, PROJECT_TEXTS.length); i++) {
+        const project = PROJECT_TEXTS[i];
+        if (project && project.gallery && project.gallery.length > 0) {
+          const displayImage = getDisplayImage(project.gallery);
+          if (displayImage && !preloadUrls.includes(displayImage)) {
+            preloadUrls.push(displayImage);
+          }
+        }
+      }
+
+      // Preload these images in parallel
+      preloadUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+        // Let them load in background, no need to track completion
+      });
+    }).catch(() => {
+      // Silently fail if imports fail - not critical for UX
+    });
   }
 
 
@@ -109,7 +144,6 @@ export class LoadingManager {
   public getProgress(): number {
     const requiredStates = [
       'fonts',
-      'images', 
       'effects',
       'animations',
       'components',
