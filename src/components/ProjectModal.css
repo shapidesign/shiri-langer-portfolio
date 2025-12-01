@@ -835,30 +835,7 @@
 }
 
 .inline-slider-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0,0,0,0.1); /* Add subtle border */
-  border-radius: 50%;
-  width: 36px; /* Slightly larger */
-  height: 36px; /* Slightly larger */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-  transition: all 0.2s ease;
-  z-index: 10006; /* Higher than images */
-  color: var(--color-prussian-blue);
-  opacity: 0.9; /* Always visible */
-}
-
-.inline-slider-nav-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  opacity: 1;
+  display: none !important; /* Hide navigation arrows */
 }
 
 .inline-slider-prev {
@@ -870,13 +847,14 @@
 }
 
 .body-text-content .process-image-inline {
-  width: 200px;
-  height: 150px;
+  width: 100%; /* Make images take full width */
+  max-width: 600px; /* But limit to reasonable max width */
+  height: auto; /* Maintain aspect ratio */
   border-radius: var(--radius-md);
   box-shadow: 0 4px 12px rgba(23, 36, 63, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
-  object-fit: cover;
+  object-fit: contain; /* Ensure whole image is visible */
   flex-shrink: 0;
   position: relative;
   z-index: 10005 !important; /* Higher than gallery backdrop (9999) */

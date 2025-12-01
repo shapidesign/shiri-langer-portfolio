@@ -71,6 +71,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   // Handle CV download
   const handleCVDownload = () => {
     const link = document.createElement('a');
+    // Use the PDF file that already exists in the public folder
     link.href = '/Shiri-Langer-CV-2025.pdf';
     link.download = 'Shiri-Langer-CV-2025.pdf';
     link.target = '_blank';
