@@ -157,6 +157,7 @@
   top: 0;
   height: fit-content;
   align-self: start;
+  margin-top: 0; /* Ensure no top margin */
 }
 
 .gallery-main {
@@ -164,6 +165,7 @@
   overflow: hidden;
   background: transparent;
   position: relative;
+  border-radius: 12px; /* Enforce rounded corners */
 }
 
 .gallery-main-image {
@@ -173,7 +175,12 @@
   object-fit: contain;
   display: block;
   transition: transform var(--transition-normal);
-  border-radius: var(--radius-lg); /* Rounded corners */
+  border-radius: 12px; /* Enforce rounded corners */
+}
+
+/* Ensure OptimizedImage wrapper also has rounded corners in gallery */
+.project-gallery .optimized-image-wrapper {
+  border-radius: 12px !important;
 }
 
 /* GIF images should fill the container without black bars */
@@ -706,7 +713,7 @@
 
 /* Body Text Styles */
 .project-body-text {
-  margin-top: var(--spacing-sm);
+  margin-top: 0; /* Removed top margin for alignment */
 }
 
 .body-text-content {
@@ -832,23 +839,26 @@
   top: 50%;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.9);
-  border: none;
+  border: 1px solid rgba(0,0,0,0.1); /* Add subtle border */
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 36px; /* Slightly larger */
+  height: 36px; /* Slightly larger */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow */
   transition: all 0.2s ease;
-  z-index: 2;
+  z-index: 10006; /* Higher than images */
   color: var(--color-prussian-blue);
+  opacity: 0.9; /* Always visible */
 }
 
 .inline-slider-nav-btn:hover {
   background: rgba(255, 255, 255, 1);
   transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 1;
 }
 
 .inline-slider-prev {

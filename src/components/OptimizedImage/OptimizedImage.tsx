@@ -94,7 +94,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         });
       },
       {
-        rootMargin: '50px', // Start loading 50px before image enters viewport
+        rootMargin: '200px', // Start loading 200px before image enters viewport
         threshold: 0.01,
       }
     );
