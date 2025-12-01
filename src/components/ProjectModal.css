@@ -822,12 +822,9 @@
   justify-content: flex-start;
   margin: var(--spacing-md) 0;
   gap: var(--spacing-sm);
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  flex-wrap: wrap; /* Allow wrapping so they fit in width */
+  overflow-x: visible; /* No scroll needed if wrapping */
+  width: 100%;
 }
 
 .body-text-content .process-image-slider::-webkit-scrollbar {
@@ -847,14 +844,13 @@
 }
 
 .body-text-content .process-image-inline {
-  width: 100%; /* Make images take full width */
-  max-width: 600px; /* But limit to reasonable max width */
-  height: auto; /* Maintain aspect ratio */
+  width: 150px; /* Small size */
+  height: 112px; /* Maintain 4:3 aspect ratio approximately */
   border-radius: var(--radius-md);
   box-shadow: 0 4px 12px rgba(23, 36, 63, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
-  object-fit: contain; /* Ensure whole image is visible */
+  object-fit: cover;
   flex-shrink: 0;
   position: relative;
   z-index: 10005 !important; /* Higher than gallery backdrop (9999) */
