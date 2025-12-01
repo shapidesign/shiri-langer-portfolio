@@ -158,7 +158,6 @@
   height: fit-content;
   align-self: start;
   margin-top: 0; /* Ensure no top margin */
-  order: 2; /* Align to the right of layout (desktop) */
 }
 
 .gallery-main {
@@ -321,21 +320,23 @@
 }
 
 .gallery-thumbnails {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-sm);
+  justify-content: flex-start; /* Align to the left */
 }
 
 .gallery-thumbnail {
-  width: 100%;
-  height: 80px;
-  object-fit: contain;
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
   border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all var(--transition-fast);
   border: none;
   opacity: 0.7;
   background: transparent;
+  flex-shrink: 0;
 }
 
 .gallery-thumbnail:hover {
@@ -358,7 +359,6 @@
   -webkit-overflow-scrolling: touch;
   max-height: calc(90vh - 200px);
   padding-right: var(--spacing-sm);
-  order: 1; /* Align to the left of layout (desktop) */
 }
 
 /* Custom scrollbar for project details */
@@ -638,15 +638,6 @@
     padding: var(--spacing-lg);
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
-  }
-  
-  /* Restore order on mobile: Gallery first, Details second */
-  .project-gallery {
-    order: 0;
-  }
-  
-  .project-details {
-    order: 1;
   }
   
   .gallery-thumbnails {
