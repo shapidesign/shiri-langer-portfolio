@@ -39,9 +39,9 @@ export class LenisScrollManager {
       orientation: 'vertical' as const,
       gestureOrientation: 'vertical' as const,
       smoothWheel: !this.prefersReducedMotion,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.8, // Reduced for smoother control
       smoothTouch: !this.prefersReducedMotion,
-      touchMultiplier: 2,
+      touchMultiplier: 1.2, // Reduced to prevent glitchy fast scrolling
       infinite: false,
     };
 
