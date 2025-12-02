@@ -19,7 +19,6 @@
 /build
 /coverage
 /node_modules
-Assets/
 npm-debug.log*
 portfolio/
 yarn-debug.log*
