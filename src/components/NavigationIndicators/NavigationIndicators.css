@@ -1,0 +1,131 @@
+/* Navigation Indicators - Don Norman's Signifiers */
+.navigation-indicators {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 500;
+}
+
+.indicator {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #057BC1; /* Star of Life */
+  transition: opacity 0.5s ease, transform 0.3s ease;
+  opacity: 1 !important; /* Always visible, never dimmed */
+}
+
+.indicator svg {
+  filter: drop-shadow(0 0 8px rgba(77, 216, 255, 0.6)) drop-shadow(0 0 16px rgba(77, 216, 255, 0.4)) drop-shadow(0 2px 4px rgba(5, 123, 193, 0.8));
+}
+
+/* Positioning - closer to screen borders */
+.indicator-top {
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.indicator-right {
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+}
+
+.indicator-bottom {
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.indicator-left {
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+}
+
+/* Removed strobing animations to prevent flipping - arrows stay fixed */
+
+/* Removed dimmed state - arrows always visible and bold */
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .indicator svg {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .indicator-top {
+    top: 25px;
+  }
+  
+  .indicator-right {
+    right: 25px;
+  }
+  
+  .indicator-bottom {
+    bottom: 25px;
+  }
+  
+  .indicator-left {
+    left: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .indicator svg {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .indicator-top {
+    top: 20px;
+  }
+  
+  .indicator-right {
+    right: 20px;
+  }
+  
+  .indicator-bottom {
+    bottom: 20px;
+  }
+  
+  .indicator-left {
+    left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .indicator svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .indicator-top {
+    top: 15px;
+  }
+  
+  .indicator-right {
+    right: 15px;
+  }
+  
+  .indicator-bottom {
+    bottom: 15px;
+  }
+  
+  .indicator-left {
+    left: 15px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    animation: none;
+  }
+}
+
