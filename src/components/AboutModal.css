@@ -30,6 +30,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  touch-action: auto; /* Enable native scrolling */
 }
 
 .about-modal-scrollable {
@@ -38,6 +39,7 @@
   overflow-x: hidden;
   padding: var(--spacing-lg);
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y; /* Enable vertical scrolling */
 }
 
 .about-modal-close {
@@ -57,6 +59,7 @@
   transition: all var(--transition-normal);
   z-index: 10;
   box-shadow: 0 4px 12px rgba(8, 54, 69, 0.15);
+  touch-action: manipulation; /* Enable taps */
 }
 
 .about-modal-close:hover {
@@ -371,6 +374,7 @@
   box-shadow: 0 4px 12px rgba(8, 54, 69, 0.15);
   opacity: 1;
   transform: translateY(0);
+  touch-action: manipulation; /* Enable taps */
 }
 
 .scroll-down-btn:hover {
@@ -441,6 +445,7 @@
   border: 2px solid var(--color-royal);
   position: relative;
   overflow: hidden;
+  touch-action: manipulation; /* Enable taps */
 }
 
 .cta-button::before {

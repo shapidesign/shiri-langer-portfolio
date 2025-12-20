@@ -31,6 +31,7 @@
   animation: modalSlideIn 0.3s ease-out forwards;
   border: 1px solid var(--color-border);
   position: relative;
+  touch-action: auto; /* Enable native scrolling */
 }
 
 /* Modal Header */
@@ -70,6 +71,7 @@
   transition: all var(--transition-normal);
   z-index: 10;
   box-shadow: 0 4px 12px rgba(8, 54, 69, 0.15);
+  touch-action: manipulation; /* Enable taps */
 }
 
 .modal-close-btn:hover {
