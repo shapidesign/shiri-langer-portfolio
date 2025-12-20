@@ -92,7 +92,7 @@ const PortfolioGrid: React.FC = () => {
   }, [projectService, gridConfig]);
   
   // Use custom hooks for functionality
-  const { offset, setOffset, onPointerDown, onPointerMove, onPointerUp } = useDragInertia();
+  const { offset, setOffset, onPointerDown, onPointerMove, onPointerUp, isDragging } = useDragInertia();
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Keyboard navigation
@@ -235,6 +235,7 @@ const PortfolioGrid: React.FC = () => {
               height={gridConfig.tileHeight}
               project={project}
               onOpen={handleProjectClick}
+              isDragging={isDragging}
             />
           );
         })}

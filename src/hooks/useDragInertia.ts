@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { DragManager } from '../managers/DragManager';
 import { DragOffset } from '../types/Drag';
 import { LoadingManager } from '../managers/LoadingManager';
@@ -31,5 +31,10 @@ export const useDragInertia = () => {
     onPointerUp: () => {}
   };
 
-  return { offset, setOffset, ...handlers };
+  // Helper to check if currently dragging (to prevent clicks)
+  const isDragging = useCallback(() => {
+    return dragManagerRef.current?.isDragging() || false;
+  }, []);
+
+  return { offset, setOffset, ...handlers, isDragging };
 };

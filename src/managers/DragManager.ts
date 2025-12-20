@@ -71,6 +71,13 @@ export class DragManager {
   }
 
   /**
+   * Check if currently dragging
+   */
+  public isDragging(): boolean {
+    return this.state.dragging;
+  }
+
+  /**
    * Handle pointer down event
    * Supports middle mouse button and touch/left-drag on mobile
    */

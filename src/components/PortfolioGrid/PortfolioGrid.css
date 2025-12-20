@@ -51,6 +51,7 @@
     0 4px 12px rgba(8, 54, 69, 0.15),
     0 0 4px var(--color-prussian-blue);
   animation: smoothPulse 4s ease-in-out infinite;
+  touch-action: manipulation; /* Enable click handling on mobile */
 }
 
 .about-btn:hover {
@@ -93,6 +94,7 @@
     0 4px 12px rgba(8, 54, 69, 0.15),
     0 0 4px var(--color-prussian-blue);
   animation: smoothPulse 4s ease-in-out infinite;
+  touch-action: manipulation; /* Enable click handling on mobile */
 }
 
 .contact-btn:hover {
