@@ -9,8 +9,14 @@ export class LenisScrollManager {
   private rafId: number = 0;
   private prefersReducedMotion: boolean = false;
   private isEnabled: boolean = true;
+  private isMobile: boolean = false;
 
   constructor() {
+    // Check for mobile
+    this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   ('ontouchstart' in window) || 
+                   (navigator.maxTouchPoints > 0);
+
     // Check for prefers-reduced-motion
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     this.prefersReducedMotion = mediaQuery.matches;
@@ -40,8 +46,9 @@ export class LenisScrollManager {
       gestureOrientation: 'vertical' as const,
       smoothWheel: !this.prefersReducedMotion,
       wheelMultiplier: 0.8, // Reduced for smoother control
-      smoothTouch: !this.prefersReducedMotion,
-      touchMultiplier: 1.2, // Reduced to prevent glitchy fast scrolling
+      // Disable smooth touch on mobile to preserve native behavior and prevent conflicts
+      smoothTouch: false,
+      touchMultiplier: 1.2,
       infinite: false,
     };
 
