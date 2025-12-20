@@ -196,11 +196,11 @@ const PortfolioGrid: React.FC = () => {
     >
       {/* Portfolio Grid */}
       <div
+        className="grid-interaction-layer"
         onWheel={onWheel}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        style={{ position: 'absolute', inset: 0, cursor: 'default' }}
         onMouseEnter={(e) => {
           // Only show grab cursor when middle mouse button is pressed
           if ((e.buttons & 4) === 4) { // Middle button (button 1 = bit 2 = 4)
