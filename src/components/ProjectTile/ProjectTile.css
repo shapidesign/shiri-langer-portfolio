@@ -11,6 +11,8 @@
   box-shadow: none;
   border-radius: 8px;
   overflow: hidden;
+  /* Ensure touch events work */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .project-tile-img {
@@ -21,17 +23,6 @@
   display: block;
   border: none;
   outline: none;
-}
-
-.project-tile:hover {
-  transform: translateY(-1px) translateZ(0);
-  box-shadow: 0 6px 16px rgba(21, 35, 32, 0.25);
-  /* Removed orange stroke - only shadow on hover */
-}
-
-.project-tile:hover .project-tile-img {
-  transform: scale(1.01) translateZ(0);
-  filter: brightness(1.02);
 }
 
 /* Project Tile Overlay */
@@ -53,11 +44,6 @@
   flex-direction: column;
   gap: var(--spacing-xs);
   align-items: flex-start;
-}
-
-.project-tile:hover .project-tile-overlay {
-  transform: translateY(0);
-  opacity: 1;
 }
 
 .project-tile-title {
@@ -93,13 +79,23 @@
   align-self: flex-start;
 }
 
-/* Project tile styling */
-.project-tile {
-  position: relative;
+/* Desktop Hover Effects - Only for devices that support hover */
+@media (hover: hover) {
+  .project-tile:hover {
+    transform: translateY(-1px) translateZ(0);
+    box-shadow: 0 6px 16px rgba(21, 35, 32, 0.25);
+  }
+
+  .project-tile:hover .project-tile-img {
+    transform: scale(1.01) translateZ(0);
+    filter: brightness(1.02);
+  }
+
+  .project-tile:hover .project-tile-overlay {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
-
-/* Removed orange stroke - keeping only shadow on hover */
-
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -118,15 +114,21 @@
   }
 }
 
-/* Touch Interactions */
-@media (hover: none) and (pointer: coarse) {
+/* Touch Interactions - Always show content, disable hover effects */
+@media (hover: none) or (pointer: coarse) {
+  .project-tile:active {
+    /* Subtle active state for feedback */
+    opacity: 0.8; 
+  }
+
+  .project-tile:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
   .project-tile:hover .project-tile-img {
     transform: none;
-  }
-  
-  .project-tile:hover .project-tile-overlay {
-    transform: translateY(0);
-    opacity: 1;
+    filter: none;
   }
   
   /* Always show overlay on touch devices */

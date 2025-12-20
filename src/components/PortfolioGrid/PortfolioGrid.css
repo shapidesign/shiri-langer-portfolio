@@ -15,7 +15,7 @@
   /* Mobile optimizations */
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
-  touch-action: manipulation;
+  touch-action: none; /* Disable browser handling of gestures to allow custom drag */
   /* Disable Mac two-finger swipe gestures for back/forward */
   -webkit-overflow-scrolling: auto;
   overscroll-behavior-x: none;
