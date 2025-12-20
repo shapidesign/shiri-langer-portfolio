@@ -154,8 +154,8 @@ const PortfolioGrid: React.FC = () => {
   
   // Handle project tile click
   const handleProjectClick = (projectId: number) => {
-    setSelectedProjectId(projectId);
-    setIsProjectModalOpen(true);
+      setSelectedProjectId(projectId);
+      setIsProjectModalOpen(true);
   };
   
   // Calculate grid positioning
