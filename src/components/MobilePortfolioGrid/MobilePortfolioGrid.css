@@ -4,17 +4,16 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   background: var(--color-background);
-  padding: 80px 20px 40px; /* Top padding to clear fixed buttons */
+  padding: 80px 15px 40px;
   box-sizing: border-box;
-  /* Ensure it sits above any absolute positioning contexts if necessary */
   position: relative; 
   z-index: 10;
 }
 
 .mobile-grid-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
   max-width: 600px;
   margin: 0 auto;
   padding-bottom: 40px;
@@ -23,10 +22,10 @@
 .mobile-project-card {
   position: relative;
   width: 100%;
-  aspect-ratio: 4/3;
-  border-radius: 16px;
+  aspect-ratio: 1; /* Square tiles for better grid fit */
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   background: #f0f0f0;
   cursor: pointer;
   touch-action: manipulation;
@@ -35,7 +34,7 @@
 }
 
 .mobile-project-card:active {
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
 
 .mobile-card-image-container {
@@ -56,8 +55,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
   color: white;
   pointer-events: none;
   display: flex;
@@ -67,32 +66,22 @@
 
 .mobile-card-title {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
-  margin: 0 0 4px 0;
+  font-size: 0.9rem;
+  margin: 0 0 2px 0;
   font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  line-height: 1.2;
 }
 
 .mobile-card-subtitle {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  margin: 0;
-  opacity: 0.95;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  display: none; /* Hide subtitle on small tiles to save space */
 }
 
 .mobile-card-year {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  opacity: 0.9;
   font-weight: 500;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .mobile-grid-footer {
@@ -100,6 +89,6 @@
     padding: 20px;
     color: var(--color-text);
     opacity: 0.6;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-family: var(--font-mono);
 }
