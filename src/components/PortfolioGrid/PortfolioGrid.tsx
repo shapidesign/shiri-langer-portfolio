@@ -3,6 +3,7 @@ import { useDragInertia } from '../../hooks/useDragInertia';
 import { ProjectService } from '../../managers/ProjectService';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
 import { ProjectTile } from '../ProjectTile';
+import { MobilePortfolioGrid } from '../MobilePortfolioGrid/MobilePortfolioGrid';
 import ContactModal from '../ContactModal';
 import ProjectModal from '../ProjectModal';
 import AboutModal from '../AboutModal';
@@ -23,11 +24,25 @@ const PortfolioGrid: React.FC = () => {
   
   // Responsive grid configuration
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [isMobile, setIsMobile] = useState(false);
   
   useEffect(() => {
     const handleResize = () => {
-      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setScreenSize({ width, height });
+      
+      // Robust mobile detection
+      const isMobileDevice = 
+        width <= 768 || 
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        (navigator.maxTouchPoints && navigator.maxTouchPoints > 0 && width <= 1024);
+        
+      setIsMobile(isMobileDevice);
     };
+    
+    // Initial check
+    handleResize();
     
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -115,41 +130,44 @@ const PortfolioGrid: React.FC = () => {
       return; // Let modal handle its own scrolling
     }
     
-    e.preventDefault();
-    
-    const now = performance.now();
-    const deltaTime = Math.max(1, now - lastWheelTime.current);
-    lastWheelTime.current = now;
-    
-    // Enhanced wheel delta processing
-    const deltaX = -e.deltaX;
-    const deltaY = -e.deltaY;
-    
-    // Accumulate wheel deltas with time-based smoothing
-    wheelAccumulator.current.x += deltaX;
-    wheelAccumulator.current.y += deltaY;
-    
-    // Calculate velocity for momentum
-    wheelVelocity.current.x = deltaX / deltaTime;
-    wheelVelocity.current.y = deltaY / deltaTime;
-    
-    // Cancel previous wheel animation
-    if (wheelRaf.current) cancelAnimationFrame(wheelRaf.current);
-    
-    // Apply accumulated deltas with enhanced smoothing
-    wheelRaf.current = requestAnimationFrame(() => {
-      const smoothFactor = 0.85; // Slightly increased for better responsiveness
-      const momentumFactor = 0.15; // Add momentum from velocity
+    // Only prevent default if we're in desktop mode (custom scrolling)
+    if (!isMobile) {
+      e.preventDefault();
       
-      const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
-      const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
+      const now = performance.now();
+      const deltaTime = Math.max(1, now - lastWheelTime.current);
+      lastWheelTime.current = now;
       
-      setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
+      // Enhanced wheel delta processing
+      const deltaX = -e.deltaX;
+      const deltaY = -e.deltaY;
       
-      // Reset accumulator with decay
-      wheelAccumulator.current.x *= 0.1;
-      wheelAccumulator.current.y *= 0.1;
-    });
+      // Accumulate wheel deltas with time-based smoothing
+      wheelAccumulator.current.x += deltaX;
+      wheelAccumulator.current.y += deltaY;
+      
+      // Calculate velocity for momentum
+      wheelVelocity.current.x = deltaX / deltaTime;
+      wheelVelocity.current.y = deltaY / deltaTime;
+      
+      // Cancel previous wheel animation
+      if (wheelRaf.current) cancelAnimationFrame(wheelRaf.current);
+      
+      // Apply accumulated deltas with enhanced smoothing
+      wheelRaf.current = requestAnimationFrame(() => {
+        const smoothFactor = 0.85; // Slightly increased for better responsiveness
+        const momentumFactor = 0.15; // Add momentum from velocity
+        
+        const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
+        const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
+        
+        setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
+        
+        // Reset accumulator with decay
+        wheelAccumulator.current.x *= 0.1;
+        wheelAccumulator.current.y *= 0.1;
+      });
+    }
   };
   
   // Handle project tile click
@@ -177,8 +195,7 @@ const PortfolioGrid: React.FC = () => {
   const cells = useMemo(() => {
     return projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
   }, [projectService, firstRow, firstCol, rowsToDraw, colsToDraw]);
-  
-  
+
   return (
     <div
       ref={containerRef}
@@ -187,61 +204,62 @@ const PortfolioGrid: React.FC = () => {
         position: 'relative', 
         height: '100vh', 
         width: '100vw', 
-        overflow: 'hidden', 
+        overflow: isMobile ? 'visible' : 'hidden', // Allow native scrolling on mobile if container handles it
         background: 'var(--color-background)', 
         color: 'var(--color-text)', 
         overscrollBehavior: 'none',
         userSelect: 'none',
       } as React.CSSProperties}
     >
-      {/* Portfolio Grid */}
-      <div
-        className="grid-interaction-layer"
-        onWheel={onWheel}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onMouseEnter={(e) => {
-          // Only show grab cursor when middle mouse button is pressed
-          if ((e.buttons & 4) === 4) { // Middle button (button 1 = bit 2 = 4)
-            (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
-          }
-        }}
-        onMouseMove={(e) => {
-          // Update cursor based on middle button state
-          if ((e.buttons & 4) === 4) {
-            (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
-          } else {
+      {/* Conditionally render Grid or Mobile List */}
+      {isMobile ? (
+        <MobilePortfolioGrid onProjectClick={handleProjectClick} />
+      ) : (
+        /* Portfolio Grid Interaction Layer */
+        <div
+          className="grid-interaction-layer"
+          onWheel={onWheel}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onMouseEnter={(e) => {
+            if ((e.buttons & 4) === 4) {
+              (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
+            }
+          }}
+          onMouseMove={(e) => {
+            if ((e.buttons & 4) === 4) {
+              (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
+            } else {
+              (e.currentTarget as HTMLElement).style.cursor = 'default';
+            }
+          }}
+          onPointerLeave={(e) => {
             (e.currentTarget as HTMLElement).style.cursor = 'default';
-          }
-        }}
-        onPointerLeave={(e) => {
-          // Reset cursor if pointer leaves
-          (e.currentTarget as HTMLElement).style.cursor = 'default';
-        }}
-      >
-        {cells.map(({ row, col, projId }) => {
-          const project = projectService.getProjectById(projId);
-          if (!project) return null;
-          // Filter out "About Me" project (ID 17) - it should only open from About button
-          if (projId === 17) return null;
+          }}
+        >
+          {cells.map(({ row, col, projId }) => {
+            const project = projectService.getProjectById(projId);
+            if (!project) return null;
+            if (projId === 17) return null;
 
-          return (
-            <ProjectTile
-              key={`${row}:${col}`}
-              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + offset.x}
-              top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap) + offset.y}
-              width={gridConfig.tileWidth}
-              height={gridConfig.tileHeight}
-              project={project}
-              onOpen={handleProjectClick}
-              isDragging={isDragging}
-            />
-          );
-        })}
-      </div>
+            return (
+              <ProjectTile
+                key={}
+                left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + offset.x}
+                top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap) + offset.y}
+                width={gridConfig.tileWidth}
+                height={gridConfig.tileHeight}
+                project={project}
+                onOpen={handleProjectClick}
+                isDragging={isDragging}
+              />
+            );
+          })}
+        </div>
+      )}
 
-      {/* About Me Button */}
+      {/* About Me Button - Always visible */}
       <button 
         className="about-btn"
         onClick={() => setIsAboutModalOpen(true)}
@@ -254,7 +272,7 @@ const PortfolioGrid: React.FC = () => {
         About
       </button>
 
-      {/* Contact Button */}
+      {/* Contact Button - Always visible */}
       <button 
         className="contact-btn"
         onClick={() => setIsContactModalOpen(true)}
@@ -273,7 +291,7 @@ const PortfolioGrid: React.FC = () => {
         onClose={() => setIsContactModalOpen(false)}
       />
 
-      {/* Project Modal */}
+      {/* Project Modal - Portaled to Body */}
       <ProjectModal 
         isOpen={isProjectModalOpen}
         projectId={selectedProjectId}
@@ -283,7 +301,7 @@ const PortfolioGrid: React.FC = () => {
         }}
       />
 
-      {/* About Modal */}
+      {/* About Modal - Portaled to Body */}
       <AboutModal 
         isOpen={isAboutModalOpen}
         onClose={() => setIsAboutModalOpen(false)}
