@@ -652,8 +652,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           </div>
           <button 
             className="project-modal-close-btn" 
-            onClick={onClose}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
             aria-label="Close project modal"
+            type="button"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -676,10 +686,22 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               {project.gallery.length > 1 && (
                 <button 
                   className="gallery-nav-btn gallery-nav-prev"
-                  onClick={() => setCurrentImageIndex((prev: number) => 
-                    prev > 0 ? prev - 1 : project.gallery.length - 1
-                  )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setCurrentImageIndex((prev: number) => 
+                      prev > 0 ? prev - 1 : project.gallery.length - 1
+                    );
+                  }}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setCurrentImageIndex((prev: number) => 
+                      prev > 0 ? prev - 1 : project.gallery.length - 1
+                    );
+                  }}
                   aria-label="Previous image"
+                  type="button"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="15,18 9,12 15,6"></polyline>
@@ -698,10 +720,22 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               {project.gallery.length > 1 && (
                 <button 
                   className="gallery-nav-btn gallery-nav-next"
-                  onClick={() => setCurrentImageIndex((prev: number) => 
-                    prev < project.gallery.length - 1 ? prev + 1 : 0
-                  )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setCurrentImageIndex((prev: number) => 
+                      prev < project.gallery.length - 1 ? prev + 1 : 0
+                    );
+                  }}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setCurrentImageIndex((prev: number) => 
+                      prev < project.gallery.length - 1 ? prev + 1 : 0
+                    );
+                  }}
                   aria-label="Next image"
+                  type="button"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="9,18 15,12 9,6"></polyline>
