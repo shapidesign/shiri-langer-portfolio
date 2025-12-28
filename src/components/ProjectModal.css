@@ -211,7 +211,7 @@
   max-height: 90vh;
   width: auto;
   height: auto;
-  z-index: 1001 !important;
+  z-index: 15001 !important;
   object-fit: contain;
   border-radius: var(--radius-lg);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
@@ -254,7 +254,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 1000 !important;
+  z-index: 15000 !important;
   cursor: pointer;
   animation: backdropFadeIn 0.3s ease-out;
   display: block !important;
