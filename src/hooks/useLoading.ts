@@ -29,9 +29,16 @@ export const useLoading = () => {
       setProgress(loadingManager.getProgress());
     }, 100);
 
+    // Absolute maximum timeout - force complete after 5 seconds no matter what
+    const maxTimeout = setTimeout(() => {
+      console.warn('Maximum loading timeout reached - forcing app to load');
+      handleLoadingComplete();
+    }, 5000);
+
     return () => {
       loadingManager.removeCallback(onComplete);
       clearInterval(progressInterval);
+      clearTimeout(maxTimeout);
     };
   }, [loadingManager, handleLoadingComplete]);
 

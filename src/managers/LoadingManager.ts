@@ -24,6 +24,20 @@ export class LoadingManager {
     
     this.isInitialized = true;
     this.preloadAssets();
+    
+    // Safety timeout: force complete after 3 seconds max
+    setTimeout(() => {
+      if (!this.isAllLoaded()) {
+        console.warn('Loading timeout - forcing completion');
+        // Mark all required states as loaded
+        ['fonts', 'effects', 'animations', 'components', 'drag'].forEach(state => {
+          if (!this.loadingStates.get(state)) {
+            this.loadingStates.set(state, true);
+          }
+        });
+        this.checkAllLoaded();
+      }
+    }, 3000);
   }
 
   /**
@@ -84,23 +98,29 @@ export class LoadingManager {
    * Preload critical assets
    */
   private preloadAssets(): void {
+    // On mobile, use shorter timeouts for faster initial load
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const multiplier = isMobile ? 0.5 : 1;
+
     // Mark fonts as loaded (they're already loaded via CSS)
-    setTimeout(() => this.markLoaded('fonts'), 50);
+    setTimeout(() => this.markLoaded('fonts'), 50 * multiplier);
 
     // Mark effects as loaded (they're CSS-based)
-    setTimeout(() => this.markLoaded('effects'), 100);
+    setTimeout(() => this.markLoaded('effects'), 100 * multiplier);
 
     // Mark animations as loaded (they're CSS-based)
-    setTimeout(() => this.markLoaded('animations'), 150);
+    setTimeout(() => this.markLoaded('animations'), 150 * multiplier);
 
     // Mark components as loaded (React components are ready)
-    setTimeout(() => this.markLoaded('components'), 200);
+    setTimeout(() => this.markLoaded('components'), 200 * multiplier);
 
     // Mark drag as loaded (drag functionality is ready with components)
-    setTimeout(() => this.markLoaded('drag'), 250);
+    setTimeout(() => this.markLoaded('drag'), 250 * multiplier);
 
-    // Preload first few project images for instant loading experience
-    this.preloadInitialImages();
+    // Preload first few project images for instant loading experience (only on desktop)
+    if (!isMobile) {
+      this.preloadInitialImages();
+    }
   }
 
   /**
