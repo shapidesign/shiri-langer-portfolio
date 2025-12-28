@@ -261,22 +261,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div className="form-actions">
-              <button 
-                type="button" 
-                className="btn-secondary" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onClose();
-                }}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onClose();
-                }}
-              >
-                Cancel
-              </button>
               <button type="submit" className="btn-primary">
                 Send Message
               </button>

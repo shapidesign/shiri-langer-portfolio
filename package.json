@@ -1,6 +1,6 @@
 {
   "name": "shiri-langer-designs",
-  "version": "1.9.7",
+  "version": "1.9.8",
   "private": true,
   "dependencies": {
     "@types/node": "^16.18.126",

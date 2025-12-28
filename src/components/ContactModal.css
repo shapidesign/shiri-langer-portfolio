@@ -231,7 +231,6 @@
   background: var(--color-background);
   color: var(--color-text);
   transition: all var(--transition-fast);
-  touch-action: manipulation;
 }
 
 .form-input:focus,
@@ -515,7 +514,7 @@
   
   .modal-content {
     padding: 16px;
-    padding-bottom: calc(16px + env(safe-area-inset-bottom, 80px));
+    padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
     grid-template-columns: 1fr;
     gap: 24px;
     flex: 1;
@@ -558,8 +557,7 @@
   .form-textarea {
     padding: 12px;
     font-size: 16px; /* Prevent zoom on iOS */
-    touch-action: manipulation;
-    -webkit-overflow-scrolling: touch;
+    touch-action: auto;
   }
   
   .form-textarea {
@@ -570,15 +568,19 @@
     flex-direction: column;
     gap: 12px;
     margin-top: 16px;
+    margin-bottom: 60px;
   }
   
-  .btn-primary,
-  .btn-secondary {
+  .btn-primary {
     width: 100%;
-    min-height: 48px;
-    padding: 14px;
-    font-size: 1rem;
+    min-height: 52px;
+    padding: 16px;
+    font-size: 1.05rem;
     justify-content: center;
+  }
+  
+  .btn-secondary {
+    display: none;
   }
 }
 
@@ -602,7 +604,7 @@
   
   .modal-content {
     padding: 12px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom, 80px));
+    padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px));
   }
   
   .contact-intro {
@@ -623,6 +625,7 @@
   .form-input,
   .form-textarea {
     padding: 10px;
+    touch-action: auto;
   }
 }
 
