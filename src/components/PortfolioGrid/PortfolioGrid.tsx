@@ -32,11 +32,12 @@ const PortfolioGrid: React.FC = () => {
       const height = window.innerHeight;
       setScreenSize({ width, height });
       
-      // Robust mobile detection
-      const isMobileDevice = 
+      // Robust mobile detection - explicitly convert to boolean
+      const isMobileDevice = Boolean(
         width <= 768 || 
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-        (navigator.maxTouchPoints && navigator.maxTouchPoints > 0 && width <= 1024);
+        (navigator.maxTouchPoints && navigator.maxTouchPoints > 0 && width <= 1024)
+      );
         
       setIsMobile(isMobileDevice);
     };
