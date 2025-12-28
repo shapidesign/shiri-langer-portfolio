@@ -290,15 +290,14 @@
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: var(--font-heading);
-  font-weight: 800;
   font-weight: 600;
   font-size: 0.9rem;
-  font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-sm);
   box-shadow: 
     0 4px 12px rgba(8, 54, 69, 0.15),
@@ -516,6 +515,7 @@
   
   .modal-content {
     padding: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 80px));
     grid-template-columns: 1fr;
     gap: 24px;
     flex: 1;
@@ -578,6 +578,7 @@
     min-height: 48px;
     padding: 14px;
     font-size: 1rem;
+    justify-content: center;
   }
 }
 
@@ -601,6 +602,7 @@
   
   .modal-content {
     padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 80px));
   }
   
   .contact-intro {
