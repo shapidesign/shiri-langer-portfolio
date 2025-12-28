@@ -16,6 +16,7 @@
   padding: var(--spacing-lg);
   opacity: 0;
   animation: fadeIn 0.3s ease-out forwards;
+  touch-action: auto;
 }
 
 /* Modal Container */
@@ -27,10 +28,13 @@
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transform: scale(0.9) translateY(20px);
   animation: modalSlideIn 0.3s ease-out forwards;
   border: 1px solid var(--color-border);
   position: relative;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 
 /* Modal Header */
@@ -70,6 +74,10 @@
   transition: all var(--transition-normal);
   z-index: 10;
   box-shadow: 0 4px 12px rgba(8, 54, 69, 0.15);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .modal-close-btn:hover {
@@ -139,6 +147,8 @@
   cursor: pointer;
   border: 1px solid transparent;
   transition: all var(--transition-fast);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact-method.clickable:hover {
@@ -265,6 +275,10 @@
   transition: all var(--transition-fast);
   border: none;
   font-family: var(--font-primary);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .btn-primary {
@@ -461,70 +475,138 @@
 
 @media (max-width: 768px) {
   .modal-backdrop {
-    padding: var(--spacing-md);
+    padding: 0;
+    align-items: flex-start;
   }
   
   .modal-container {
-    max-height: 95vh;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
   .modal-header {
-    padding: var(--spacing-lg);
+    padding: 16px 16px 12px;
+    position: sticky;
+    top: 0;
+    background: var(--color-background);
+    z-index: 10;
   }
   
   .modal-title {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+  }
+  
+  .modal-close-btn {
+    width: 48px;
+    height: 48px;
+    top: 12px;
+    right: 12px;
   }
   
   .modal-content {
-    padding: var(--spacing-lg);
+    padding: 16px;
     grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
+    gap: 24px;
+  }
+  
+  .contact-intro {
+    font-size: 0.95rem;
+  }
+  
+  .contact-methods {
+    gap: 12px;
+  }
+  
+  .contact-method {
+    padding: 12px;
+    min-height: 60px;
+  }
+  
+  .contact-icon {
+    width: 44px;
+    height: 44px;
   }
   
   .form-row {
     grid-template-columns: 1fr;
   }
   
+  .form-group {
+    gap: 6px;
+  }
+  
+  .form-label {
+    font-size: 0.85rem;
+  }
+  
+  .form-input,
+  .form-textarea {
+    padding: 12px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .form-textarea {
+    min-height: 100px;
+  }
+  
   .form-actions {
     flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
   }
   
   .btn-primary,
   .btn-secondary {
     width: 100%;
-  }
-  
-  .contact-methods {
-    gap: var(--spacing-md);
-  }
-  
-  .contact-method {
-    padding: var(--spacing-sm);
+    min-height: 48px;
+    padding: 14px;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .modal-backdrop {
-    padding: var(--spacing-sm);
+    padding: 0;
   }
   
   .modal-header {
-    padding: var(--spacing-md);
+    padding: 12px 12px 10px;
+  }
+  
+  .modal-title {
+    font-size: 1.2rem;
+  }
+  
+  .modal-close-btn {
+    top: 10px;
+    right: 10px;
   }
   
   .modal-content {
-    padding: var(--spacing-md);
+    padding: 12px;
+  }
+  
+  .contact-intro {
+    font-size: 0.9rem;
   }
   
   .contact-method {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--spacing-sm);
+    padding: 10px;
+    min-height: 56px;
   }
   
-  .contact-icon {
-    align-self: center;
+  .contact-value {
+    font-size: 0.9rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+  
+  .form-input,
+  .form-textarea {
+    padding: 10px;
   }
 }
 

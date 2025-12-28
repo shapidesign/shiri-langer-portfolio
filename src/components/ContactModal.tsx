@@ -104,8 +104,18 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
           <h2 id="contact-modal-title" className="modal-title">Get In Touch</h2>
           <button 
             className="modal-close-btn" 
-            onClick={onClose}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
             aria-label="Close contact modal"
+            type="button"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -134,7 +144,19 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              <div className="contact-method clickable" onClick={() => window.open('https://www.linkedin.com/in/shiri-langer/', '_blank')}>
+              <div 
+                className="contact-method clickable" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open('https://www.linkedin.com/in/shiri-langer/', '_blank');
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open('https://www.linkedin.com/in/shiri-langer/', '_blank');
+                }}
+              >
                 <div className="contact-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
@@ -148,7 +170,19 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              <div className="contact-method clickable" onClick={handleCVDownload}>
+              <div 
+                className="contact-method clickable" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleCVDownload();
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleCVDownload();
+                }}
+              >
                 <div className="contact-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -217,7 +251,20 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div className="form-actions">
-              <button type="button" className="btn-secondary" onClick={onClose}>
+              <button 
+                type="button" 
+                className="btn-secondary" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onClose();
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onClose();
+                }}
+              >
                 Cancel
               </button>
               <button type="submit" className="btn-primary">
