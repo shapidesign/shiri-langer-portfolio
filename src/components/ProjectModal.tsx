@@ -443,7 +443,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               width: '100vw', 
               height: '100vh', 
               background: 'rgba(0, 0, 0, 0.9)', 
-              zIndex: 9999,
+              zIndex: 15000,
               backdropFilter: 'blur(4px)',
               animation: 'backdropFadeIn 0.3s ease-out',
               cursor: 'pointer'
@@ -470,7 +470,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               justifyContent: 'center',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
               transition: 'all 0.2s ease',
-              zIndex: 10001,
+              zIndex: 15002,
               animation: 'imagePopupFadeIn 0.3s ease-out',
               pointerEvents: 'auto'
             }}
@@ -513,7 +513,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
               boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6)',
               cursor: 'pointer',
               display: 'block',
-              zIndex: 10000,
+              zIndex: 15001,
               animation: 'imagePopupFadeIn 0.3s ease-out',
               transition: 'transform 0.2s ease',
               willChange: 'transform',
