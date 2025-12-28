@@ -91,7 +91,20 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
   return createPortal(
     <div className="about-modal-overlay" onClick={onClose}>
       <div className="about-modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="about-modal-close" onClick={onClose}>
+        <button 
+          className="about-modal-close" 
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClose();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClose();
+          }}
+          type="button"
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -173,7 +186,16 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
             <div className="project-highlights">
               <div 
                 className="highlight-item clickable"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onOpenProject) {
+                    onOpenProject(1);
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   if (onOpenProject) {
                     onOpenProject(1);
                   }
@@ -190,7 +212,16 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
               </div>
               <div 
                 className="highlight-item clickable"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onOpenProject) {
+                    onOpenProject(3);
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   if (onOpenProject) {
                     onOpenProject(3);
                   }
@@ -206,7 +237,16 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
               </div>
               <div 
                 className="highlight-item clickable"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onOpenProject) {
+                    onOpenProject(4);
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   if (onOpenProject) {
                     onOpenProject(4);
                   }
@@ -272,10 +312,19 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
             <div className="about-cta">
               <button 
                 className="cta-button secondary"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   onClose();
                   onOpenContact();
                 }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onClose();
+                  onOpenContact();
+                }}
+                type="button"
               >
                 Let's Work Together
               </button>
@@ -287,7 +336,20 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
         {showScrollButton && (
           <button 
             className="scroll-down-btn"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const workTogetherSection = document.querySelector('.about-section:last-child');
+              if (workTogetherSection) {
+                workTogetherSection.scrollIntoView({ 
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              }
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               const workTogetherSection = document.querySelector('.about-section:last-child');
               if (workTogetherSection) {
                 workTogetherSection.scrollIntoView({ 
@@ -297,6 +359,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
               }
             }}
             aria-label="Scroll to Let's Work Together section"
+            type="button"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <polyline points="6,9 12,15 18,9"></polyline>
