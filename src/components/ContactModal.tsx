@@ -99,7 +99,13 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="contact-modal-title"
       >
-      <div className="modal-container" ref={modalRef}>
+      <div 
+        className="modal-container" 
+        ref={modalRef}
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+      >
         <div className="modal-header">
           <h2 id="contact-modal-title" className="modal-title">Get In Touch</h2>
           <button 
@@ -124,7 +130,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="modal-content">
+        <div 
+          className="modal-content"
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           <div className="contact-info">
             <p className="contact-intro">
               I'd love to hear about your project and discuss how we can work together to bring your vision to life.
