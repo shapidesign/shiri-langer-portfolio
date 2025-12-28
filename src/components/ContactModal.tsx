@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import './ContactModal.css';
 
 interface ContactModalProps {
@@ -89,7 +90,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <>
       <div 
         className="modal-backdrop" 
@@ -243,7 +244,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
     )}
-    </>
+    </>,
+    document.body
   );
 };
 

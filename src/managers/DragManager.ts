@@ -11,6 +11,12 @@ export class DragManager {
   private isMobile: boolean;
   private config: DragConfig;
 
+  // New properties for delayed drag
+  private startX: number = 0;
+  private startY: number = 0;
+  private isPotentialDrag: boolean = false;
+  private dragThreshold: number = 5;
+
   constructor() {
     this.state = {
       dragging: false,
@@ -50,6 +56,7 @@ export class DragManager {
         maxVelocity: 10, // Higher max velocity for mobile
         resistance: 0.85 // Slightly more resistance for mobile
       };
+      this.dragThreshold = 8; // Slightly higher threshold for touch
     }
   }
 
@@ -64,21 +71,27 @@ export class DragManager {
   }
 
   /**
+   * Check if currently dragging
+   */
+  public isDragging(): boolean {
+    return this.state.dragging;
+  }
+
+  /**
    * Handle pointer down event
-   * Only handles middle mouse button (scroll-click) for drag
+   * Supports middle mouse button and touch/left-drag on mobile
    */
   private handlePointerDown = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    // Only handle middle mouse button (scroll-click) for drag
-    // Left click is for clicking tiles, wheel/trackpad is for scrolling
-    if (e.button !== 1) return;
+    // Check for valid drag start
+    const isMiddleClick = e.button === 1;
+    const isTouchOrLeft = e.pointerType === 'touch' || (this.isMobile && e.button === 0);
     
-    e.preventDefault(); // Prevent default middle-click behavior
+    if (!isMiddleClick && !isTouchOrLeft) return;
     
-    const container = e.currentTarget as HTMLElement;
-    container.setPointerCapture?.(e.pointerId);
     this.stopRaf();
+    this.startX = e.clientX;
+    this.startY = e.clientY;
     
-    this.state.dragging = true;
     this.state.x = e.clientX;
     this.state.y = e.clientY;
     this.state.t = performance.now();
@@ -87,9 +100,19 @@ export class DragManager {
     this.state.lastT = performance.now();
     this.vel = { x: 0, y: 0 };
     
-    // Update cursor immediately to 'grabbing'
+    if (isMiddleClick) {
+      // Middle click - start dragging immediately
+      e.preventDefault();
+      const container = e.currentTarget as HTMLElement;
+      container.setPointerCapture?.(e.pointerId);
+      this.state.dragging = true;
     if (container) {
       container.style.cursor = 'grabbing';
+      }
+    } else {
+      // Touch/Left click - wait for movement to distinguish from tap
+      this.isPotentialDrag = true;
+      this.state.dragging = false;
     }
   };
 
@@ -97,7 +120,37 @@ export class DragManager {
    * Handle pointer move event
    */
   private handlePointerMove = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
-    if (!this.state.dragging) return;
+    if (!this.state.dragging && !this.isPotentialDrag) return;
+    
+    // Check if we should start dragging (delayed capture)
+    if (this.isPotentialDrag && !this.state.dragging) {
+        const dx = e.clientX - this.startX;
+        const dy = e.clientY - this.startY;
+        
+        if (Math.hypot(dx, dy) > this.dragThreshold) {
+            // Threshold exceeded, start dragging
+            this.state.dragging = true;
+            this.isPotentialDrag = false;
+            
+            const container = e.currentTarget as HTMLElement;
+            container.setPointerCapture?.(e.pointerId);
+            // Now prevent default to stop native scrolling
+            e.preventDefault(); 
+            
+            if (container) {
+              container.style.cursor = 'grabbing';
+            }
+            
+            // Reset reference points to current position to avoid jump
+            this.state.x = e.clientX;
+            this.state.y = e.clientY;
+            this.state.lastX = e.clientX;
+            this.state.lastY = e.clientY;
+        } else {
+            // Still within tap threshold
+            return;
+        }
+    }
     
     const now = performance.now();
     const dt = Math.max(1, now - this.state.t);
@@ -132,6 +185,10 @@ export class DragManager {
    * Handle pointer up event
    */
   private handlePointerUp = (e: React.PointerEvent, setOffset: React.Dispatch<React.SetStateAction<DragOffset>>): void => {
+    this.isPotentialDrag = false;
+    
+    if (!this.state.dragging) return; // Was a tap or cancelled
+    
     const container = e.currentTarget as HTMLElement;
     container.releasePointerCapture?.(e.pointerId);
     this.state.dragging = false;
@@ -179,4 +236,3 @@ export class DragManager {
     this.stopRaf();
   }
 }
-

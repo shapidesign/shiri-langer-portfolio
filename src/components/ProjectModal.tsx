@@ -423,7 +423,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
 
   if (!isOpen || !project) return null;
 
-  return (
+  return createPortal(
     <>
       {/* Maximized image - rendered as portal to document body */}
       {isImageMaximized && createPortal(
@@ -880,7 +880,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         </div>
       </div>
     </div>
-    </>
+    </>,
+    document.body
   );
 };
 

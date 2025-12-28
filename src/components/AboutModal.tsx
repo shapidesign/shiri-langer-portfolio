@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import './AboutModal.css';
 
 interface AboutModalProps {
@@ -73,9 +74,21 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
     };
   }, [isOpen]);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="about-modal-overlay" onClick={onClose}>
       <div className="about-modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="about-modal-close" onClick={onClose}>
@@ -292,7 +305,8 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
         )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

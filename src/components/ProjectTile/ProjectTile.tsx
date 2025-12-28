@@ -12,6 +12,7 @@ interface ProjectTileProps {
   height: number;
   project: Project;
   onOpen: (id: number) => void;
+  isDragging?: () => boolean; // Optional function to check if grid is dragging
 }
 
 /**
@@ -24,7 +25,8 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   width,
   height,
   project,
-  onOpen
+  onOpen,
+  isDragging
 }) => {
   const [imageSrc, setImageSrc] = useState<string>('');
   const [fallbackIndex, setFallbackIndex] = useState(0);
@@ -96,7 +98,15 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
     }
   };
 
-  const handleClick = () => {
+  const handlePointerUp = (e: React.PointerEvent) => {
+    // Only open if not dragging (passed from parent)
+    if (isDragging && isDragging()) {
+      return;
+    }
+    
+    // Also ignore right clicks
+    if (e.button === 2) return;
+    
     onOpen(project.id);
   };
 
@@ -115,7 +125,8 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         justifyContent: 'center',
         padding: '10px'
       }}
-      onClick={handleClick}
+      onPointerUp={handlePointerUp}
+      // Remove onClick to avoid double firing, onPointerUp is more reliable for custom drag
     >
       <OptimizedImage
         src={imageSrc}
