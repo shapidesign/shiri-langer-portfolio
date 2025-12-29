@@ -102,7 +102,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
       <div 
         className="modal-container" 
         ref={modalRef}
-        onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-header">
           <h2 id="contact-modal-title" className="modal-title">Get In Touch</h2>

@@ -89,12 +89,15 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="about-modal-overlay" onClick={onClose}>
-      <div 
-        className="about-modal-content" 
-        onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.stopPropagation()}
-      >
+    <div 
+      className="about-modal-overlay" 
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="about-modal-content">
         <button 
           className="about-modal-close" 
           onClick={(e) => {
