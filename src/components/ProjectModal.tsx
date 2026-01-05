@@ -416,7 +416,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
 
 
   // Handle image click to maximize/minimize
-  const handleImageClick = (e: React.MouseEvent) => {
+  const handleImageClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation(); // Prevent modal backdrop click
     setIsImageMaximized(!isImageMaximized);
   };
