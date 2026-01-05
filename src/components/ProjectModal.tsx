@@ -713,6 +713,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                 alt={project.title}
                 className="gallery-main-image"
                 onClick={handleImageClick}
+                onTouchEnd={handleImageClick}
                 style={{ cursor: 'pointer' }}
                 title="Click to enlarge"
                 priority={true} // High priority for main gallery image
@@ -756,6 +757,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                     loading="lazy"
                     thumbnail={true}
                     onClick={(e) => {
+                      e.stopPropagation();
+                      if (index === currentImageIndex) {
+                        // If clicking the already active thumbnail, enlarge it
+                        handleImageClick(e as any);
+                      } else {
+                        // If clicking a different thumbnail, switch and enlarge
+                        handleThumbnailClick(index, true);
+                      }
+                    }}
+                    onTouchEnd={(e) => {
                       e.stopPropagation();
                       if (index === currentImageIndex) {
                         // If clicking the already active thumbnail, enlarge it

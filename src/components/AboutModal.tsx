@@ -89,9 +89,10 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
   if (!isOpen) return null;
 
   return createPortal(
-    <div 
-      className="about-modal-overlay" 
+    <div
+      className="about-modal-overlay"
       onClick={(e) => {
+        // Only close if clicking the overlay itself, not its contents
         if (e.target === e.currentTarget) {
           onClose();
         }

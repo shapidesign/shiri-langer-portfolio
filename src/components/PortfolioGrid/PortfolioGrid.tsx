@@ -133,41 +133,41 @@ const PortfolioGrid: React.FC = () => {
     
     // Only prevent default if we're in desktop mode (custom scrolling)
     if (!isMobile) {
-      e.preventDefault();
+    e.preventDefault();
+    
+    const now = performance.now();
+    const deltaTime = Math.max(1, now - lastWheelTime.current);
+    lastWheelTime.current = now;
+    
+    // Enhanced wheel delta processing
+    const deltaX = -e.deltaX;
+    const deltaY = -e.deltaY;
+    
+    // Accumulate wheel deltas with time-based smoothing
+    wheelAccumulator.current.x += deltaX;
+    wheelAccumulator.current.y += deltaY;
+    
+    // Calculate velocity for momentum
+    wheelVelocity.current.x = deltaX / deltaTime;
+    wheelVelocity.current.y = deltaY / deltaTime;
+    
+    // Cancel previous wheel animation
+    if (wheelRaf.current) cancelAnimationFrame(wheelRaf.current);
+    
+    // Apply accumulated deltas with enhanced smoothing
+    wheelRaf.current = requestAnimationFrame(() => {
+      const smoothFactor = 0.85; // Slightly increased for better responsiveness
+      const momentumFactor = 0.15; // Add momentum from velocity
       
-      const now = performance.now();
-      const deltaTime = Math.max(1, now - lastWheelTime.current);
-      lastWheelTime.current = now;
+      const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
+      const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
       
-      // Enhanced wheel delta processing
-      const deltaX = -e.deltaX;
-      const deltaY = -e.deltaY;
+      setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
       
-      // Accumulate wheel deltas with time-based smoothing
-      wheelAccumulator.current.x += deltaX;
-      wheelAccumulator.current.y += deltaY;
-      
-      // Calculate velocity for momentum
-      wheelVelocity.current.x = deltaX / deltaTime;
-      wheelVelocity.current.y = deltaY / deltaTime;
-      
-      // Cancel previous wheel animation
-      if (wheelRaf.current) cancelAnimationFrame(wheelRaf.current);
-      
-      // Apply accumulated deltas with enhanced smoothing
-      wheelRaf.current = requestAnimationFrame(() => {
-        const smoothFactor = 0.85; // Slightly increased for better responsiveness
-        const momentumFactor = 0.15; // Add momentum from velocity
-        
-        const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
-        const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
-        
-        setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
-        
-        // Reset accumulator with decay
-        wheelAccumulator.current.x *= 0.1;
-        wheelAccumulator.current.y *= 0.1;
-      });
+      // Reset accumulator with decay
+      wheelAccumulator.current.x *= 0.1;
+      wheelAccumulator.current.y *= 0.1;
+    });
     }
   };
   
@@ -196,7 +196,7 @@ const PortfolioGrid: React.FC = () => {
   const cells = useMemo(() => {
     return projectService.generateGridCells(firstRow, firstCol, rowsToDraw, colsToDraw);
   }, [projectService, firstRow, firstCol, rowsToDraw, colsToDraw]);
-
+  
   return (
     <div
       ref={containerRef}
@@ -217,94 +217,98 @@ const PortfolioGrid: React.FC = () => {
         <MobilePortfolioGrid onProjectClick={handleProjectClick} />
       ) : (
         /* Portfolio Grid Interaction Layer */
-        <div
+      <div
           className="grid-interaction-layer"
-          onWheel={onWheel}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onMouseEnter={(e) => {
+        onWheel={onWheel}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onMouseEnter={(e) => {
             if ((e.buttons & 4) === 4) {
-              (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
-            }
-          }}
-          onMouseMove={(e) => {
-            if ((e.buttons & 4) === 4) {
-              (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
-            } else {
-              (e.currentTarget as HTMLElement).style.cursor = 'default';
-            }
-          }}
-          onPointerLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
+          }
+        }}
+        onMouseMove={(e) => {
+          if ((e.buttons & 4) === 4) {
+            (e.currentTarget as HTMLElement).style.cursor = 'grabbing';
+          } else {
             (e.currentTarget as HTMLElement).style.cursor = 'default';
-          }}
-        >
-          {cells.map(({ row, col, projId }) => {
-            const project = projectService.getProjectById(projId);
-            if (!project) return null;
+          }
+        }}
+        onPointerLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.cursor = 'default';
+        }}
+      >
+        {cells.map(({ row, col, projId }) => {
+          const project = projectService.getProjectById(projId);
+          if (!project) return null;
             if (projId === 17) return null;
 
-            return (
-              <ProjectTile
-                key={`${row}:${col}`}
-                left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + offset.x}
-                top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap) + offset.y}
-                width={gridConfig.tileWidth}
-                height={gridConfig.tileHeight}
-                project={project}
-                onOpen={handleProjectClick}
+          return (
+            <ProjectTile
+              key={`${row}:${col}`}
+              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + offset.x}
+              top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap) + offset.y}
+              width={gridConfig.tileWidth}
+              height={gridConfig.tileHeight}
+              project={project}
+              onOpen={handleProjectClick}
                 isDragging={isDragging}
-              />
-            );
-          })}
-        </div>
+            />
+          );
+        })}
+      </div>
       )}
 
-      {/* About Me Button - Always visible */}
-      <button 
-        className="about-btn"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsAboutModalOpen(true);
-        }}
-        onTouchEnd={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsAboutModalOpen(true);
-        }}
-        aria-label="Open about me modal"
-        type="button"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-        About
-      </button>
+      {/* Desktop Only: About Me Button */}
+      {!isMobile && (
+        <button
+          className="about-btn"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsAboutModalOpen(true);
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsAboutModalOpen(true);
+          }}
+          aria-label="Open about me modal"
+          type="button"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          About
+        </button>
+      )}
 
-      {/* Contact Button - Always visible */}
-      <button 
-        className="contact-btn"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsContactModalOpen(true);
-        }}
-        onTouchEnd={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsContactModalOpen(true);
-        }}
-        aria-label="Open contact modal"
-        type="button"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-          <polyline points="22,6 12,13 2,6"/>
-        </svg>
-        Contact
-      </button>
+      {/* Desktop Only: Contact Button */}
+      {!isMobile && (
+        <button
+          className="contact-btn"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsContactModalOpen(true);
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsContactModalOpen(true);
+          }}
+          aria-label="Open contact modal"
+          type="button"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Contact
+        </button>
+      )}
 
       {/* Contact Modal */}
       <ContactModal 
