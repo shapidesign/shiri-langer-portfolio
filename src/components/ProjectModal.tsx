@@ -490,43 +490,72 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           </button>
           
           {/* Image - positioned independently with pinch zoom support */}
-          <img 
-            src={project.gallery[currentImageIndex]} 
-            alt={project.title}
-            className="maximized-image-popup"
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent backdrop click
-              setIsImageMaximized(false);
-              resetZoom();
-            }}
-            style={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              maxWidth: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vw' : '90vw',
-              maxHeight: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vh' : '90vh',
-              width: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vw' : 'auto',
-              height: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vh' : 'auto',
-              objectFit: project.gallery[currentImageIndex]?.endsWith('.gif') ? 'cover' : 'contain',
-              borderRadius: project.gallery[currentImageIndex]?.endsWith('.gif') ? '0' : '12px',
-              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6)',
-              cursor: 'pointer',
-              display: 'block',
-              zIndex: 15001,
-              animation: 'imagePopupFadeIn 0.3s ease-out',
-              transition: 'transform 0.2s ease',
-              willChange: 'transform',
-              touchAction: 'pan-x pan-y pinch-zoom',
-              pointerEvents: 'auto' // Ensure gallery image is clickable
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.02)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
-            }}
-          />
+          {project.gallery[currentImageIndex]?.toLowerCase().endsWith('.mp4') || project.gallery[currentImageIndex]?.toLowerCase().endsWith('.webm') ? (
+            <video
+              src={project.gallery[currentImageIndex]}
+              className="maximized-image-popup"
+              controls
+              autoPlay
+              loop
+              playsInline
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              style={{
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                width: 'auto',
+                height: 'auto',
+                borderRadius: '12px',
+                boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6)',
+                zIndex: 15001,
+                animation: 'imagePopupFadeIn 0.3s ease-out',
+                pointerEvents: 'auto'
+              }}
+            />
+          ) : (
+            <img 
+              src={project.gallery[currentImageIndex]} 
+              alt={project.title}
+              className="maximized-image-popup"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent backdrop click
+                setIsImageMaximized(false);
+                resetZoom();
+              }}
+              style={{
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                maxWidth: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vw' : '90vw',
+                maxHeight: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vh' : '90vh',
+                width: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vw' : 'auto',
+                height: project.gallery[currentImageIndex]?.endsWith('.gif') ? '100vh' : 'auto',
+                objectFit: project.gallery[currentImageIndex]?.endsWith('.gif') ? 'cover' : 'contain',
+                borderRadius: project.gallery[currentImageIndex]?.endsWith('.gif') ? '0' : '12px',
+                boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6)',
+                cursor: 'pointer',
+                display: 'block',
+                zIndex: 15001,
+                animation: 'imagePopupFadeIn 0.3s ease-out',
+                transition: 'transform 0.2s ease',
+                willChange: 'transform',
+                touchAction: 'pan-x pan-y pinch-zoom',
+                pointerEvents: 'auto' // Ensure gallery image is clickable
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.02)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+              }}
+            />
+          )}
         </>,
         document.body
       )}

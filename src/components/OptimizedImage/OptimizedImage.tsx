@@ -120,9 +120,11 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     onError?.();
   };
 
+  const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+
   // Use optimized src or fallback to original
   const optimizedSrcs = getOptimizedSrc(src);
-  const shouldLazyLoad = loading === 'lazy' && !priority && !thumbnail;
+  const shouldLazyLoad = loading === 'lazy' && !priority && !thumbnail && !isVideo;
 
   // For thumbnails, use original src to avoid WebP overhead
   const primarySrc = thumbnail ? optimizedSrcs.original : (optimizedSrcs.webp || optimizedSrcs.original);
@@ -134,6 +136,41 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   // Calculate aspect ratio for CLS prevention
   const aspectRatio = width && height ? `${width} / ${height}` : undefined;
+
+  if (isVideo) {
+    return (
+      <div
+        className={`optimized-image-wrapper ${className || ''}`}
+        style={{
+          position: 'relative',
+          width: width || '100%',
+          height: height || 'auto',
+          aspectRatio,
+          overflow: 'hidden',
+          ...style,
+        }}
+      >
+        <video
+          src={src}
+          className={className}
+          width={width}
+          height={height}
+          controls={!thumbnail}
+          autoPlay={thumbnail || priority}
+          muted={true}
+          loop={true}
+          playsInline={true}
+          onClick={onClick}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            ...style
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
