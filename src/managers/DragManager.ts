@@ -33,10 +33,10 @@ export class DragManager {
     this.isMobile = false;
     
     this.config = {
-      friction: 0.9, // Higher friction to slow glide
-      minSpeed: 0.12, // Stop sooner to reduce runaway motion
+      friction: 0.93, // Smoother glide but still damped
+      minSpeed: 0.1,
       maxVelocity: 10, // Cap speed for trackpads
-      resistance: 0.65 // Damp drag translation for smoother feel
+      resistance: 0.75 // Allow a bit more travel per drag
     };
   }
 
@@ -51,10 +51,10 @@ export class DragManager {
     // Adjust config for mobile
     if (this.isMobile) {
       this.config = {
-        friction: 0.88, // More damping on touch
+        friction: 0.91, // Gentle damping on touch
         minSpeed: 0.1,
         maxVelocity: 8,
-        resistance: 0.6
+        resistance: 0.7
       };
       this.dragThreshold = 8; // Slightly higher threshold for touch
     }

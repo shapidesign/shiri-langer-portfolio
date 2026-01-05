@@ -54,24 +54,24 @@ const PortfolioGrid: React.FC = () => {
     if (width <= 480) {
       // Mobile phones - 2 rows: 2+2 projects
       return {
-        tileWidth: 200,
-        tileHeight: 250,
-        tileGap: 15,
+        tileWidth: 170,
+        tileHeight: 210,
+        tileGap: 12,
         visibleCols: 2,
-        visibleRows: 2,
+        visibleRows: 3,
         marginCols: 2,
-        marginRows: 1
+        marginRows: 2
       };
     } else if (width <= 768) {
       // Tablets - 2 rows: 3+3 projects
       return {
-        tileWidth: 250,
-        tileHeight: 320,
-        tileGap: 18,
+        tileWidth: 220,
+        tileHeight: 280,
+        tileGap: 14,
         visibleCols: 3,
-        visibleRows: 2,
+        visibleRows: 3,
         marginCols: 2,
-        marginRows: 1
+        marginRows: 2
       };
     } else if (width <= 1024) {
       // Small desktop - 2 rows: 4+4 projects
@@ -80,9 +80,9 @@ const PortfolioGrid: React.FC = () => {
         tileHeight: 360,
         tileGap: 20,
         visibleCols: 4,
-        visibleRows: 2,
+        visibleRows: 3,
         marginCols: 2,
-        marginRows: 1
+        marginRows: 2
       };
     } else {
       // Large desktop - 2 rows: 5+5 projects
@@ -91,9 +91,9 @@ const PortfolioGrid: React.FC = () => {
         tileHeight: 400,
         tileGap: 20,
         visibleCols: 5,
-        visibleRows: 2,
+        visibleRows: 3,
         marginCols: 2,
-        marginRows: 1
+        marginRows: 2
       };
     }
   }, [screenSize]);
@@ -140,7 +140,7 @@ const PortfolioGrid: React.FC = () => {
     
     // Enhanced wheel delta processing
     // Slow down wheel/trackpad navigation to avoid jitter
-    const sensitivity = 0.35;
+    const sensitivity = 0.25;
     const deltaX = -e.deltaX * sensitivity;
     const deltaY = -e.deltaY * sensitivity;
     
@@ -157,8 +157,8 @@ const PortfolioGrid: React.FC = () => {
     
     // Apply accumulated deltas with enhanced smoothing
     wheelRaf.current = requestAnimationFrame(() => {
-      const smoothFactor = 0.55; // Lower smoothing factor to dampen jumps
-      const momentumFactor = 0.08; // Less momentum for slower glide
+      const smoothFactor = 0.7; // Increase smoothing for softer motion
+      const momentumFactor = 0.12; // Slight momentum for glide
       
       const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
       const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
@@ -166,8 +166,8 @@ const PortfolioGrid: React.FC = () => {
       setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
       
       // Reset accumulator with decay
-      wheelAccumulator.current.x *= 0.2;
-      wheelAccumulator.current.y *= 0.2;
+      wheelAccumulator.current.x *= 0.3;
+      wheelAccumulator.current.y *= 0.3;
     });
     }
   };
