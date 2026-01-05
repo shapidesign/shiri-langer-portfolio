@@ -45,7 +45,7 @@ export class LenisScrollManager {
       orientation: 'vertical' as const,
       gestureOrientation: 'vertical' as const,
       smoothWheel: !this.prefersReducedMotion,
-      wheelMultiplier: 0.8, // Reduced for smoother control
+      wheelMultiplier: 0.55, // Further reduced to slow trackpad navigation
       // Disable smooth touch on mobile to preserve native behavior and prevent conflicts
       smoothTouch: false,
       touchMultiplier: 1.2,

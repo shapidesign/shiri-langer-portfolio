@@ -20,7 +20,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   
   // To handle this properly without changing App.tsx structure too much:
   // The LoadingScreen is purely presentational. The delay should be in useLoading or LoadingManager.
-  
+
   return (
     <div className="loading-screen">
       <div className="loading-container">

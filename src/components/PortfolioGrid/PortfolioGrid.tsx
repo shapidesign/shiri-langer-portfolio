@@ -140,8 +140,10 @@ const PortfolioGrid: React.FC = () => {
     lastWheelTime.current = now;
     
     // Enhanced wheel delta processing
-    const deltaX = -e.deltaX;
-    const deltaY = -e.deltaY;
+    // Slow down wheel/trackpad navigation to avoid jitter
+    const sensitivity = 0.35;
+    const deltaX = -e.deltaX * sensitivity;
+    const deltaY = -e.deltaY * sensitivity;
     
     // Accumulate wheel deltas with time-based smoothing
     wheelAccumulator.current.x += deltaX;
@@ -156,8 +158,8 @@ const PortfolioGrid: React.FC = () => {
     
     // Apply accumulated deltas with enhanced smoothing
     wheelRaf.current = requestAnimationFrame(() => {
-      const smoothFactor = 0.85; // Slightly increased for better responsiveness
-      const momentumFactor = 0.15; // Add momentum from velocity
+      const smoothFactor = 0.55; // Lower smoothing factor to dampen jumps
+      const momentumFactor = 0.08; // Less momentum for slower glide
       
       const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
       const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
@@ -165,8 +167,8 @@ const PortfolioGrid: React.FC = () => {
       setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
       
       // Reset accumulator with decay
-      wheelAccumulator.current.x *= 0.1;
-      wheelAccumulator.current.y *= 0.1;
+      wheelAccumulator.current.x *= 0.2;
+      wheelAccumulator.current.y *= 0.2;
     });
     }
   };
@@ -260,55 +262,51 @@ const PortfolioGrid: React.FC = () => {
       </div>
       )}
 
-      {/* Desktop Only: About Me Button */}
-      {!isMobile && (
-        <button
-          className="about-btn"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsAboutModalOpen(true);
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsAboutModalOpen(true);
-          }}
-          aria-label="Open about me modal"
-          type="button"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-          About
-        </button>
-      )}
+      {/* Global: About Me Button */}
+      <button
+        className="about-btn"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsAboutModalOpen(true);
+        }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsAboutModalOpen(true);
+        }}
+        aria-label="Open about me modal"
+        type="button"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        About
+      </button>
 
-      {/* Desktop Only: Contact Button */}
-      {!isMobile && (
-        <button
-          className="contact-btn"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsContactModalOpen(true);
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsContactModalOpen(true);
-          }}
-          aria-label="Open contact modal"
-          type="button"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-          Contact
-        </button>
-      )}
+      {/* Global: Contact Button */}
+      <button
+        className="contact-btn"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsContactModalOpen(true);
+        }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsContactModalOpen(true);
+        }}
+        aria-label="Open contact modal"
+        type="button"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Contact
+      </button>
 
       {/* Contact Modal */}
       <ContactModal 

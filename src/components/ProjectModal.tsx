@@ -38,7 +38,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         );
       }
     },
-    enabled: isOpen && isImageMaximized
+    enabled: isOpen && !!project
   });
   
   // Pinch-to-zoom for maximized images

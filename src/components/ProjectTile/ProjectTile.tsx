@@ -111,13 +111,13 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   };
 
   return (
-    <div
-      className="project-tile"
-      style={{
-        position: 'absolute',
-        left,
-        top,
-        width: width,
+    <div 
+      className="project-tile" 
+      style={{ 
+        position: 'absolute', 
+        left, 
+        top, 
+        width: width, 
         height: height,
         cursor: 'pointer',
         display: 'flex',
@@ -142,7 +142,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         onError={handleImageError}
         key={`${project.id}-${fallbackIndex}`}
       />
-
+      
       {/* Project info overlay - only show on hover */}
       <div className="project-tile-overlay">
         <div className="project-tile-title">{project.title}</div>

@@ -6,7 +6,7 @@
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   background: var(--color-background);
-  padding: 70px 12px 60px;
+  padding: 56px 10px 48px;
   box-sizing: border-box;
   position: relative;
   z-index: 1;
@@ -16,11 +16,12 @@
 /* Grid Content - 2 Column Layout */
 .mobile-grid-content {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  max-width: 600px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 8px;
+  max-width: 100%;
   margin: 0 auto;
-  padding-bottom: 20px;
+  padding-bottom: 16px;
 }
 
 /* Project Card */
@@ -28,7 +29,7 @@
   position: relative;
   width: 100%;
   background: var(--color-white-smoke, #f8f8f8);
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
@@ -49,7 +50,7 @@
 .mobile-card-image-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #e0e0e0;
 }
@@ -69,21 +70,21 @@
 
 /* Card Info Section - Auto Layout */
 .mobile-card-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-  background: var(--color-white-smoke, #f8f8f8);
-  min-height: 60px;
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 8px 8px 10px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
+  color: var(--color-white-smoke, #f8f8f8);
+  display: grid;
   gap: 4px;
 }
 
 /* Card Title - Truncated */
 .mobile-card-title {
   font-family: var(--font-heading, 'Inter', sans-serif);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: var(--color-text, #333);
+  color: var(--color-white-smoke, #f8f8f8);
   margin: 0;
   line-height: 1.3;
   display: -webkit-box;
@@ -98,10 +99,10 @@
 /* Card Year */
 .mobile-card-year {
   font-family: var(--font-mono, 'Courier New', monospace);
-  font-size: 0.7rem;
-  color: var(--color-text, #666);
-  opacity: 0.7;
-  font-weight: 500;
+  font-size: 0.68rem;
+  color: var(--color-white-smoke, #f8f8f8);
+  opacity: 0.85;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -122,71 +123,62 @@
 /* Extra Small Devices (< 360px) */
 @media (max-width: 360px) {
   .mobile-portfolio-grid {
-    padding: 65px 8px 50px;
+    padding: 52px 8px 44px;
   }
   
   .mobile-grid-content {
-    gap: 10px;
-  }
-  
-  .mobile-card-info {
-    padding: 8px;
-    min-height: 55px;
+    gap: 8px;
   }
   
   .mobile-card-title {
-    font-size: 0.75rem;
+    font-size: 0.74rem;
   }
   
   .mobile-card-year {
-    font-size: 0.65rem;
+    font-size: 0.64rem;
   }
 }
 
 /* Small Devices (360px - 480px) */
 @media (min-width: 360px) and (max-width: 480px) {
   .mobile-portfolio-grid {
-    padding: 70px 10px 55px;
+    padding: 56px 10px 48px;
   }
   
   .mobile-grid-content {
-    gap: 11px;
+    gap: 9px;
   }
 }
 
 /* Medium Devices (481px - 768px) - Slightly Larger Cards */
 @media (min-width: 481px) and (max-width: 768px) {
   .mobile-portfolio-grid {
-    padding: 75px 16px 60px;
+    padding: 60px 14px 52px;
   }
   
   .mobile-grid-content {
-    gap: 14px;
-  }
-  
-  .mobile-card-info {
-    padding: 12px;
-    min-height: 65px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
   }
   
   .mobile-card-title {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
   }
   
   .mobile-card-year {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 }
 
 /* Landscape Orientation Adjustments */
 @media (max-width: 768px) and (orientation: landscape) {
   .mobile-portfolio-grid {
-    padding: 60px 16px 50px;
+    padding: 48px 12px 44px;
   }
   
   .mobile-grid-content {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 900px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    max-width: 960px;
   }
 }
 

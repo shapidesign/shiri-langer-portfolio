@@ -33,10 +33,10 @@ export class DragManager {
     this.isMobile = false;
     
     this.config = {
-      friction: 0.97, // Slightly less friction for smoother momentum
-      minSpeed: 0.15, // Lower minimum speed for longer coasting
-      maxVelocity: 15, // Higher max velocity for more responsive feel
-      resistance: 1.0
+      friction: 0.9, // Higher friction to slow glide
+      minSpeed: 0.12, // Stop sooner to reduce runaway motion
+      maxVelocity: 10, // Cap speed for trackpads
+      resistance: 0.65 // Damp drag translation for smoother feel
     };
   }
 
@@ -51,10 +51,10 @@ export class DragManager {
     // Adjust config for mobile
     if (this.isMobile) {
       this.config = {
-        friction: 0.94, // Improved mobile friction
-        minSpeed: 0.08, // Lower minimum speed for mobile
-        maxVelocity: 10, // Higher max velocity for mobile
-        resistance: 0.85 // Slightly more resistance for mobile
+        friction: 0.88, // More damping on touch
+        minSpeed: 0.1,
+        maxVelocity: 8,
+        resistance: 0.6
       };
       this.dragThreshold = 8; // Slightly higher threshold for touch
     }
@@ -163,7 +163,7 @@ export class DragManager {
     const velDy = e.clientY - this.state.lastY;
     
     // Enhanced velocity calculation with smoothing
-    const velocityMultiplier = this.isMobile ? 14 : 18; // Increased for more responsive feel
+    const velocityMultiplier = this.isMobile ? 9 : 10; // Lowered to slow drag speed
     this.vel.x = (velDx / velDt) * velocityMultiplier;
     this.vel.y = (velDy / velDt) * velocityMultiplier;
     

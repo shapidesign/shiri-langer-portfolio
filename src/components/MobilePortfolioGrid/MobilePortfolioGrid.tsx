@@ -37,10 +37,10 @@ export const MobilePortfolioGrid: React.FC<MobilePortfolioGridProps> = ({ onProj
                 width={300}
                 height={300}
               />
-            </div>
-            <div className="mobile-card-info">
-              <h3 className="mobile-card-title">{project.title}</h3>
-              <span className="mobile-card-year">{project.year}</span>
+              <div className="mobile-card-info">
+                <h3 className="mobile-card-title">{project.title}</h3>
+                <span className="mobile-card-year">{project.year}</span>
+              </div>
             </div>
           </div>
         ))}

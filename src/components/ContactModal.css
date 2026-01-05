@@ -17,6 +17,7 @@
   opacity: 0;
   animation: fadeIn 0.3s ease-out forwards;
   touch-action: auto;
+  overscroll-behavior: contain;
 }
 
 /* Modal Container */
