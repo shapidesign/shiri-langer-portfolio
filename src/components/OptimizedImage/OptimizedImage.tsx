@@ -11,6 +11,7 @@ export interface OptimizedImageProps {
   onLoad?: () => void;
   onError?: () => void;
   onClick?: (e: React.MouseEvent) => void;
+  onTouchEnd?: (e: React.TouchEvent) => void;
   title?: string;
   priority?: boolean; // For above-the-fold images
   thumbnail?: boolean; // For gallery thumbnails - reduces quality for faster loading
@@ -34,6 +35,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   onLoad,
   onError,
   onClick,
+  onTouchEnd,
   title,
   priority = false,
   thumbnail = false,
@@ -161,6 +163,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           loop={true}
           playsInline={true}
           onClick={onClick}
+          onTouchEnd={onTouchEnd}
           style={{
             width: '100%',
             height: '100%',
@@ -248,6 +251,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
               loading={priority ? 'eager' : loading}
               decoding="async"
               onClick={onClick}
+              onTouchEnd={onTouchEnd}
               style={{
                 width: '100%',
                 height: '100%',
@@ -280,6 +284,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
             loading={priority ? 'eager' : loading}
             decoding="async"
             onClick={onClick}
+            onTouchEnd={onTouchEnd}
             style={{
               width: '100%',
               height: '100%',
