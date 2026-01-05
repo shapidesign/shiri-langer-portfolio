@@ -96,6 +96,16 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         return;
       }
     }
+
+    // Final fallback to original project image or a neutral placeholder
+    if (project.img && imageSrc !== normalizeImagePath(project.img)) {
+      setImageSrc(normalizeImagePath(project.img));
+      return;
+    }
+
+    setImageSrc(
+      'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="%23f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-family="Arial" font-size="20">Image unavailable</text></svg>'
+    );
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {

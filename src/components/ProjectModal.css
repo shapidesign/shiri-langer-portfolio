@@ -149,10 +149,11 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-xxl);
   flex: 1;
-  overflow-y: hidden;
+  overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 
 /* Project Gallery */
@@ -372,7 +373,7 @@
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  max-height: calc(90vh - 200px);
+  max-height: none;
   padding-right: var(--spacing-sm);
 }
 
@@ -655,6 +656,7 @@
     padding: var(--spacing-lg);
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+    overflow-y: auto;
   }
   
   .gallery-thumbnails {
@@ -691,6 +693,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    max-height: none;
   }
 }
 

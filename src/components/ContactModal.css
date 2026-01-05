@@ -104,6 +104,9 @@
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   touch-action: pan-y;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Contact Info */

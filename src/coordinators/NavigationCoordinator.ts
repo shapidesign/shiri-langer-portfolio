@@ -91,6 +91,7 @@ export class NavigationCoordinator {
    * Prevent swipe gestures
    */
   private preventSwipeGestures = (e: Event): void => {
+    if (this.isModalOpen) return;
     if (e.type === 'wheel') {
       const wheelEvent = e as WheelEvent;
       // Allow vertical scrolling but prevent horizontal swipes that might trigger navigation
@@ -111,6 +112,7 @@ export class NavigationCoordinator {
    * Prevent all gestures
    */
   private preventAllGestures = (e: Event): void => {
+    if (this.isModalOpen) return;
     e.preventDefault();
     e.stopPropagation();
   };
@@ -126,18 +128,10 @@ export class NavigationCoordinator {
     window.addEventListener('wheel', this.preventSwipeGestures, { passive: false });
     window.addEventListener('popstate', this.preventPopstate);
     
-    // Disable browser swipe gestures on the document and body
+    // Disable browser swipe gestures on the document and body (but allow when modal is open)
     document.addEventListener('gesturestart', this.preventAllGestures, { passive: false });
     document.addEventListener('gesturechange', this.preventAllGestures, { passive: false });
     document.addEventListener('gestureend', this.preventAllGestures, { passive: false });
-    
-    // Additional gesture prevention
-    document.addEventListener('touchstart', this.preventAllGestures, { passive: false });
-    document.addEventListener('touchmove', this.preventAllGestures, { passive: false });
-    document.addEventListener('touchend', this.preventAllGestures, { passive: false });
-    
-    // Prevent context menu on right click
-    document.addEventListener('contextmenu', this.preventAllGestures);
 
     // Return cleanup function
     return {
@@ -149,10 +143,6 @@ export class NavigationCoordinator {
         document.removeEventListener('gesturestart', this.preventAllGestures);
         document.removeEventListener('gesturechange', this.preventAllGestures);
         document.removeEventListener('gestureend', this.preventAllGestures);
-        document.removeEventListener('touchstart', this.preventAllGestures);
-        document.removeEventListener('touchmove', this.preventAllGestures);
-        document.removeEventListener('touchend', this.preventAllGestures);
-        document.removeEventListener('contextmenu', this.preventAllGestures);
       }
     };
   }

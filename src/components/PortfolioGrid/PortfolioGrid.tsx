@@ -3,7 +3,6 @@ import { useDragInertia } from '../../hooks/useDragInertia';
 import { ProjectService } from '../../managers/ProjectService';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
 import { ProjectTile } from '../ProjectTile';
-import { MobilePortfolioGrid } from '../MobilePortfolioGrid/MobilePortfolioGrid';
 import ContactModal from '../ContactModal';
 import ProjectModal from '../ProjectModal';
 import AboutModal from '../AboutModal';
@@ -207,18 +206,14 @@ const PortfolioGrid: React.FC = () => {
         position: 'relative', 
         height: '100vh', 
         width: '100vw', 
-        overflow: isMobile ? 'visible' : 'hidden', // Allow native scrolling on mobile if container handles it
+        overflow: 'hidden',
         background: 'var(--color-background)', 
         color: 'var(--color-text)', 
         overscrollBehavior: 'none',
         userSelect: 'none',
       } as React.CSSProperties}
     >
-      {/* Conditionally render Grid or Mobile List */}
-      {isMobile ? (
-        <MobilePortfolioGrid onProjectClick={handleProjectClick} />
-      ) : (
-        /* Portfolio Grid Interaction Layer */
+      {/* Portfolio Grid Interaction Layer */}
       <div
           className="grid-interaction-layer"
         onWheel={onWheel}
@@ -260,7 +255,6 @@ const PortfolioGrid: React.FC = () => {
           );
         })}
       </div>
-      )}
 
       {/* Global: About Me Button */}
       <button
