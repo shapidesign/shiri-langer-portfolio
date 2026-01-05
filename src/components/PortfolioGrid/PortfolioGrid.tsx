@@ -54,24 +54,24 @@ const PortfolioGrid: React.FC = () => {
     if (width <= 480) {
       // Mobile phones - 2 rows: 2+2 projects
       return {
-        tileWidth: 170,
-        tileHeight: 210,
-        tileGap: 12,
+        tileWidth: 150,
+        tileHeight: 190,
+        tileGap: 10,
         visibleCols: 2,
         visibleRows: 3,
-        marginCols: 2,
-        marginRows: 2
+        marginCols: 3,
+        marginRows: 3
       };
     } else if (width <= 768) {
       // Tablets - 2 rows: 3+3 projects
       return {
-        tileWidth: 220,
-        tileHeight: 280,
-        tileGap: 14,
+        tileWidth: 200,
+        tileHeight: 260,
+        tileGap: 12,
         visibleCols: 3,
         visibleRows: 3,
-        marginCols: 2,
-        marginRows: 2
+        marginCols: 3,
+        marginRows: 3
       };
     } else if (width <= 1024) {
       // Small desktop - 2 rows: 4+4 projects
@@ -140,7 +140,7 @@ const PortfolioGrid: React.FC = () => {
     
     // Enhanced wheel delta processing
     // Slow down wheel/trackpad navigation to avoid jitter
-    const sensitivity = 0.25;
+    const sensitivity = 0.2;
     const deltaX = -e.deltaX * sensitivity;
     const deltaY = -e.deltaY * sensitivity;
     
@@ -157,8 +157,8 @@ const PortfolioGrid: React.FC = () => {
     
     // Apply accumulated deltas with enhanced smoothing
     wheelRaf.current = requestAnimationFrame(() => {
-      const smoothFactor = 0.7; // Increase smoothing for softer motion
-      const momentumFactor = 0.12; // Slight momentum for glide
+      const smoothFactor = 0.85; // Strong smoothing for liquid feel
+      const momentumFactor = 0.18; // Gentle momentum for glide
       
       const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
       const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
@@ -166,8 +166,8 @@ const PortfolioGrid: React.FC = () => {
       setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
       
       // Reset accumulator with decay
-      wheelAccumulator.current.x *= 0.3;
-      wheelAccumulator.current.y *= 0.3;
+      wheelAccumulator.current.x *= 0.2;
+      wheelAccumulator.current.y *= 0.2;
     });
     }
   };
