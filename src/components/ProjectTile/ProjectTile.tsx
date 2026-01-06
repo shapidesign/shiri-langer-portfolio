@@ -31,7 +31,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   const [imageSrc, setImageSrc] = useState<string>('');
   const [fallbackIndex, setFallbackIndex] = useState(0);
   const [overlayVisible, setOverlayVisible] = useState(false);
-  const longPressTimer = useRef<number>();
+  const longPressTimer = useRef<number | null>(null);
 
   // Get gallery images for this project as fallbacks
   const projectText = PROJECT_TEXTS.find(p => p.id === project.id);
@@ -138,7 +138,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   const handlePointerLeave = () => {
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
-      longPressTimer.current = undefined;
+      longPressTimer.current = null;
     }
     setOverlayVisible(false);
   };
