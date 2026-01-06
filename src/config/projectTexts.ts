@@ -820,7 +820,11 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/coffeemachine.jpg", // use unrotated original for thumbnail
+      "/assets/images/coffeemachine.jpg", // unrotated source
+      "/assets/images/coffee1.jpg",
+      "/assets/images/coffee2.jpg",
+      "/assets/images/coffee3.jpg",
+      "/assets/images/coffee4.jpg",
       "/assets/images/coffee/cofdis.webp",
       "/assets/images/coffee/cofgal1.webp",
       "/assets/images/coffee/cofgal2.webp",
