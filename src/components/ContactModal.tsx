@@ -84,6 +84,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   // Handle backdrop click to close modal
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
+      // blur active element to close mobile keyboard
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
       onClose();
     }
   };
