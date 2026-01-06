@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Project } from '../../types/Project';
 import { PROJECT_TEXTS } from '../../config/projectTexts';
 import { getDisplayImage, normalizeImagePath } from '../../utils/imagePathUtils';
