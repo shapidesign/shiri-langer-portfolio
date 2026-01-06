@@ -30,6 +30,8 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
 }) => {
   const [imageSrc, setImageSrc] = useState<string>('');
   const [fallbackIndex, setFallbackIndex] = useState(0);
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const longPressTimer = useRef<number>();
 
   // Get gallery images for this project as fallbacks
   const projectText = PROJECT_TEXTS.find(p => p.id === project.id);
@@ -109,20 +111,41 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
-    // Only open if not dragging (passed from parent)
-    if (isDragging && isDragging()) {
-      return;
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = undefined;
     }
-    
-    // Also ignore right clicks
+    setOverlayVisible(false);
+
+    // Only open if not dragging (passed from parent)
+    if (isDragging && isDragging()) return;
     if (e.button === 2) return;
-    
     onOpen(project.id);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    // start long-press only on touch
+    if (e.pointerType === 'touch') {
+      if (longPressTimer.current) {
+        clearTimeout(longPressTimer.current);
+      }
+      longPressTimer.current = window.setTimeout(() => {
+        setOverlayVisible(true);
+      }, 450);
+    }
+  };
+
+  const handlePointerLeave = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = undefined;
+    }
+    setOverlayVisible(false);
   };
 
   return (
     <div 
-      className="project-tile" 
+      className={`project-tile ${overlayVisible ? 'show-overlay' : ''}`} 
       style={{ 
         position: 'absolute', 
         left, 
@@ -135,7 +158,10 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
         justifyContent: 'center',
         padding: '10px'
       }}
+      onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerLeave}
+      onPointerCancel={handlePointerLeave}
       // Remove onClick to avoid double firing, onPointerUp is more reliable for custom drag
     >
       <OptimizedImage
