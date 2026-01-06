@@ -113,7 +113,7 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   const handlePointerUp = (e: React.PointerEvent) => {
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
-      longPressTimer.current = undefined;
+      longPressTimer.current = null;
     }
     setOverlayVisible(false);
 
