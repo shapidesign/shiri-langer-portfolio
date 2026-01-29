@@ -820,12 +820,12 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/coffeedisplay.jpg",
-      "/assets/images/coffeemachine.jpg",
-      "/assets/images/coffee1.jpg",
-      "/assets/images/coffee2.jpg",
-      "/assets/images/coffee3.jpg",
-      "/assets/images/coffee4.jpg"
+      "/assets/images/coffee/cofdis.webp",
+      "/assets/images/coffee/cofgal1.webp",
+      "/assets/images/coffee/cofgal2.webp",
+      "/assets/images/coffee/cofgal3.webp",
+      "/assets/images/coffee/cofgal4.webp",
+      "/assets/images/coffee/cofsol1.webp"
     ],
     stickerColor: "#E91E63", // Hot Pink
     stickerImage: "/assets/images/sticker4.png",
@@ -836,25 +836,25 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The main challenge was to merge the visual identity of contemporary art with the functionality of a domestic appliance, while creating a form that feels both expressive and approachable.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/coffee1.jpg" alt="Coffee Machine design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/coffee2.jpg" alt="Coffee Machine design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/coffee/cofxhal1.webp" alt="Coffee Machine design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/coffee/coffeechal2.webp" alt="Coffee Machine design process - challenges 2" class="process-image-inline" />
       </div>
       
       <h3>Solutions</h3>
       <p>The design emphasizes the dialogue between wooden surfaces and a bent metal tube, creating depth and three-dimensionality in the overall form. This combination highlights sculptural qualities while keeping the machine recognizable and functional as a coffee product.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/coffee3.jpg" alt="Coffee Machine design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/coffee4.jpg" alt="Coffee Machine design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/coffee/cofsol1.webp" alt="Coffee Machine design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/coffee/cofsol2.webp" alt="Coffee Machine design process - solutions 2" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project utilized 3D modeling to develop the initial concept, followed by 3D printing and foam sketch models to explore form and proportions. Spray painting and surface finishing techniques were applied to achieve the desired aesthetic, while laser cutting was used for precise component fabrication. Graphic sticker design added final details to complete the visual identity.</p>
     `,
     processImages: [
-      "/assets/images/coffee1.jpg",
-      "/assets/images/coffee2.jpg",
-      "/assets/images/coffee3.jpg",
-      "/assets/images/coffee4.jpg"
+      "/assets/images/coffee/cofgal1.webp",
+      "/assets/images/coffee/cofgal2.webp",
+      "/assets/images/coffee/cofgal3.webp",
+      "/assets/images/coffee/cofgal4.webp"
     ]
   },
   {
