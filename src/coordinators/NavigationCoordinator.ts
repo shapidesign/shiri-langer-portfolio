@@ -1,4 +1,4 @@
-import { NavigationConfig, NavigationState, NavigationHandlers } from '../types/Navigation';
+import { NavigationConfig, NavigationHandlers } from '../types/Navigation';
 
 /**
  * NavigationCoordinator - Handles keyboard navigation and gesture prevention

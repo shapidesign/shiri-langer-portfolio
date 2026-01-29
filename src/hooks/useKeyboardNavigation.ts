@@ -24,18 +24,11 @@ export const useKeyboardNavigation = (
     return () => {
       handlersRef.current?.cleanup();
     };
-  }, [setOffset, config]);
+  }, [setOffset, config, offset]);
 
   useEffect(() => {
     // Update modal state
     coordinatorRef.current?.setModalOpen(isModalOpen);
   }, [isModalOpen]);
 
-  useEffect(() => {
-    // Update offset for keyboard navigation
-    if (handlersRef.current) {
-      handlersRef.current.cleanup();
-      handlersRef.current = coordinatorRef.current?.setupEventListeners(offset) || null;
-    }
-  }, [offset]);
 };

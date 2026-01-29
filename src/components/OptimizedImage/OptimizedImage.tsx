@@ -108,7 +108,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         observerRef.current.unobserve(imgElement);
       }
     };
-  }, [priority, loading]);
+  }, [priority, loading, thumbnail]);
 
   const handleLoad = () => {
     setImageLoaded(true);
@@ -134,8 +134,6 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   const imgSrc = shouldLazyLoad && imgRef.current?.dataset.src ? undefined : primarySrc;
   const dataSrc = shouldLazyLoad ? primarySrc : undefined;
-  const dataSrcSet = optimizedSrcs.webp && shouldLazyLoad && !thumbnail ? `${optimizedSrcs.webp} 1x, ${optimizedSrcs.original} 1x` : undefined;
-
   // Calculate aspect ratio for CLS prevention
   const aspectRatio = width && height ? `${width} / ${height}` : undefined;
 

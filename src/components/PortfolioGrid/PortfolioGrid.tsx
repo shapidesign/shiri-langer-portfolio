@@ -7,7 +7,6 @@ import ContactModal from '../ContactModal';
 import ProjectModal from '../ProjectModal';
 import AboutModal from '../AboutModal';
 import { ProjectConfig } from '../../types/Project';
-import NavigationIndicators from '../NavigationIndicators/NavigationIndicators';
 import './PortfolioGrid.css';
 
 /**
@@ -99,7 +98,7 @@ const PortfolioGrid: React.FC = () => {
   }, [screenSize]);
   
   // Initialize services
-  const projectService = useMemo(() => new ProjectService(gridConfig), []);
+  const projectService = useMemo(() => new ProjectService(gridConfig), [gridConfig]);
   
   // Update project service when grid config changes
   useEffect(() => {

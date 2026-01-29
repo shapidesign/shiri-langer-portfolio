@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { ProjectText, getProjectText } from '../config/projectTexts';
+import { getProjectText } from '../config/projectTexts';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 import { usePinchZoom } from '../hooks/usePinchZoom';
 import { OptimizedImage } from './OptimizedImage/OptimizedImage';
@@ -42,7 +42,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
   });
   
   // Pinch-to-zoom for maximized images
-  const { initialize: initPinchZoom, handlePinch, startPinch, resetZoom } = usePinchZoom({
+  const { initialize: initPinchZoom, resetZoom } = usePinchZoom({
     minScale: 1,
     maxScale: 3,
     onZoomEnd: () => {
@@ -232,6 +232,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       }
     }, 200);
     
+    const localRefs = processImageRefs.current;
+
     return () => {
       clearTimeout(timer);
       clearTimeout(reinitTimer);
@@ -246,7 +248,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         element.style.pointerEvents = '';
         element.style.cursor = '';
         // Remove from refs
-        processImageRefs.current.delete(element);
+        localRefs.delete(element);
       });
       // Clean up any existing popups
       const existingBackdrop = document.querySelector('.process-image-popup-backdrop');
@@ -295,7 +297,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, onClose, project]);
+  }, [isOpen, onClose, project, isImageMaximized]);
 
   // Handle backdrop click to close modal
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -622,7 +624,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           </button>
           <img 
             src={processImagePopup.src}
-            alt="Process image"
+            alt="Process"
             className="process-image-popup-img"
             onClick={(e) => {
               e.stopPropagation();

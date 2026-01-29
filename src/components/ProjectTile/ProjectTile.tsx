@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Project } from '../../types/Project';
 import { PROJECT_TEXTS } from '../../config/projectTexts';
 import { getDisplayImage, normalizeImagePath } from '../../utils/imagePathUtils';
@@ -34,8 +34,8 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   const longPressTimer = useRef<number | null>(null);
 
   // Get gallery images for this project as fallbacks
-  const projectText = PROJECT_TEXTS.find(p => p.id === project.id);
-  const galleryImages = projectText?.gallery || [];
+  const projectText = useMemo(() => PROJECT_TEXTS.find(p => p.id === project.id), [project.id]);
+  const galleryImages = useMemo(() => projectText?.gallery || [], [projectText]);
 
   // Initialize image source from gallery - use gallery as single source of truth
   useEffect(() => {

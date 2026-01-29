@@ -153,7 +153,6 @@ export class DragManager {
     }
     
     const now = performance.now();
-    const dt = Math.max(1, now - this.state.t);
     const dx = e.clientX - this.state.x;
     const dy = e.clientY - this.state.y;
     

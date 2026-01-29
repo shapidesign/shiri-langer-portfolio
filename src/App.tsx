@@ -7,11 +7,11 @@ import { useLenisScroll } from './hooks/useLenisScroll';
 import './App.css';
 
 function App() {
-  const { isLoading, onLoadingComplete } = useLoading();
+  const { isLoading } = useLoading();
   const [showMainApp, setShowMainApp] = useState(false);
   
   // Initialize Lenis smooth scrolling (respects prefers-reduced-motion)
-  const { lenisManager } = useLenisScroll(!isLoading);
+  useLenisScroll(!isLoading);
 
   useEffect(() => {
     // Log version for debugging
@@ -27,7 +27,7 @@ function App() {
   }, [isLoading]);
 
   if (isLoading) {
-    return <LoadingScreen onLoadingComplete={onLoadingComplete} />;
+    return <LoadingScreen />;
   }
 
   return (

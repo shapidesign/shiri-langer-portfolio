@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ThreeDot from '../ThreeDot/ThreeDot';
 import './LoadingScreen.css';
 
-interface LoadingScreenProps {
-  onLoadingComplete: () => void;
-}
-
-const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
-  const [isFadingOut, setIsFadingOut] = useState(false);
+const LoadingScreen: React.FC = () => {
 
   // Listen for parent signaling completion (unmounting will happen via parent)
   // But actually, the parent unmounts this component when loading is done.
