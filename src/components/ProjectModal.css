@@ -187,6 +187,13 @@
   border-radius: 12px; /* Enforce rounded corners */
 }
 
+.gallery-main-image img,
+.gallery-main-image picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 /* Ensure OptimizedImage wrapper also has rounded corners in gallery */
 .project-gallery .optimized-image-wrapper {
   border-radius: 12px !important;
