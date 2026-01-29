@@ -29,13 +29,6 @@ const LoadingScreen: React.FC = () => {
           text=""
           textColor=""
         />
-        <div className="loading-affordance" aria-hidden="true">
-          <div className="loading-affordance-icon">
-            <span className="affordance-cursor" />
-            <span className="affordance-arrow" />
-          </div>
-          <div className="loading-affordance-text">Drag or swipe to explore</div>
-        </div>
       </div>
     </div>
   );

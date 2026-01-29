@@ -19,6 +19,7 @@ const PortfolioGrid: React.FC = () => {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [showAffordance, setShowAffordance] = useState(true);
   
   // Responsive grid configuration
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
@@ -45,6 +46,13 @@ const PortfolioGrid: React.FC = () => {
     
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAffordance(false);
+    }, 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   const gridConfig: ProjectConfig = useMemo(() => {
@@ -212,6 +220,17 @@ const PortfolioGrid: React.FC = () => {
         userSelect: 'none',
       } as React.CSSProperties}
     >
+      {/* Gallery affordance */}
+      {showAffordance && (
+        <div className="gallery-affordance" aria-hidden="true">
+          <div className="gallery-affordance-icon">
+            <span className="affordance-cursor" />
+            <span className="affordance-arrow" />
+          </div>
+          <div className="gallery-affordance-text">Drag or swipe to explore</div>
+        </div>
+      )}
+
       {/* Portfolio Grid Interaction Layer */}
       <div
           className="grid-interaction-layer"
