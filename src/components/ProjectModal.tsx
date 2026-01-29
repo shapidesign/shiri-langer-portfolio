@@ -84,7 +84,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
 
 
   // Initialize inline image sliders
-  useEffect(() => {
+  const inlineSliderCleanupRef = useRef<(() => void) | null>(null);
+
+  const initInlineSliders = useCallback(() => {
     if (!isOpen || !project?.bodyText) return;
 
     const clickHandlers: Array<{ 
@@ -92,9 +94,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       handler: (e: Event) => void;
     }> = [];
 
-    const initInlineSliders = () => {
-      // Wait for DOM to be ready, especially after gallery closes
-      requestAnimationFrame(() => {
+    // Wait for DOM to be ready, especially after gallery closes
+    requestAnimationFrame(() => {
       const sliders = document.querySelectorAll('.process-image-slider');
       sliders.forEach(slider => {
         const sliderElement = slider as HTMLElement;
@@ -220,23 +221,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         }
       });
       }); // Close requestAnimationFrame callback
-    };
-
-    // Initialize after a short delay to ensure DOM is ready
-    const timer = setTimeout(initInlineSliders, 100);
-    
-    // Also reinitialize when gallery closes to ensure handlers are fresh
-    const reinitTimer = setTimeout(() => {
-      if (!isImageMaximized) {
-        initInlineSliders();
-      }
-    }, 200);
-    
-    const localRefs = processImageRefs.current;
 
     return () => {
-      clearTimeout(timer);
-      clearTimeout(reinitTimer);
       // Clean up click handlers
       clickHandlers.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler, { capture: true });
@@ -248,7 +234,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
         element.style.pointerEvents = '';
         element.style.cursor = '';
         // Remove from refs
-        localRefs.delete(element);
+        processImageRefs.current.delete(element);
       });
       // Clean up any existing popups
       const existingBackdrop = document.querySelector('.process-image-popup-backdrop');
@@ -258,7 +244,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
       if (existingImg) existingImg.remove();
       if (existingCloseBtn) existingCloseBtn.remove();
     };
-  }, [isOpen, project?.bodyText, project?.gallery, handleThumbnailClick, setIsImageMaximized, isImageMaximized]);
+  }, [isOpen, project?.bodyText, project?.gallery, handleThumbnailClick]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      inlineSliderCleanupRef.current = initInlineSliders() || null;
+    }, 100);
+    return () => {
+      clearTimeout(timer);
+      inlineSliderCleanupRef.current?.();
+      inlineSliderCleanupRef.current = null;
+    };
+  }, [initInlineSliders]);
 
   // Handle keyboard navigation
   useEffect(() => {

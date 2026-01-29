@@ -137,6 +137,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   const imgSrc = shouldLazyLoad && imgRef.current?.dataset.src ? undefined : primarySrc;
   const dataSrc = shouldLazyLoad ? primarySrc : undefined;
+  const fittedPlaceholder = styleObjectFit === 'contain';
   // Calculate aspect ratio for CLS prevention
   const aspectRatio = width && height ? `${width} / ${height}` : undefined;
 
@@ -195,8 +196,9 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
             position: 'absolute',
             inset: 0,
             backgroundImage: `url(${primarySrc})`,
-            backgroundSize: 'cover',
+            backgroundSize: fittedPlaceholder ? 'contain' : 'cover',
             backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             filter: 'blur(10px) brightness(0.8)',
             transform: 'scale(1.1)', // Prevent blur edges from showing
             opacity: 0.8,

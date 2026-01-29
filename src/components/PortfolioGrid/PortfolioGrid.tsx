@@ -222,7 +222,7 @@ const PortfolioGrid: React.FC = () => {
     >
       {/* Gallery affordance */}
       {showAffordance && (
-        <div className="gallery-affordance" aria-hidden="true">
+        <div className="gallery-affordance is-visible" aria-hidden="true">
           <div className="gallery-affordance-icon">
             <span className="affordance-cursor" />
             <span className="affordance-arrow" />
