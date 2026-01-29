@@ -224,8 +224,7 @@ const PortfolioGrid: React.FC = () => {
       {showAffordance && (
         <div className="gallery-affordance is-visible" aria-hidden="true">
           <div className="gallery-affordance-icon">
-            <span className="affordance-cursor" />
-            <span className="affordance-arrow" />
+            <div className="gallery-affordance-trackpad" aria-hidden="true" />
             <div className="gallery-affordance-hand" aria-hidden="true">
               <svg
                 viewBox="0 0 36 36"
