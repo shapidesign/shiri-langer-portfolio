@@ -72,7 +72,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Solutions</h3>
       <p>The final design consists of three large wooden beads, each dedicated to a different calming action. Their tactile qualities—natural wood, soft textiles, and rounded forms—invite intuitive use. The modular system creates a sense of wholeness, while allowing the parent and child to use each element separately or together.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/tomi/tomi3 2.webp" alt="Tomi design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomi03.webp" alt="Tomi design process - solutions 1" class="process-image-inline" />
         <img src="/assets/images/tomi/tomi06.webp" alt="Tomi design process - solutions 2" class="process-image-inline" />
       </div>
       
