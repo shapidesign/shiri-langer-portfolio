@@ -40,6 +40,9 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   priority = false,
   thumbnail = false,
 }) => {
+  const normalizedSrc = src.toLowerCase();
+  const needsOrientationFix = normalizedSrc.includes('/coffee') || normalizedSrc.includes('coffeemachine');
+  const { objectFit: styleObjectFit, ...wrapperStyle } = style || {};
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [useWebP, setUseWebP] = useState(false);
@@ -147,7 +150,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           height: height || 'auto',
           aspectRatio,
           overflow: 'hidden',
-          ...style,
+          ...wrapperStyle,
         }}
       >
         <video
@@ -165,7 +168,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            objectFit: styleObjectFit ?? 'cover',
             ...style
           }}
         />
@@ -182,7 +185,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         height: height || 'auto',
         aspectRatio,
         overflow: 'hidden',
-        ...style,
+        ...wrapperStyle,
       }}
     >
       {/* Blur placeholder for smooth loading (skip for thumbnails) */}
@@ -253,7 +256,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
+                objectFit: styleObjectFit ?? 'cover',
+                imageOrientation: needsOrientationFix ? 'none' : undefined,
                 opacity: imageLoaded ? 1 : 0,
                 transition: 'opacity 0.3s ease-in-out',
                 transform: 'translateZ(0)', // GPU acceleration
@@ -286,7 +290,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: styleObjectFit ?? 'cover',
+              imageOrientation: needsOrientationFix ? 'none' : undefined,
               opacity: imageLoaded ? 1 : 0,
               transition: 'opacity 0.3s ease-in-out',
               transform: 'translateZ(0)', // GPU acceleration

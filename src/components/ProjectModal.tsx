@@ -745,7 +745,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                 className="gallery-main-image"
                 onClick={handleImageClick}
                 onTouchEnd={handleImageClick}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer', objectFit: 'contain' }}
                 title="Click to enlarge"
                 priority={true} // High priority for main gallery image
               />
