@@ -172,9 +172,11 @@
 .gallery-main {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: transparent;
+  background: var(--color-white-smoke);
   position: relative;
   border-radius: 12px; /* Enforce rounded corners */
+  padding: 12px;
+  box-sizing: border-box;
 }
 
 .gallery-main-image {
@@ -185,6 +187,7 @@
   display: block;
   transition: transform var(--transition-normal);
   border-radius: 12px; /* Enforce rounded corners */
+  box-sizing: border-box;
 }
 
 .gallery-main-image img,
@@ -199,6 +202,13 @@
   border-radius: 12px !important;
 }
 
+/* Ensure main image respects padded container */
+.gallery-main .optimized-image-wrapper {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
 /* GIF images should fill the container without black bars */
 .gallery-main-image[src$=".gif"],
 .gallery-main-image[src*=".gif"] {
@@ -207,7 +217,7 @@
 }
 
 .gallery-main-image:hover {
-  transform: scale(1.02);
+  transform: none;
 }
 
 /* Maximized image popup - completely outside modal */
@@ -607,6 +617,10 @@
     max-width: 95vw;
     max-height: 95vh;
   }
+
+  .gallery-main {
+    padding: 10px;
+  }
   
   .gallery-main-image {
     height: 340px;
@@ -637,6 +651,10 @@
   .project-modal-container {
     max-height: 100vh;
     overflow: auto;
+  }
+
+  .gallery-main {
+    padding: 8px;
   }
   
   .gallery-main-image {
@@ -723,6 +741,10 @@
   
   .project-modal-content {
     padding: var(--spacing-md);
+  }
+
+  .gallery-main {
+    padding: 6px;
   }
   
   .project-modal-title {
