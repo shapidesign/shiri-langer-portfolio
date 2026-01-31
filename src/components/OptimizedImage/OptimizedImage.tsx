@@ -40,7 +40,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   priority = false,
   thumbnail = false,
 }) => {
-  const normalizedSrc = src.toLowerCase();
+  const safeSrc = typeof src === 'string' ? src : '';
+  const normalizedSrc = safeSrc.toLowerCase();
   const needsOrientationFix = normalizedSrc.includes('/coffee') || normalizedSrc.includes('coffeemachine');
   const { objectFit: styleObjectFit, ...wrapperStyle } = style || {};
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -125,10 +126,10 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     onError?.();
   };
 
-  const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+  const isVideo = safeSrc.toLowerCase().endsWith('.mp4') || safeSrc.toLowerCase().endsWith('.webm');
 
   // Use optimized src or fallback to original
-  const optimizedSrcs = getOptimizedSrc(src);
+  const optimizedSrcs = getOptimizedSrc(safeSrc);
   const shouldLazyLoad = loading === 'lazy' && !priority && !thumbnail && !isVideo;
 
   // For thumbnails, use original src to avoid WebP overhead
@@ -140,6 +141,36 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const fittedPlaceholder = styleObjectFit === 'contain';
   // Calculate aspect ratio for CLS prevention
   const aspectRatio = width && height ? `${width} / ${height}` : undefined;
+
+  if (!safeSrc) {
+    return (
+      <div
+        className={`optimized-image-wrapper ${className || ''}`}
+        style={{
+          position: 'relative',
+          width: width || '100%',
+          height: height || 'auto',
+          overflow: 'hidden',
+          ...wrapperStyle,
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#f0f0f0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#999',
+            fontSize: '14px',
+          }}
+        >
+          Image not available
+        </div>
+      </div>
+    );
+  }
 
   if (isVideo) {
     return (
@@ -155,7 +186,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         }}
       >
         <video
-          src={src}
+          src={safeSrc}
           className={className}
           width={width}
           height={height}

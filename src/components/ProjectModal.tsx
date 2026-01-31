@@ -22,6 +22,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
   const [processImagePopup, setProcessImagePopup] = useState<{ src: string } | null>(null);
   const [isMainImagePortrait, setIsMainImagePortrait] = useState(false);
   const processImageRefs = useRef<Map<HTMLImageElement, { src: string; rect: DOMRect }>>(new Map());
+  const galleryImages = project?.gallery || [];
+  const safeImageIndex = galleryImages.length > 0
+    ? Math.min(currentImageIndex, galleryImages.length - 1)
+    : 0;
+  const mainImageSrc = galleryImages[safeImageIndex];
   
   // Swipe navigation for gallery
   useSwipeNavigation(galleryRef, {
@@ -82,14 +87,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     }
   }, [isOpen, project?.gallery]);
 
+
   // Track current main image orientation for layout sizing
   useEffect(() => {
-    if (!project?.gallery?.length) {
+    if (!galleryImages.length) {
       setIsMainImagePortrait(false);
       return;
     }
 
-    const imageSrc = project.gallery[currentImageIndex];
+    const imageSrc = mainImageSrc;
     if (!imageSrc) {
       setIsMainImagePortrait(false);
       return;
@@ -111,7 +117,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     return () => {
       isMounted = false;
     };
-  }, [currentImageIndex, project?.gallery]);
+  }, [currentImageIndex, galleryImages.length, mainImageSrc]);
 
 
 
@@ -769,7 +775,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                 </button>
               )}
               <OptimizedImage
-                src={project.gallery[currentImageIndex]}
+                src={mainImageSrc}
                 alt={project.title}
                 className="gallery-main-image"
                 onClick={handleImageClick}
