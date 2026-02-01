@@ -417,7 +417,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
     return () => {
       clearTimeout(timer);
     };
-  }, [isImageMaximized, isOpen, project, handleThumbnailClick, processImagePopup]);
+  }, [isImageMaximized, isOpen, project, handleThumbnailClick, processImagePopup, currentImageIndex]);
 
   // ESC key handler for gallery images
   useEffect(() => {
