@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import PortfolioGrid from './components/PortfolioGrid';
 import BackgroundManager from './components/BackgroundManager';
 import LoadingScreen from './components/LoadingScreen';
@@ -35,6 +36,7 @@ function App() {
       <div className={`App ${showMainApp ? 'loaded' : ''}`}>
         <PortfolioGrid />
       </div>
+      <Analytics />
     </BackgroundManager>
   );
 }
