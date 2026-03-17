@@ -3,15 +3,11 @@ import PortfolioGrid from './components/PortfolioGrid';
 import BackgroundManager from './components/BackgroundManager';
 import LoadingScreen from './components/LoadingScreen';
 import { useLoading } from './hooks/useLoading';
-import { useLenisScroll } from './hooks/useLenisScroll';
 import './App.css';
 
 function App() {
   const { isLoading } = useLoading();
   const [showMainApp, setShowMainApp] = useState(false);
-  
-  // Initialize Lenis smooth scrolling (respects prefers-reduced-motion)
-  useLenisScroll(!isLoading);
 
   useEffect(() => {
     // Log version for debugging

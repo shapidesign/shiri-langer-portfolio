@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useDragInertia } from '../../hooks/useDragInertia';
 import { ProjectService } from '../../managers/ProjectService';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
@@ -124,60 +124,73 @@ const PortfolioGrid: React.FC = () => {
     isContactModalOpen || isProjectModalOpen || isAboutModalOpen
   );
   
-  // Enhanced wheel events for smoother scrolling
-  const wheelAccumulator = useRef({ x: 0, y: 0 });
-  const wheelVelocity = useRef({ x: 0, y: 0 });
+  const wheelMomentum = useRef({ x: 0, y: 0 });
   const wheelRaf = useRef(0);
   const lastWheelTime = useRef(0);
-  
-  const onWheel = (e: React.WheelEvent) => {
-    // Don't prevent default if wheel event is on a modal
+
+  useEffect(() => {
+    return () => {
+      if (wheelRaf.current) cancelAnimationFrame(wheelRaf.current);
+    };
+  }, []);
+
+  const onWheel = useCallback((e: React.WheelEvent) => {
     const target = e.target as HTMLElement;
     if (target.closest('.about-modal-content, .about-modal-scrollable, .project-modal-container, .project-modal-content, .modal-container, .modal-content')) {
-      return; // Let modal handle its own scrolling
+      return;
     }
-    
-    // Only prevent default if we're in desktop mode (custom scrolling)
-    if (!isMobile) {
+
+    if (isMobile) return;
+
     e.preventDefault();
-    
+
+    // Normalize deltaMode: 0=pixels, 1=lines (~40px), 2=pages
+    let dx = e.deltaX;
+    let dy = e.deltaY;
+    if (e.deltaMode === 1) { dx *= 40; dy *= 40; }
+    if (e.deltaMode === 2) { dx *= window.innerHeight; dy *= window.innerHeight; }
+
+    const sensitivity = 0.7;
+    const moveX = -dx * sensitivity;
+    const moveY = -dy * sensitivity;
+
+    setOffset((o) => ({ x: o.x + moveX, y: o.y + moveY }));
+
+    // Track momentum for trackpad fling
     const now = performance.now();
-    const deltaTime = Math.max(1, now - lastWheelTime.current);
+    const dt = Math.max(1, now - lastWheelTime.current);
     lastWheelTime.current = now;
-    
-    // Enhanced wheel delta processing
-    // Slow down wheel/trackpad navigation to avoid jitter
-    const sensitivity = 0.2;
-    const deltaX = -e.deltaX * sensitivity;
-    const deltaY = -e.deltaY * sensitivity;
-    
-    // Accumulate wheel deltas with time-based smoothing
-    wheelAccumulator.current.x += deltaX;
-    wheelAccumulator.current.y += deltaY;
-    
-    // Calculate velocity for momentum
-    wheelVelocity.current.x = deltaX / deltaTime;
-    wheelVelocity.current.y = deltaY / deltaTime;
-    
-    // Cancel previous wheel animation
+    wheelMomentum.current.x = moveX / dt;
+    wheelMomentum.current.y = moveY / dt;
+
     if (wheelRaf.current) cancelAnimationFrame(wheelRaf.current);
-    
-    // Apply accumulated deltas with enhanced smoothing
-    wheelRaf.current = requestAnimationFrame(() => {
-      const smoothFactor = 0.85; // Strong smoothing for liquid feel
-      const momentumFactor = 0.18; // Gentle momentum for glide
-      
-      const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
-      const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
-      
-      setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
-      
-      // Reset accumulator with decay
-      wheelAccumulator.current.x *= 0.2;
-      wheelAccumulator.current.y *= 0.2;
-    });
-    }
-  };
+
+    // After a brief pause in wheel events, apply decaying momentum
+    const applyMomentum = () => {
+      const elapsed = performance.now() - lastWheelTime.current;
+      if (elapsed < 60) {
+        wheelRaf.current = requestAnimationFrame(applyMomentum);
+        return;
+      }
+
+      const friction = 0.92;
+      wheelMomentum.current.x *= friction;
+      wheelMomentum.current.y *= friction;
+
+      const vx = wheelMomentum.current.x * 16;
+      const vy = wheelMomentum.current.y * 16;
+
+      if (Math.abs(vx) > 0.1 || Math.abs(vy) > 0.1) {
+        setOffset((o) => ({ x: o.x + vx, y: o.y + vy }));
+        wheelRaf.current = requestAnimationFrame(applyMomentum);
+      } else {
+        wheelMomentum.current = { x: 0, y: 0 };
+        wheelRaf.current = 0;
+      }
+    };
+
+    wheelRaf.current = requestAnimationFrame(applyMomentum);
+  }, [isMobile, setOffset]);
   
   // Handle project tile click
   const handleProjectClick = (projectId: number) => {
