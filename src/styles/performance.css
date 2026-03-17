@@ -5,7 +5,6 @@
 
 /* Force GPU acceleration for animated elements */
 .portfolio-container,
-.project-tile,
 .gallery-main-image,
 .maximized-image-popup {
   transform: translateZ(0);

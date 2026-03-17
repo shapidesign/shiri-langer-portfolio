@@ -14,16 +14,16 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Grid Interaction Layer - NEW */
-/* This layer handles the drag/pan gestures, allowing siblings to receive events */
+/* Grid Interaction Layer — receives translate3d transform from useGridPanning */
 .grid-interaction-layer {
   position: absolute;
   inset: 0;
   cursor: default;
-  touch-action: none; /* Disable browser gestures ONLY on the drag layer */
-  -webkit-overflow-scrolling: touch;
+  touch-action: none;
   overscroll-behavior: none;
-  /* Ensure it doesn't cover fixed elements (z-index auto is usually fine, but buttons are higher) */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .gallery-affordance {
