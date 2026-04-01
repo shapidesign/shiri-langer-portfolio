@@ -124,58 +124,18 @@ const PortfolioGrid: React.FC = () => {
     isContactModalOpen || isProjectModalOpen || isAboutModalOpen
   );
   
-  // Enhanced wheel events for smoother scrolling
-  const wheelAccumulator = useRef({ x: 0, y: 0 });
-  const wheelVelocity = useRef({ x: 0, y: 0 });
-  const wheelRaf = useRef(0);
-  const lastWheelTime = useRef(0);
-  
   const onWheel = (e: React.WheelEvent) => {
     // Don't prevent default if wheel event is on a modal
     const target = e.target as HTMLElement;
     if (target.closest('.about-modal-content, .about-modal-scrollable, .project-modal-container, .project-modal-content, .modal-container, .modal-content')) {
       return; // Let modal handle its own scrolling
     }
-    
+
     // Only prevent default if we're in desktop mode (custom scrolling)
     if (!isMobile) {
-    e.preventDefault();
-    
-    const now = performance.now();
-    const deltaTime = Math.max(1, now - lastWheelTime.current);
-    lastWheelTime.current = now;
-    
-    // Enhanced wheel delta processing
-    // Slow down wheel/trackpad navigation to avoid jitter
-    const sensitivity = 0.2;
-    const deltaX = -e.deltaX * sensitivity;
-    const deltaY = -e.deltaY * sensitivity;
-    
-    // Accumulate wheel deltas with time-based smoothing
-    wheelAccumulator.current.x += deltaX;
-    wheelAccumulator.current.y += deltaY;
-    
-    // Calculate velocity for momentum
-    wheelVelocity.current.x = deltaX / deltaTime;
-    wheelVelocity.current.y = deltaY / deltaTime;
-    
-    // Cancel previous wheel animation
-    if (wheelRaf.current) cancelAnimationFrame(wheelRaf.current);
-    
-    // Apply accumulated deltas with enhanced smoothing
-    wheelRaf.current = requestAnimationFrame(() => {
-      const smoothFactor = 0.85; // Strong smoothing for liquid feel
-      const momentumFactor = 0.18; // Gentle momentum for glide
-      
-      const dx = (wheelAccumulator.current.x * smoothFactor) + (wheelVelocity.current.x * momentumFactor);
-      const dy = (wheelAccumulator.current.y * smoothFactor) + (wheelVelocity.current.y * momentumFactor);
-      
-      setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
-      
-      // Reset accumulator with decay
-      wheelAccumulator.current.x *= 0.2;
-      wheelAccumulator.current.y *= 0.2;
-    });
+      e.preventDefault();
+      const sensitivity = 0.55;
+      setOffset((o) => ({ x: o.x - e.deltaX * sensitivity, y: o.y - e.deltaY * sensitivity }));
     }
   };
   

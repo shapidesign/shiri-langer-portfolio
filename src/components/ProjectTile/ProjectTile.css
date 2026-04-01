@@ -4,7 +4,7 @@
   cursor: pointer;
   z-index: 20;
   transition: transform var(--transition-fast);
-  will-change: transform, left, top;
+  will-change: transform;
   transform: translateZ(0);
   background: transparent;
   border: none;

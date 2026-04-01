@@ -146,11 +146,12 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   return (
     <div 
       className={`project-tile ${overlayVisible ? 'show-overlay' : ''}`} 
-      style={{ 
-        position: 'absolute', 
-        left, 
-        top, 
-        width: width, 
+      style={{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        transform: `translate(${left}px, ${top}px)`,
+        width: width,
         height: height,
         cursor: 'pointer',
         display: 'flex',
