@@ -20,10 +20,10 @@
   position: absolute;
   inset: 0;
   cursor: default;
-  touch-action: none; /* Disable browser gestures ONLY on the drag layer */
+  touch-action: none;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
-  /* Ensure it doesn't cover fixed elements (z-index auto is usually fine, but buttons are higher) */
+  will-change: transform;
 }
 
 .gallery-affordance {

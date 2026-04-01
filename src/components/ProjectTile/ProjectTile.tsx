@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, { memo, useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Project } from '../../types/Project';
 import { PROJECT_TEXTS } from '../../config/projectTexts';
 import { getDisplayImage, normalizeImagePath } from '../../utils/imagePathUtils';
@@ -19,7 +19,7 @@ interface ProjectTileProps {
  * ProjectTile - Individual project tile component
  * Single responsibility: Render and handle interactions for a single project tile
  */
-export const ProjectTile: React.FC<ProjectTileProps> = ({
+const ProjectTileBase: React.FC<ProjectTileProps> = ({
   left,
   top,
   width,
@@ -148,11 +148,10 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
       className={`project-tile ${overlayVisible ? 'show-overlay' : ''}`} 
       style={{
         position: 'absolute',
-        left: 0,
-        top: 0,
-        transform: `translate(${left}px, ${top}px)`,
-        width: width,
-        height: height,
+        left,
+        top,
+        width,
+        height,
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
@@ -189,4 +188,5 @@ export const ProjectTile: React.FC<ProjectTileProps> = ({
   );
 };
 
+export const ProjectTile = memo(ProjectTileBase);
 export default ProjectTile;

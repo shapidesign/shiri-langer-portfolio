@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDragInertia } from '../../hooks/useDragInertia';
 import { ProjectService } from '../../managers/ProjectService';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
@@ -134,16 +134,16 @@ const PortfolioGrid: React.FC = () => {
     // Only prevent default if we're in desktop mode (custom scrolling)
     if (!isMobile) {
       e.preventDefault();
-      const sensitivity = 0.55;
+      const sensitivity = 1.0;
       setOffset((o) => ({ x: o.x - e.deltaX * sensitivity, y: o.y - e.deltaY * sensitivity }));
     }
   };
   
-  // Handle project tile click
-  const handleProjectClick = (projectId: number) => {
-      setSelectedProjectId(projectId);
-      setIsProjectModalOpen(true);
-  };
+  // Handle project tile click — useCallback prevents new ref on every render (needed for React.memo on tiles)
+  const handleProjectClick = useCallback((projectId: number) => {
+    setSelectedProjectId(projectId);
+    setIsProjectModalOpen(true);
+  }, []);
   
   // Calculate grid positioning
   const camX = -offset.x;
@@ -200,9 +200,10 @@ const PortfolioGrid: React.FC = () => {
         </div>
       )}
 
-      {/* Portfolio Grid Interaction Layer */}
+      {/* Portfolio Grid Interaction Layer — translate as one unit so tiles don't re-render per frame */}
       <div
-          className="grid-interaction-layer"
+        className="grid-interaction-layer"
+        style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
         onWheel={onWheel}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -231,8 +232,8 @@ const PortfolioGrid: React.FC = () => {
           return (
             <ProjectTile
               key={`${row}:${col}`}
-              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap) + offset.x}
-              top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap) + offset.y}
+              left={baseLeft + col * (gridConfig.tileWidth + gridConfig.tileGap)}
+              top={baseTop + row * (gridConfig.tileHeight + gridConfig.tileGap)}
               width={gridConfig.tileWidth}
               height={gridConfig.tileHeight}
               project={project}
