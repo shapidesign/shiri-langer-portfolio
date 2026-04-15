@@ -704,14 +704,21 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
             <div className="project-meta">
               <span className="project-year">{project.year}</span>
               {project.client && (
-                <span 
+                <span
                   className="project-client"
-                  data-award={project.client.toLowerCase().includes('shortlisted') || 
-                             project.client.toLowerCase().includes('award') || 
-                             project.client.toLowerCase().includes('winner') || 
+                  data-award={project.client.toLowerCase().includes('shortlisted') ||
+                             project.client.toLowerCase().includes('award') ||
+                             project.client.toLowerCase().includes('winner') ||
                              project.client.toLowerCase().includes('nomination') ? 'true' : 'false'}
                 >
                   {project.client}
+                  {project.badge && (
+                    <img
+                      src={project.badge}
+                      alt="Award badge"
+                      className="project-award-badge"
+                    />
+                  )}
                 </span>
               )}
             </div>

@@ -1,20 +1,22 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { DragManager } from '../managers/DragManager';
 import { DragOffset } from '../types/Drag';
 import { LoadingManager } from '../managers/LoadingManager';
 
 /**
- * Hook for using DragManager
+ * Hook for using DragManager.
+ * Accepts an external setOffset so drag/inertia can update position refs directly
+ * without going through React state — keeping animation off the React render path.
  */
-export const useDragInertia = () => {
-  const [offset, setOffset] = useState<DragOffset>({ x: 0, y: 0 });
+export const useDragInertia = (
+  setOffset: React.Dispatch<React.SetStateAction<DragOffset>>
+) => {
   const dragManagerRef = useRef<DragManager | null>(null);
 
   useEffect(() => {
     dragManagerRef.current = new DragManager();
     dragManagerRef.current.initialize();
-    
-    // Mark drag manager as loaded
+
     const loadingManager = LoadingManager.getInstance();
     setTimeout(() => {
       loadingManager.markLoaded('drag');
@@ -25,16 +27,15 @@ export const useDragInertia = () => {
     };
   }, []);
 
-  const handlers = dragManagerRef.current?.getHandlers(setOffset) || {
+  const handlers = dragManagerRef.current?.getHandlers(setOffset) ?? {
     onPointerDown: () => {},
     onPointerMove: () => {},
-    onPointerUp: () => {}
+    onPointerUp: () => {},
   };
 
-  // Helper to check if currently dragging (to prevent clicks)
   const isDragging = useCallback(() => {
-    return dragManagerRef.current?.isDragging() || false;
+    return dragManagerRef.current?.isDragging() ?? false;
   }, []);
 
-  return { offset, setOffset, ...handlers, isDragging };
+  return { ...handlers, isDragging };
 };

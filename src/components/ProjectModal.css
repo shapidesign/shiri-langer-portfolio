@@ -103,6 +103,14 @@
   font-weight: 700;
 }
 
+.project-award-badge {
+  width: 52px;
+  height: auto;
+  vertical-align: middle;
+  margin-left: 10px;
+  border-radius: 6px;
+}
+
 /* Round blue close button - consistent with About modal */
 .project-modal-close-btn {
   position: absolute;

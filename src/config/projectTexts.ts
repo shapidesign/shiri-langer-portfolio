@@ -31,6 +31,7 @@ export interface ProjectText {
   // New fields for body text with process images
   bodyText?: string; // Rich text content with embedded images
   processImages?: string[]; // Array of process image URLs
+  badge?: string; // Optional small award badge image URL
 }
 
 // Update this array with your project information
@@ -51,9 +52,15 @@ export const PROJECT_TEXTS: ProjectText[] = [
     testimonial: undefined,
     gallery: [
       "/assets/images/tomi/tomigif.gif",
-      "/assets/images/tomi/TomiDisplay1.webp",
-      "/assets/images/tomi/tomi01.webp",
-      "/assets/images/tomi/tomi2 2.webp"
+      "/assets/images/tomi/Tomidisplay.webp",
+      "/assets/images/tomi/tomigal1.webp",
+      "/assets/images/tomi/tomigal2.webp",
+      "/assets/images/tomi/tomigal3.webp",
+      "/assets/images/tomi/tomigal4.webp",
+      "/assets/images/tomi/tomigal5.webp",
+      "/assets/images/tomi/tomigal6.webp",
+      "/assets/images/tomi/tomigal7.webp",
+      "/assets/images/tomi/tomigal8.webp"
     ],
     stickerColor: "#E91E63", // Hot Pink
     stickerImage: "/assets/images/sticker1.png",
@@ -64,27 +71,33 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The main challenges were designing a product suitable for both adults and children, balancing playfulness with maturity while maintaining a homely presence, and ensuring the object invites touch and communicates its use intuitively. Another challenge was relieving stress for both parent and child without shifting responsibility onto the child.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/tomi/tomi05.webp" alt="Tomi design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/tomi/tomi03.webp" alt="Tomi design process - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/tomi/tomi02.webp" alt="Tomi design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomichal1.webp" alt="Tomi design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomichal3.webp" alt="Tomi design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomichal4.webp" alt="Tomi design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomichal5.webp" alt="Tomi design process - challenges 4" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomichal6.webp" alt="Tomi design process - challenges 5" class="process-image-inline" />
       </div>
-      
+
       <h3>Solutions</h3>
       <p>The final design consists of three large wooden beads, each dedicated to a different calming action. Their tactile qualities—natural wood, soft textiles, and rounded forms—invite intuitive use. The modular system creates a sense of wholeness, while allowing the parent and child to use each element separately or together.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/tomi/tomi03.webp" alt="Tomi design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/tomi/tomi06.webp" alt="Tomi design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomisol1.webp" alt="Tomi design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomisol2.webp" alt="Tomi design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/tomi/tomisol3.webp" alt="Tomi design process - solutions 3" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The fabrication process combined traditional craftsmanship with advanced manufacturing methods. The wooden elements were shaped on a lathe in collaboration with a professional carpenter, while wool felt was sewn and integrated to create soft, tactile surfaces. Custom molds were designed and 3D printed, then used to cast medical-grade silicone parts, resulting in precise and durable components.</p>
     `,
     processImages: [
-      "/assets/images/tomi/tomi05.webp",
-      "/assets/images/tomi/tomi03.webp",
-      "/assets/images/tomi/tomi02.webp",
-      "/assets/images/tomi/tomi3 2.webp",
-      "/assets/images/tomi/tomi06.webp"
+      "/assets/images/tomi/tomichal1.webp",
+      "/assets/images/tomi/tomichal3.webp",
+      "/assets/images/tomi/tomichal4.webp",
+      "/assets/images/tomi/tomichal5.webp",
+      "/assets/images/tomi/tomichal6.webp",
+      "/assets/images/tomi/tomisol1.webp",
+      "/assets/images/tomi/tomisol2.webp",
+      "/assets/images/tomi/tomisol3.webp"
     ]
   },
   {
@@ -102,10 +115,10 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
+      "/assets/images/chair/chairdisplay.webp",
       "/assets/images/chair/chair-display-2.webp",
-      "/assets/images/chair/chair1-2.webp",
-      "/assets/images/chair/chair2-2.webp",
-      "/assets/images/chair/chair3-2.webp"
+      "/assets/images/chair/chairgal2.webp",
+      "/assets/images/chair/chairgal3.webp"
     ],
     stickerColor: "#DC2626", // Red
     stickerImage: "/assets/images/sticker2.png",
@@ -116,25 +129,33 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to translate a classic wooden design into metal, ensuring both comfort and structural strength. Another challenge was to create a design that feels contemporary and bold without losing the recognizable identity of the original chair.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/chair/chair02.webp" alt="Red Chair design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/chair/chair04.webp" alt="Red Chair design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/chair/chairchal1.webp" alt="Red Chair design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/chair/chairchal2.webp" alt="Red Chair design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/chair/chairchal3.webp" alt="Red Chair design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/chair/chairchal4.webp" alt="Red Chair design process - challenges 4" class="process-image-inline" />
+        <img src="/assets/images/chair/chairchal5.webp" alt="Red Chair design process - challenges 5" class="process-image-inline" />
+        <img src="/assets/images/chair/chairchal6.webp" alt="Red Chair design process - challenges 6" class="process-image-inline" />
       </div>
-      
+
       <h3>Solutions</h3>
       <p>The final design combines bent tubes and sheet metal, structurally reinforced with welded joints. The striking red spray-painted finish emphasizes its modern character, transforming a timeless classic into a bold, industrial statement piece that remains functional and durable.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/chair/chair5-2.webp" alt="Red Chair design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/chair/chair05.webp" alt="Red Chair design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/chair/chairsol1.webp" alt="Red Chair design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/chair/chairsol2.webp" alt="Red Chair design process - solutions 2" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>Metal tube bending, sheet-metal forming, welding reinforcement, industrial chair-design methods (standard dimensions and angles), spray painting, and metal finishing.</p>
     `,
     processImages: [
-      "/assets/images/chair/chair02.webp",
-      "/assets/images/chair/chair04.webp",
-      "/assets/images/chair/chair5-2.webp",
-      "/assets/images/chair/chair05.webp"
+      "/assets/images/chair/chairchal1.webp",
+      "/assets/images/chair/chairchal2.webp",
+      "/assets/images/chair/chairchal3.webp",
+      "/assets/images/chair/chairchal4.webp",
+      "/assets/images/chair/chairchal5.webp",
+      "/assets/images/chair/chairchal6.webp",
+      "/assets/images/chair/chairsol1.webp",
+      "/assets/images/chair/chairsol2.webp"
     ]
   },
   {
@@ -152,10 +173,11 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/3dfilters/filterdisplay.webp",
-      "/assets/images/3dfilters/filterg1.webp",
-      "/assets/images/3dfilters/filterg2.webp",
-      "/assets/images/3dfilters/filterg3.webp"
+      "/assets/images/3dfilters/Filterdisplaymain.webp",
+      "/assets/images/3dfilters/filtergal1.webp",
+      "/assets/images/3dfilters/filtergal2.webp",
+      "/assets/images/3dfilters/filtergal3.webp",
+      "/assets/images/3dfilters/filtergal4.webp"
     ],
     stickerColor: "#FFD23F", // Sunny Yellow
     stickerImage: "/assets/images/sticker3.png",
@@ -165,28 +187,26 @@ export const PROJECT_TEXTS: ProjectText[] = [
       
       <h3>Challenges</h3>
       <p>The challenge was to translate tools meant for concealment into visible artifacts without losing their symbolic meaning. Another challenge was to design objects that feel both provocative and wearable, engaging users in reflection about beauty, identity, and control.</p>
-      <div class="process-image-slider">
-        <img src="/assets/images/3dfilters/filterchal1.webp" alt="3D Filters design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/3dfilters/filterchal2.webp" alt="3D Filters design process - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/3dfilters/filterchal3.webp" alt="3D Filters design process - challenges 3" class="process-image-inline" />
-      </div>
-      
+
       <h3>Solutions</h3>
       <p>The project redefines hidden beauty tools by making them visible and expressive. Instead of concealing or correcting, the accessories highlight the traces of self-maintenance and transform them into bold design elements. Through this shift, 3D FILTERS challenges conventional ideals of beauty and opens a space for self-expression and reflection.</p>
       <div class="process-image-slider">
         <img src="/assets/images/3dfilters/filtersol1.webp" alt="3D Filters design process - solutions 1" class="process-image-inline" />
         <img src="/assets/images/3dfilters/filtersol2.webp" alt="3D Filters design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filtersol3.webp" alt="3D Filters design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filtersol4.webp" alt="3D Filters design process - solutions 4" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filtersol5.webp" alt="3D Filters design process - solutions 5" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project utilized 3D modeling to create intricate lightweight structures optimized for facial wearability. SLA 3D printing enabled the production of precise, delicate forms with fine details, while careful model finishing ensured comfort and aesthetic quality. Visual storytelling through social media documentation played a crucial role in communicating the project's critical perspective on beauty culture.</p>
     `,
     processImages: [
-      "/assets/images/3dfilters/filterchal1.webp",
-      "/assets/images/3dfilters/filterchal2.webp",
-      "/assets/images/3dfilters/filterchal3.webp",
       "/assets/images/3dfilters/filtersol1.webp",
-      "/assets/images/3dfilters/filtersol2.webp"
+      "/assets/images/3dfilters/filtersol2.webp",
+      "/assets/images/3dfilters/filtersol3.webp",
+      "/assets/images/3dfilters/filtersol4.webp",
+      "/assets/images/3dfilters/filtersol5.webp"
     ]
   },
   {
@@ -204,14 +224,17 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "Winner – FIT Sport Design Awards 2025",
     testimonial: undefined,
     gallery: [
-      "/assets/images/pita/pita-display.webp",
-      "/assets/images/pita/pita-final.webp",
-      "/assets/images/pita/pitafinal3.webp",
-      "/assets/images/pita/pitafinal4.webp",
-      "/assets/images/pita/pitfinal2.webp"
+      "/assets/images/pita/pitadisplay.webp",
+      "/assets/images/pita/pitagal1.webp",
+      "/assets/images/pita/pitagal2.webp",
+      "/assets/images/pita/pitagal3.webp",
+      "/assets/images/pita/pitagal4.webp",
+      "/assets/images/pita/pitagal5.webp",
+      "/assets/images/pita/pitgal6.webp"
     ],
     stickerColor: "#FF6B35", // Orange
     stickerImage: "/assets/images/sticker4.png",
+    badge: "/assets/images/pita/pitabadge.webp",
     bodyText: `
       <h2>About</h2>
       <p>PITA is an outdoor balance-training product designed to transform fabric tension into a dynamic sport activity. It invites users to practice balance in a playful yet physically challenging way, suitable both for beginners and advanced users.</p>
@@ -219,29 +242,25 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to create a product that provides a safe and engaging balance experience while being portable, durable, and suitable for outdoor use. Another challenge was to find the right material and surface texture that could mimic the unbalanced sensation of physiotherapy cushions while working at a larger, environmental scale.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/pita/pitasketch1.webp" alt="PITA design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/pita/pitasketch02_2.webp" alt="PITA design process - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/pita/pitasketch03.webp" alt="PITA design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/pita/pitachal1.webp" alt="PITA design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/pita/pitachal2.webp" alt="PITA design process - challenges 2" class="process-image-inline" />
       </div>
-      
+
       <h3>Solutions</h3>
       <p>The final design combines durable tarpaulin fabric with custom nylon straps for strength and portability. The training surface integrates TPU-printed textures for grip and embroidered details to guide foot placement. A carefully developed CMF strategy contrasting colors, tactile textiles, and smooth plastic finishes creates both visual impact and a stimulating sensory experience, making balance training engaging and effective.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/pita/pitaprog1.webp" alt="PITA design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/pita/pitaprog2.webp" alt="PITA design process - solutions 2" class="process-image-inline" />
-        <img src="/assets/images/pita/pitaprog3.webp" alt="PITA design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/pita/pitasol1.webp" alt="PITA design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/pita/pitasol2.webp" alt="PITA design process - solutions 2" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project combined digital fabrication with textile craftsmanship. TPU 3D printing was used to create flexible grip textures, while laser cutting provided precision in shaping fabrics and straps. Sewing reinforced the straps, and embroidery added a distinctive logo detail. In addition, standard 3D printing with spray painting was applied for structural parts and visual accents.</p>
     `,
     processImages: [
-      "/assets/images/pita/pitasketch1.webp",
-      "/assets/images/pita/pitasketch02_2.webp",
-      "/assets/images/pita/pitasketch03.webp",
-      "/assets/images/pita/pitaprog1.webp",
-      "/assets/images/pita/pitaprog2.webp",
-      "/assets/images/pita/pitaprog3.webp"
+      "/assets/images/pita/pitachal1.webp",
+      "/assets/images/pita/pitachal2.webp",
+      "/assets/images/pita/pitasol1.webp",
+      "/assets/images/pita/pitasol2.webp"
     ]
   },
   {
@@ -366,10 +385,15 @@ export const PROJECT_TEXTS: ProjectText[] = [
     technologies: ["Rocking stool", "Balance", "Metal bending", "Wood integration", "Welding", "Prototyping"],
     results: "",
     gallery: [
-      "/assets/images/stool/Stoolgmain.webp",
-      "/assets/images/stool/Stoolg1.webp",
-      "/assets/images/stool/Stoolg2.webp",
-      "/assets/images/stool/Stoolg3.webp"
+      "/assets/images/stool/DisplayStool.webp",
+      "/assets/images/stool/stoolgal1.webp",
+      "/assets/images/stool/stoolgal5.webp",
+      "/assets/images/stool/stoolgal6.webp",
+      "/assets/images/stool/stoolgal7.webp",
+      "/assets/images/stool/stoolgal8.webp",
+      "/assets/images/stool/Rocky_Stool_1.webp",
+      "/assets/images/stool/Rocky_Stool_2.webp",
+      "/assets/images/stool/Rocky_Stool_4.webp"
     ],
     stickerColor: "#8B4513", // Saddle Brown
     stickerImage: "/assets/images/sticker1.png",
@@ -380,29 +404,27 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to design a stool that combines comfort, safety, and movement. It had to provide the user with stability for sitting while also enabling rocking that encourages relaxation, without compromising balance.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/stool/challenges1.webp" alt="Rocky Stool design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/stool/challenges2.webp" alt="Rocky Stool design process - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/stool/chalenges3.webp" alt="Rocky Stool design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/stool/stoolchal1.webp" alt="Rocky Stool design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/stool/stoolchal2.webp" alt="Rocky Stool design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/stool/stoolchal3.webp" alt="Rocky Stool design process - challenges 3" class="process-image-inline" />
       </div>
-      
+
       <h3>Solutions</h3>
       <p>The stool was developed with angled legs and a rounded base that create a controlled rocking effect, while still offering the option of stable sitting. This dual functionality allows users to transition smoothly between focus and relaxation, blending practicality with playfulness.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/stool/solutions1.webp" alt="Rocky Stool design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/stool/solutions2.webp" alt="Rocky Stool design process - solutions 2" class="process-image-inline" />
-        <img src="/assets/images/stool/solutions3.webp" alt="Rocky Stool design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/stool/stoolsol1.webp" alt="Rocky Stool design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/stool/stoolsol2.webp" alt="Rocky Stool design process - solutions 2" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>Material exploration through small-scale models, metal tube bending, wood integration, welded connections, and prototyping to refine angles and balance.</p>
     `,
     processImages: [
-      "/assets/images/stool/challenges1.webp",
-      "/assets/images/stool/challenges2.webp",
-      "/assets/images/stool/chalenges3.webp",
-      "/assets/images/stool/solutions1.webp",
-      "/assets/images/stool/solutions2.webp",
-      "/assets/images/stool/solutions3.webp"
+      "/assets/images/stool/stoolchal1.webp",
+      "/assets/images/stool/stoolchal2.webp",
+      "/assets/images/stool/stoolchal3.webp",
+      "/assets/images/stool/stoolsol1.webp",
+      "/assets/images/stool/stoolsol2.webp"
     ]
   },
   {
@@ -467,9 +489,10 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/mico/micodis.webp",
+      "/assets/images/mico/micodisplay.webp",
       "/assets/images/mico/micogal1.webp",
-      "/assets/images/mico/micogal2.webp"
+      "/assets/images/mico/micogal2.webp",
+      "/assets/images/mico/micogal3.webp"
     ],
     stickerColor: "#A23B72", // Purple
     stickerImage: "/assets/images/sticker3.png",
@@ -480,31 +503,41 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to design a toy that sparks imagination while remaining safe and intuitive for very young children. Observations in a kindergarten (ages 1–3) revealed the need to focus on grip, tactile exploration, and playful interaction.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/mico/micochal2.webp" alt="MICO design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/mico/micochal1.webp" alt="MICO design process - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/mico/micosol5.webp" alt="MICO design process - challenges 3" class="process-image-inline" />
-        <img src="/assets/images/mico/micosol6.webp" alt="MICO design process - challenges 4" class="process-image-inline" />
+        <img src="/assets/images/mico/micochal1.webp" alt="MICO design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/mico/micochal2.webp" alt="MICO design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/mico/micochal3.webp" alt="MICO design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/mico/micochal4.webp" alt="MICO design process - challenges 4" class="process-image-inline" />
+        <img src="/assets/images/mico/micochal5.webp" alt="MICO design process - challenges 5" class="process-image-inline" />
+        <img src="/assets/images/mico/micochal6.webp" alt="MICO design process - challenges 6" class="process-image-inline" />
       </div>
-      
+
       <h3>Solutions</h3>
       <p>The toy was carefully designed to balance imagination and safety. It is built from beech wood beads and elastic bands for flexibility, with dimensions adapted so the beads cannot be swallowed by children. Durable, child-safe colors ensure long-lasting play. The result is a toy that can be held, hung, and reimagined in multiple ways, becoming both a playful tool and a companion.</p>
       <div class="process-image-slider">
         <img src="/assets/images/mico/micosol1.webp" alt="MICO design process - solutions 1" class="process-image-inline" />
         <img src="/assets/images/mico/micosol2.webp" alt="MICO design process - solutions 2" class="process-image-inline" />
         <img src="/assets/images/mico/micosol3.webp" alt="MICO design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/mico/micosol4.webp" alt="MICO design process - solutions 4" class="process-image-inline" />
+        <img src="/assets/images/mico/micosol5.webp" alt="MICO design process - solutions 5" class="process-image-inline" />
+        <img src="/assets/images/mico/micosol6.webp" alt="MICO design process - solutions 6" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project began with concept development and prototyping, followed by extensive testing with children in a kindergarten setting. Woodwork with beech wood created the core structural elements, while elastic bands provided the flexibility essential to the toy's functionality. Careful bead assembly ensured safety through appropriate sizing, and surface finishing with durable child-safe colors guaranteed both visual appeal and long-lasting quality.</p>
     `,
     processImages: [
-      "/assets/images/mico/micochal2.webp",
       "/assets/images/mico/micochal1.webp",
-      "/assets/images/mico/micosol5.webp",
-      "/assets/images/mico/micosol6.webp",
+      "/assets/images/mico/micochal2.webp",
+      "/assets/images/mico/micochal3.webp",
+      "/assets/images/mico/micochal4.webp",
+      "/assets/images/mico/micochal5.webp",
+      "/assets/images/mico/micochal6.webp",
       "/assets/images/mico/micosol1.webp",
       "/assets/images/mico/micosol2.webp",
-      "/assets/images/mico/micosol3.webp"
+      "/assets/images/mico/micosol3.webp",
+      "/assets/images/mico/micosol4.webp",
+      "/assets/images/mico/micosol5.webp",
+      "/assets/images/mico/micosol6.webp"
     ]
   },
   {
@@ -524,7 +557,11 @@ export const PROJECT_TEXTS: ProjectText[] = [
     gallery: [
       "/assets/images/bowl/bowldisplay.webp",
       "/assets/images/bowl/bowlgal1.webp",
-      "/assets/images/bowl/bowlgal2.webp"
+      "/assets/images/bowl/bowlgal2.webp",
+      "/assets/images/bowl/bowlgal3.webp",
+      "/assets/images/bowl/bowlgal4.webp",
+      "/assets/images/bowl/bowlgal5.webp",
+      "/assets/images/bowl/bowlgal6.webp"
     ],
     stickerColor: "#F18F01", // Yellow
     stickerImage: "/assets/images/sticker4.png",
@@ -535,31 +572,37 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to transform a visual and cultural reference into a tangible object while maintaining a balance between expressive form and functional use for serving and presentation.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/bowl/inspi1.webp" alt="A Bowl and A Pile design inspiration - African basket carrying" class="process-image-inline" />
-        <img src="/assets/images/bowl/inspi2.webp" alt="A Bowl and A Pile design inspiration - cultural reference" class="process-image-inline" />
-        <img src="/assets/images/bowl/bowlsketch1.webp" alt="A Bowl and A Pile design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/bowl/bowlsketch2.webp" alt="A Bowl and A Pile design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlchal1.webp" alt="A Bowl and A Pile design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlchal2.webp" alt="A Bowl and A Pile design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlchal3.webp" alt="A Bowl and A Pile design process - challenges 3" class="process-image-inline" />
       </div>
-      
+
       <h3>Solutions</h3>
       <p>By studying proportions and stacked compositions, I created bowls that can be displayed individually or arranged together as a sculptural centerpiece. The design preserves the elegance of the inspiration while offering multiple serving and display possibilities.</p>
       <div class="process-image-slider">
         <img src="/assets/images/bowl/bowlsol1.webp" alt="A Bowl and A Pile design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/bowl/bowlsolid1.webp" alt="A Bowl and A Pile design process - solutions 2" class="process-image-inline" />
-        <img src="/assets/images/bowl/bowlsolid2.webp" alt="A Bowl and A Pile design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsol2.webp" alt="A Bowl and A Pile design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsol3.webp" alt="A Bowl and A Pile design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsol4.webp" alt="A Bowl and A Pile design process - solutions 4" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsol5.webp" alt="A Bowl and A Pile design process - solutions 5" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsol6.webp" alt="A Bowl and A Pile design process - solutions 6" class="process-image-inline" />
+        <img src="/assets/images/bowl/bowlsol7.webp" alt="A Bowl and A Pile design process - solutions 7" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project began with sketching to explore form and composition, followed by 3D modeling in SolidWorks to refine proportions. 3D printing was used for form development and prototyping. The final pieces were created using ceramic slip casting, allowing for precise reproduction of the sculptural forms, and finished with glazing to enhance their visual appeal.</p>
     `,
     processImages: [
-      "/assets/images/bowl/inspi1.webp",
-      "/assets/images/bowl/inspi2.webp",
-      "/assets/images/bowl/bowlsketch1.webp",
-      "/assets/images/bowl/bowlsketch2.webp",
+      "/assets/images/bowl/bowlchal1.webp",
+      "/assets/images/bowl/bowlchal2.webp",
+      "/assets/images/bowl/bowlchal3.webp",
       "/assets/images/bowl/bowlsol1.webp",
-      "/assets/images/bowl/bowlsolid1.webp",
-      "/assets/images/bowl/bowlsolid2.webp"
+      "/assets/images/bowl/bowlsol2.webp",
+      "/assets/images/bowl/bowlsol3.webp",
+      "/assets/images/bowl/bowlsol4.webp",
+      "/assets/images/bowl/bowlsol5.webp",
+      "/assets/images/bowl/bowlsol6.webp",
+      "/assets/images/bowl/bowlsol7.webp"
     ]
   },
   {
@@ -770,10 +813,11 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/tambourine/tambdis.webp",
+      "/assets/images/tambourine/tambdisplay.webp",
       "/assets/images/tambourine/tambgal1.webp",
       "/assets/images/tambourine/tambgal2.webp",
-      "/assets/images/tambourine/tambgal3.webp"
+      "/assets/images/tambourine/tambgal3.webp",
+      "/assets/images/tambourine/tambgal4.webp"
     ],
     stickerColor: "#4A90E2", // Medium Blue
     stickerImage: "/assets/images/sticker3.png",
@@ -783,26 +827,26 @@ export const PROJECT_TEXTS: ProjectText[] = [
       
       <h3>Challenges</h3>
       <p>The main challenge was to design and construct a jig that would enable precise lamination of veneer layers while ensuring the circular form remained strong and stable. Another challenge was to integrate all functional elements—stretched leather skin, ready-made metal cymbals, and grip holes—into a cohesive design.</p>
-      <div class="process-image-slider">
-        <img src="/assets/images/tambourine/tambchal1.webp" alt="Tambourine design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/tambourine/tambchal2.webp" alt="Tambourine design process - challenges 2" class="process-image-inline" />
-      </div>
-      
+
       <h3>Solutions</h3>
       <p>The process began with building a jig from MDF, followed by gluing multiple veneer layers with carpenter's glue and stretching them around the jig until fully dried. Once removed, the laminated structure was sanded, cut, and refined before assembling the stretched leather surface, grip holes, and ready-made cymbals. All stages were completed by hand, resulting in an authentic instrument that merges traditional craftsmanship with careful material selection.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/tambourine/tambsol1.webp" alt="Tambourine design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/tambourine/tambsol2.webp" alt="Tambourine design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambsol0.webp" alt="Tambourine design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambsol1.webp" alt="Tambourine design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambsol2.webp" alt="Tambourine design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tabmsol3.webp" alt="Tambourine design process - solutions 4" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambsol4.webp" alt="Tambourine design process - solutions 5" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project employed traditional lamination techniques using veneer sheets, which required careful jig design and construction to achieve the precise circular form. Leather stretching was performed manually to create the resonant surface, while grip holes were drilled and finished by hand. Ready-made metal cymbals were integrated into the design, and all surfaces received hand-finishing to complete the authentic, handcrafted instrument.</p>
     `,
     processImages: [
-      "/assets/images/tambourine/tambchal1.webp",
-      "/assets/images/tambourine/tambchal2.webp",
+      "/assets/images/tambourine/tambsol0.webp",
       "/assets/images/tambourine/tambsol1.webp",
-      "/assets/images/tambourine/tambsol2.webp"
+      "/assets/images/tambourine/tambsol2.webp",
+      "/assets/images/tambourine/tabmsol3.webp",
+      "/assets/images/tambourine/tambsol4.webp"
     ]
   },
   {
@@ -882,8 +926,8 @@ export const PROJECT_TEXTS: ProjectText[] = [
 export const CONTACT_INFO = {
   email: "shirilanger@gmail.com",
   linkedin: "https://www.linkedin.com/in/shiri-langer/",
-  cvPath: "/Shiri-Langer-CV-2025.pdf",
-  cvFileName: "Shiri-Langer-CV-2025.pdf"
+  cvPath: "/Shiri-Langer-CV-2026.pdf",
+  cvFileName: "Shiri-Langer-CV-2026.pdf"
 };
 
 // General Text Content

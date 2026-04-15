@@ -15,12 +15,16 @@
 
 .project-tile-img {
   object-fit: cover;
-  transition: transform var(--transition-normal), filter var(--transition-normal);
+  transition: transform var(--transition-normal);
   transform: translateZ(0);
   border-radius: 8px;
   display: block;
   border: none;
   outline: none;
+}
+
+.pita-tile img {
+  object-position: 75% center !important;
 }
 
 .project-tile:hover {
@@ -31,7 +35,6 @@
 
 .project-tile:hover .project-tile-img {
   transform: scale(1.01) translateZ(0);
-  filter: brightness(1.02);
 }
 
 /* Project Tile Overlay */
@@ -39,10 +42,11 @@
   position: absolute;
   inset: auto 10px 10px 10px;
   color: var(--color-white-smoke);
-  padding: 0;
+  padding: 0 2px 2px; /* extra breathing room so chips never kiss the tile edge */
   opacity: 0;
   transform: translateY(14px);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
   font-weight: 600;
   text-align: left;
@@ -67,11 +71,11 @@
   color: var(--color-white-smoke);
   letter-spacing: -0.01em;
   background: rgba(8, 54, 69, 0.9);
-  padding: 4px 7px;
+  padding: 5px 9px;
   border-radius: 10px;
   display: inline-block;
   box-shadow: 0 2px 6px rgba(23, 36, 63, 0.3);
-  max-width: 85%;
+  max-width: 90%;
   word-break: break-word;
 }
 
@@ -84,11 +88,11 @@
   text-transform: uppercase;
   text-align: left;
   background: rgba(0, 138, 255, 0.9);
-  padding: 2px 6px;
+  padding: 3px 8px;
   border-radius: 8px;
   display: inline-block;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  max-width: 70%;
+  max-width: 75%;
   word-break: break-word;
 }
 
@@ -109,14 +113,14 @@
   
   .project-tile-title {
     font-size: 0.68rem;
-    padding: 3px 7px;
-    max-width: 82%;
+    padding: 4px 8px;
+    max-width: 85%;
   }
-  
+
   .project-tile-year {
     font-size: 0.52rem;
-    padding: 2px 6px;
-    max-width: 65%;
+    padding: 3px 7px;
+    max-width: 70%;
   }
 }
 

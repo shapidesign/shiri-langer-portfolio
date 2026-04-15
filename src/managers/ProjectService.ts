@@ -209,55 +209,72 @@ export class ProjectService {
   }
 
   /**
-   * Generate grid cells for visible area with hash-based layout
-   * Avoids placing same projects next to each other (horizontally or vertically adjacent)
+   * Generate grid cells for visible area with hash-based layout.
+   *
+   * Large-tile placement rules (enforced here so they're always consistent):
+   *   - Large-tile project IDs may only appear at "slot" positions where
+   *     row % 3 === 0 AND col % 3 === 0.
+   *   - This guarantees every occurrence renders as a large tile (the renderer
+   *     applies the same %3 check to find anchors) and that no two large tiles
+   *     are directly adjacent (the 2×2 footprint + 1-cell gap between %3 slots).
+   *   - Cells covered by a large tile's footprint (row+1, col), (row, col+1),
+   *     (row+1, col+1) are tracked in positionMap and skipped so they don't
+   *     receive an independent project assignment.
    */
   public generateGridCells(
     firstRow: number,
     firstCol: number,
     rowsToDraw: number,
-    colsToDraw: number
+    colsToDraw: number,
+    largeTileIds: number[] = []
   ): GridCell[] {
     const cells: GridCell[] = [];
-    
-    // Create a map to track project IDs at each position for duplicate avoidance
+    const largeTileSet = new Set(largeTileIds);
+
+    // positionMap stores the project ID assigned to each absolute (row,col).
+    // A value of -1 means the cell is covered by an adjacent large tile and
+    // should not receive its own project.
     const positionMap = new Map<string, number>();
-    
+
     for (let r = 0; r < rowsToDraw; r++) {
       for (let c = 0; c < colsToDraw; c++) {
         const row = firstRow + r;
         const col = firstCol + c;
-        
-        // Collect IDs to avoid (adjacent cells: left and above)
+        const cellKey = `${row},${col}`;
+
+        // Skip cells that are covered by a previously-placed large tile.
+        if (positionMap.get(cellKey) === -1) continue;
+
+        // Build the avoid list from orthogonal neighbours (left and above).
         const avoidProjectIds: number[] = [];
-        
-        // Check left neighbor
-        const leftKey = `${row},${col - 1}`;
-        if (positionMap.has(leftKey)) {
-          avoidProjectIds.push(positionMap.get(leftKey)!);
+        const leftVal = positionMap.get(`${row},${col - 1}`);
+        if (leftVal !== undefined && leftVal !== -1) avoidProjectIds.push(leftVal);
+        const topVal = positionMap.get(`${row - 1},${col}`);
+        if (topVal !== undefined && topVal !== -1) avoidProjectIds.push(topVal);
+
+        // Only slot positions (row%3===0, col%3===0) may receive large-tile projects.
+        const isSlot = row % 3 === 0 && col % 3 === 0;
+        if (!isSlot) {
+          for (const id of largeTileIds) avoidProjectIds.push(id);
         }
-        
-        // Check top neighbor
-        const topKey = `${row - 1},${col}`;
-        if (positionMap.has(topKey)) {
-          avoidProjectIds.push(positionMap.get(topKey)!);
-        }
-        
-        // Get project index with avoidance logic
+
         const idx = this.getProjectIndex(row, col, avoidProjectIds);
-        
-        // Safety check: ensure project exists
-        if (this.projects[idx]) {
-          const projId = this.projects[idx].id;
-          cells.push({ row, col, projId });
-          
-          // Store in position map for future reference
-          const currentKey = `${row},${col}`;
-          positionMap.set(currentKey, projId);
+        if (!this.projects[idx]) continue;
+
+        const projId = this.projects[idx].id;
+        cells.push({ row, col, projId });
+        positionMap.set(cellKey, projId);
+
+        // If a large tile landed on a slot, mark its three covered neighbours so
+        // they are skipped in this loop and won't be assigned their own project.
+        if (isSlot && largeTileSet.has(projId)) {
+          positionMap.set(`${row},${col + 1}`, -1);
+          positionMap.set(`${row + 1},${col}`, -1);
+          positionMap.set(`${row + 1},${col + 1}`, -1);
         }
       }
     }
-    
+
     return cells;
   }
 
