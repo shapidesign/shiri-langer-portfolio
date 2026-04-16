@@ -11,13 +11,8 @@ import { DragOffset } from '../../types/Drag';
 import './PortfolioGrid.css';
 
 // Projects that should render as larger tiles (cols × rows).
-const LARGE_TILES: Record<number, { cols: number; rows: number }> = {
-  1: { cols: 2, rows: 2 }, // Tomi
-  2: { cols: 2, rows: 2 }, // Red Chair
-  3: { cols: 2, rows: 2 }, // 3D Filters
-  4: { cols: 2, rows: 2 }, // PITA
-  5: { cols: 2, rows: 2 }, // Itamar
-};
+// Cleared so every tile is uniform — all 16 projects fit the initial viewport.
+const LARGE_TILES: Record<number, { cols: number; rows: number }> = {};
 
 // Stable array of project IDs that should render as large tiles.
 // Defined at module level so it's never recreated across renders.
@@ -64,14 +59,16 @@ const PortfolioGrid: React.FC = () => {
 
   const gridConfig: ProjectConfig = useMemo(() => {
     const { width } = screenSize;
+    // Tile sizes chosen so all 16 real projects fit in the initial viewport:
+    //   mobile  2×8 = 16, tablet 3×6 = 18, sm-desktop 4×4 = 16, desktop 5×4 = 20
     if (width <= 480) {
-      return { tileWidth: 130, tileHeight: 165, tileGap: 8, visibleCols: 2, visibleRows: 3, marginCols: 3, marginRows: 3 };
+      return { tileWidth: 130, tileHeight: 150, tileGap: 8, visibleCols: 2, visibleRows: 8, marginCols: 3, marginRows: 3 };
     } else if (width <= 768) {
-      return { tileWidth: 165, tileHeight: 215, tileGap: 10, visibleCols: 3, visibleRows: 3, marginCols: 3, marginRows: 3 };
+      return { tileWidth: 145, tileHeight: 165, tileGap: 10, visibleCols: 3, visibleRows: 6, marginCols: 3, marginRows: 3 };
     } else if (width <= 1024) {
-      return { tileWidth: 220, tileHeight: 285, tileGap: 16, visibleCols: 4, visibleRows: 3, marginCols: 3, marginRows: 3 };
+      return { tileWidth: 175, tileHeight: 200, tileGap: 14, visibleCols: 4, visibleRows: 4, marginCols: 3, marginRows: 3 };
     } else {
-      return { tileWidth: 235, tileHeight: 315, tileGap: 16, visibleCols: 5, visibleRows: 3, marginCols: 3, marginRows: 3 };
+      return { tileWidth: 190, tileHeight: 200, tileGap: 16, visibleCols: 5, visibleRows: 4, marginCols: 3, marginRows: 3 };
     }
   }, [screenSize]);
 
@@ -455,6 +452,14 @@ const PortfolioGrid: React.FC = () => {
         onOpenContact={() => setIsContactModalOpen(true)}
         onOpenProject={(projectId) => { setSelectedProjectId(projectId); setIsProjectModalOpen(true); }}
       />
+
+      {/* Developer credit */}
+      <div className="dev-credit">
+        website by{' '}
+        <a href="https://www.shapidesign.com/" target="_blank" rel="noopener noreferrer">
+          Yehonatan Shapira
+        </a>
+      </div>
     </div>
   );
 };

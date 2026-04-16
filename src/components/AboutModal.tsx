@@ -135,7 +135,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
             <h1>Shiri Langer</h1>
             <h2>Industrial Designer</h2>
             <p className="about-intro">
-              An industrial designer based in Tel Aviv and Milan, focusing on creating <b>meaningful products</b> that improve everyday life.
+              An industrial designer based in Milan, focusing on creating <b>meaningful products</b> that improve everyday life.
               My work is driven by empathy, curiosity, and a commitment to combining creative thinking with hands-on making.
             </p>
           </div>

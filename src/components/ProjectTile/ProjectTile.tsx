@@ -169,7 +169,7 @@ const ProjectTileBase: React.FC<ProjectTileProps> = ({
         alt={project.title}
         width={width - 20} // Account for padding
         height={height - 20} // Account for padding
-        className={`project-tile-img${project.id === 4 ? ' pita-tile' : ''}`}
+        className={`project-tile-img${project.id === 4 ? ' pita-tile' : ''}${project.id === 15 ? ' tambourine-tile' : ''}${project.id === 11 ? ' eve-tile' : ''}`}
         style={{
           borderRadius: 8,
         }}

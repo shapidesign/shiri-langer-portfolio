@@ -373,3 +373,28 @@
     background: rgba(255, 255, 255, 0.95);
   }
 }
+
+/* Developer credit */
+.dev-credit {
+  position: fixed;
+  bottom: 12px;
+  right: 16px;
+  font-size: 0.62rem;
+  color: rgba(0, 0, 0, 0.3);
+  z-index: 50;
+  pointer-events: auto;
+  user-select: none;
+  font-family: var(--font-primary, sans-serif);
+  letter-spacing: 0.02em;
+}
+
+.dev-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.dev-credit a:hover {
+  color: rgba(0, 0, 0, 0.6);
+}

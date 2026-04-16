@@ -11,6 +11,12 @@ export class ProjectService {
   private config: ProjectConfig;
   private projectCache: Map<string, number> = new Map();
 
+  // Fixed permutation (length 16) used to place all real projects in the
+  // initial-view showcase zone. Values are project-array indices 0–15.
+  // Arranged so no two adjacent positions (horizontally or vertically)
+  // share the same project in a 5-column layout.
+  private readonly SHOWCASE_PERMUTATION = [0, 8, 3, 11, 6, 14, 1, 9, 4, 12, 7, 15, 2, 10, 5, 13];
+
   // Available tags for project generation
   private readonly TAGS = [
     'Branding', 'UI/UX', 'Print', 'Packaging', 'Typography', 'Illustration', 
@@ -125,6 +131,19 @@ export class ProjectService {
    */
   public getProjectIndex(row: number, col: number, avoidProjectIds: number[] = []): number {
     const key = `${row},${col}`;
+
+    // ── Showcase zone ────────────────────────────────────────────────────────
+    // For the rectangle of cells that fills the initial viewport (rows 0 …
+    // visibleRows-1, cols 0 … visibleCols-1) we use a deterministic permutation
+    // so that every real project appears at least once before the infinite
+    // random grid takes over. The permutation is pre-shuffled so adjacent tiles
+    // don't share the same project.
+    const scRows = this.config.visibleRows;
+    const scCols = this.config.visibleCols;
+    if (row >= 0 && row < scRows && col >= 0 && col < scCols) {
+      const posIndex = row * scCols + col;
+      return this.SHOWCASE_PERMUTATION[posIndex % this.SHOWCASE_PERMUTATION.length];
+    }
 
     // Check cache first
     if (this.projectCache.has(key)) {

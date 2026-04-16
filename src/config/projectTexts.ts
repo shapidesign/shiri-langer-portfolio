@@ -52,7 +52,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
     testimonial: undefined,
     gallery: [
       "/assets/images/tomi/tomigif.gif",
-      "/assets/images/tomi/Tomidisplay.webp",
+      "/assets/images/tomi/tomimaindisplay.webp",
       "/assets/images/tomi/tomigal1.webp",
       "/assets/images/tomi/tomigal2.webp",
       "/assets/images/tomi/tomigal3.webp",
@@ -60,7 +60,8 @@ export const PROJECT_TEXTS: ProjectText[] = [
       "/assets/images/tomi/tomigal5.webp",
       "/assets/images/tomi/tomigal6.webp",
       "/assets/images/tomi/tomigal7.webp",
-      "/assets/images/tomi/tomigal8.webp"
+      "/assets/images/tomi/tomigal8.webp",
+      "/assets/images/tomi/tomivideo.mp4"
     ],
     stickerColor: "#E91E63", // Hot Pink
     stickerImage: "/assets/images/sticker1.png",
@@ -816,8 +817,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
       "/assets/images/tambourine/tambdisplay.webp",
       "/assets/images/tambourine/tambgal1.webp",
       "/assets/images/tambourine/tambgal2.webp",
-      "/assets/images/tambourine/tambgal3.webp",
-      "/assets/images/tambourine/tambgal4.webp"
+      "/assets/images/tambourine/tambgal3.webp"
     ],
     stickerColor: "#4A90E2", // Medium Blue
     stickerImage: "/assets/images/sticker3.png",
