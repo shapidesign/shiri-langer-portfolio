@@ -50,11 +50,9 @@ const PortfolioGrid: React.FC = () => {
       className="portfolio-container"
       style={{
         position: 'relative',
-        height: isMobile ? 'auto' : '100vh',
-        minHeight: '100vh',
+        height: '100vh',
         width: '100vw',
-        overflowX: 'hidden',
-        overflowY: isMobile ? 'auto' : 'hidden',
+        overflow: isMobile ? 'visible' : 'hidden',
         background: 'var(--color-background)',
         color: 'var(--color-text)',
       } as React.CSSProperties}
