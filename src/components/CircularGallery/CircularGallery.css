@@ -85,6 +85,7 @@
 .cg-card[data-id="4"]  .cg-card-img { object-position: 80% center; }              /* PITA: shift left for banner */
 .cg-card[data-id="9"]  .cg-card-img { object-position: center center; }            /* Mico: center product */
 .cg-card[data-id="11"] .cg-card-img { object-position: 35% center; }              /* EVE: shift left to center product */
+.cg-card[data-id="16"] .cg-card-img { image-orientation: none; }                  /* Coffee: fix mobile rotation bug */
 
 /* Overlay */
 .cg-card-overlay {

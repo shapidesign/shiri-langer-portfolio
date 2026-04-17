@@ -52,7 +52,7 @@ const PortfolioGrid: React.FC = () => {
         position: 'relative',
         height: '100vh',
         width: '100vw',
-        overflow: isMobile ? 'visible' : 'hidden',
+        overflow: 'hidden',
         background: 'var(--color-background)',
         color: 'var(--color-text)',
       } as React.CSSProperties}
