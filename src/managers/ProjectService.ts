@@ -13,8 +13,7 @@ export class ProjectService {
 
   // Fixed permutation (length 16) used to place all real projects in the
   // initial-view showcase zone. Values are project-array indices 0–15.
-  // Arranged so no two adjacent positions (horizontally or vertically)
-  // share the same project in a 5-column layout.
+  // Arranged so no two adjacent positions share the same project in a 5-column layout.
   private readonly SHOWCASE_PERMUTATION = [0, 8, 3, 11, 6, 14, 1, 9, 4, 12, 7, 15, 2, 10, 5, 13];
 
   // Available tags for project generation
@@ -136,8 +135,7 @@ export class ProjectService {
     // For the rectangle of cells that fills the initial viewport (rows 0 …
     // visibleRows-1, cols 0 … visibleCols-1) we use a deterministic permutation
     // so that every real project appears at least once before the infinite
-    // random grid takes over. The permutation is pre-shuffled so adjacent tiles
-    // don't share the same project.
+    // random grid takes over.
     const scRows = this.config.visibleRows;
     const scCols = this.config.visibleCols;
     if (row >= 0 && row < scRows && col >= 0 && col < scCols) {

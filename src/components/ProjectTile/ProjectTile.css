@@ -23,17 +23,13 @@
   outline: none;
 }
 
-.pita-tile img {
-  object-position: 75% center !important;
-}
-
-.tambourine-tile img {
-  object-position: center center;
-}
-
-.eve-tile img {
-  object-position: center center;
-}
+/* object-position nudges — applied on both the wrapper and inner <img>
+   (wrapper has no effect but inner img needs it; !important beats OptimizedImage inline style) */
+.tomi-tile img       { object-position: 40% center !important; }
+.pita-tile img       { object-position: 75% center !important; }
+.mico-tile img       { object-position: calc(50% + 10px) center !important; }
+.tambourine-tile img { object-position: calc(50% + 10px) center !important; }
+.eve-tile img        { object-position: calc(50% - 10px) center !important; }
 
 .project-tile:hover {
   transform: translateY(-1px) translateZ(0);

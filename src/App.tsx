@@ -10,9 +10,6 @@ function App() {
   const [showMainApp, setShowMainApp] = useState(false);
 
   useEffect(() => {
-    // Log version for debugging
-    console.log('App Version: 2.0.5 - Mobile Fixes & Video Gallery');
-
     if (!isLoading) {
       // Delay showing main app to allow loading screen to fade out first
       const timer = setTimeout(() => {

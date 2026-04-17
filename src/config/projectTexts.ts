@@ -178,7 +178,13 @@ export const PROJECT_TEXTS: ProjectText[] = [
       "/assets/images/3dfilters/filtergal1.webp",
       "/assets/images/3dfilters/filtergal2.webp",
       "/assets/images/3dfilters/filtergal3.webp",
-      "/assets/images/3dfilters/filtergal4.webp"
+      "/assets/images/3dfilters/filtergal4.webp",
+      "/assets/images/3dfilters/filterchal1.webp",
+      "/assets/images/3dfilters/filterchal2.webp",
+      "/assets/images/3dfilters/filtersol1.webp",
+      "/assets/images/3dfilters/filtersol2.webp",
+      "/assets/images/3dfilters/filtersol3.webp",
+      "/assets/images/3dfilters/filtersol5.webp",
     ],
     stickerColor: "#FFD23F", // Sunny Yellow
     stickerImage: "/assets/images/sticker3.png",
