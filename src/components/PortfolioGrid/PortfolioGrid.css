@@ -24,7 +24,7 @@
   .portfolio-container {
     display: flex !important;
     flex-direction: column;
-    padding-top: 60px;
+    padding-top: 44px;
     padding-bottom: 36px;
     box-sizing: border-box;
   }
