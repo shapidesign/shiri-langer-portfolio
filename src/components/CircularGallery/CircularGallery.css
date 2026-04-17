@@ -81,10 +81,10 @@
 }
 
 /* Per-card image position overrides */
-.cg-card[data-id="15"] .cg-card-img { object-position: calc(50% + 20px) center; } /* Tambourine: 20px right */
+.cg-card[data-id="15"] .cg-card-img { object-position: 45% center; }              /* Tambourine */
 .cg-card[data-id="4"]  .cg-card-img { object-position: 80% center; }              /* PITA: shift left for banner */
-.cg-card[data-id="9"]  .cg-card-img { object-position: center center; }            /* Mico: center product */
-.cg-card[data-id="11"] .cg-card-img { object-position: 35% center; }              /* EVE: shift left to center product */
+.cg-card[data-id="9"]  .cg-card-img { object-position: 40% center; }              /* Mico */
+.cg-card[data-id="11"] .cg-card-img { object-position: 55% center; }              /* EVE */
 .cg-card[data-id="16"] .cg-card-img { image-orientation: none; }                  /* Coffee: fix mobile rotation bug */
 
 /* Overlay */
@@ -143,7 +143,7 @@
     perspective: 800px;
   }
   .cg-stage {
-    transform: rotateX(-11deg) translateY(-20px);
+    transform: rotateX(-11deg) translateY(-80px);
   }
 }
 
@@ -152,7 +152,7 @@
     perspective: 650px;
   }
   .cg-stage {
-    transform: rotateX(-8deg) translateY(-10px);
+    transform: rotateX(-8deg) translateY(-70px);
   }
 }
 

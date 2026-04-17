@@ -50,7 +50,7 @@ const PortfolioGrid: React.FC = () => {
       className="portfolio-container"
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         width: '100vw',
         overflow: 'hidden',
         background: 'var(--color-background)',
