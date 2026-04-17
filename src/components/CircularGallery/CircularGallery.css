@@ -142,6 +142,9 @@
     perspective: 800px;
     padding-top: 56px;
   }
+  .cg-stage {
+    transform: rotateX(-11deg) translateY(-50px);
+  }
 }
 
 @media (max-width: 480px) {

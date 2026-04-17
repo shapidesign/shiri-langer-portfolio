@@ -14,8 +14,8 @@ interface Dims {
 }
 
 function getDims(width: number): Dims {
-  if (width <= 480)  return { radius: 290, cardW: 155, cardH: 218 };
-  if (width <= 768)  return { radius: 380, cardW: 200, cardH: 282 };
+  if (width <= 480)  return { radius: 250, cardW: 130, cardH: 185 };
+  if (width <= 768)  return { radius: 330, cardW: 170, cardH: 240 };
   if (width <= 1024) return { radius: 470, cardW: 230, cardH: 324 };
   return               { radius: 560, cardW: 255, cardH: 360 };
 }
