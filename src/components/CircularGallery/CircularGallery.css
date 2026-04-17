@@ -140,20 +140,18 @@
 @media (max-width: 768px) {
   .cg-scene {
     perspective: 800px;
-    padding-top: 56px;
   }
   .cg-stage {
-    transform: rotateX(-11deg) translateY(-50px);
+    transform: rotateX(-11deg) translateY(-20px);
   }
 }
 
 @media (max-width: 480px) {
   .cg-scene {
     perspective: 650px;
-    padding-top: 48px;
   }
   .cg-stage {
-    transform: rotateX(-8deg) translateY(-20px);
+    transform: rotateX(-8deg) translateY(-10px);
   }
 }
 

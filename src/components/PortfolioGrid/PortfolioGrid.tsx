@@ -50,9 +50,11 @@ const PortfolioGrid: React.FC = () => {
       className="portfolio-container"
       style={{
         position: 'relative',
-        height: '100vh',
+        height: isMobile ? 'auto' : '100vh',
+        minHeight: '100vh',
         width: '100vw',
-        overflow: 'hidden',
+        overflowX: 'hidden',
+        overflowY: isMobile ? 'auto' : 'hidden',
         background: 'var(--color-background)',
         color: 'var(--color-text)',
       } as React.CSSProperties}
@@ -98,7 +100,9 @@ const PortfolioGrid: React.FC = () => {
       )}
 
       {/* 3D Circular Gallery */}
-      <CircularGallery onOpen={handleProjectClick} />
+      <div className="cg-carousel-section">
+        <CircularGallery onOpen={handleProjectClick} />
+      </div>
 
       {/* About Me Button */}
       <button
