@@ -527,7 +527,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
           </button>
           
           {/* Image - positioned independently with pinch zoom support */}
-          {project.gallery[currentImageIndex]?.toLowerCase().endsWith('.mp4') || project.gallery[currentImageIndex]?.toLowerCase().endsWith('.webm') ? (
+          {project.gallery[currentImageIndex]?.toLowerCase().endsWith('.mp4') || project.gallery[currentImageIndex]?.toLowerCase().endsWith('.webm') || project.gallery[currentImageIndex]?.toLowerCase().endsWith('.mov') ? (
             <video
               src={project.gallery[currentImageIndex]}
               className="maximized-image-popup"

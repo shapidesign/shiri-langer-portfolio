@@ -210,7 +210,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
                 }}
               >
                 <div className="highlight-preview">
-                  <img src="/assets/images/tomi/TomiDisplay1.webp" alt="TOMI" />
+                  <img src="/assets/images/tomi/tomimaindisplay.webp" alt="TOMI" />
                 </div>
                 <div className="highlight-content">
                   <h4>TOMI (2025)</h4>
@@ -236,7 +236,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
                 }}
               >
                 <div className="highlight-preview">
-                  <img src="/assets/images/3dfilters.png" alt="3D Filter" />
+                  <img src="/assets/images/3dfilters/Filterdisplaymain.webp" alt="3D Filter" />
                 </div>
                 <div className="highlight-content">
                   <h4>3D FILTER (2025)</h4>
@@ -261,7 +261,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, onOpenContact,
                 }}
               >
                 <div className="highlight-preview">
-                  <img src="/assets/images/pita/pita-display.webp" alt="PITA" />
+                  <img src="/assets/images/pita/pitadisplay.webp" alt="PITA" />
                 </div>
                 <div className="highlight-content">
                   <h4>PITA (2023)</h4>

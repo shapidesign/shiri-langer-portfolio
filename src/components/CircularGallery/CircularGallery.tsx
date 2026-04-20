@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { PROJECT_TEXTS } from '../../config/projectTexts';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { PROJECT_TEXTS, ProjectText } from '../../config/projectTexts';
 import { getDisplayImage } from '../../utils/imagePathUtils';
 import './CircularGallery.css';
 
@@ -7,206 +7,309 @@ interface CircularGalleryProps {
   onOpen: (id: number) => void;
 }
 
-interface Dims {
-  radius: number;
-  cardW: number;
-  cardH: number;
+const FEATURED_IDS = new Set([1, 2, 3, 4, 5]);
+const AUTO_ADVANCE_MS = 4500;
+
+function isVideoSrc(src: string): boolean {
+  const s = src.toLowerCase();
+  return s.endsWith('.mp4') || s.endsWith('.webm') || s.endsWith('.mov');
 }
 
-function getDims(width: number): Dims {
-  if (width <= 480)  return { radius: 250, cardW: 130, cardH: 185 };
-  if (width <= 768)  return { radius: 330, cardW: 170, cardH: 240 };
-  if (width <= 1024) return { radius: 470, cardW: 230, cardH: 324 };
-  return               { radius: 560, cardW: 255, cardH: 360 };
+// Reorder the project list so featured items (orange border) are never adjacent
+// on the thumbnail strip. Interleaves featured + non-featured deterministically.
+function buildOrderedItems(source: ProjectText[]): ProjectText[] {
+  const items = source.filter((p) => p.id !== 17);
+  const featured: ProjectText[] = [];
+  const regular: ProjectText[] = [];
+  for (const p of items) {
+    if (FEATURED_IDS.has(p.id)) featured.push(p);
+    else regular.push(p);
+  }
+
+  // Preferred target order per plan: Tomi, Bowl, Red Chair, Tambourine,
+  // 3D Filters, Mico, PITA, Lamp, Itamar, Stool, Solidworks, EVE, K-SENSE,
+  // Ember, Dancing Pot, Coffee.
+  const targetOrder = [1, 10, 2, 15, 3, 9, 4, 6, 5, 7, 8, 11, 12, 13, 14, 16];
+  const byId = new Map<number, ProjectText>(items.map((p) => [p.id, p]));
+  const ordered: ProjectText[] = [];
+  for (const id of targetOrder) {
+    const p = byId.get(id);
+    if (p) {
+      ordered.push(p);
+      byId.delete(id);
+    }
+  }
+  // Append any remaining items (new projects added later) with featured spread
+  const remaining = Array.from(byId.values());
+  const remFeat = remaining.filter((p) => FEATURED_IDS.has(p.id));
+  const remReg = remaining.filter((p) => !FEATURED_IDS.has(p.id));
+  // simple interleave for any leftovers
+  while (remFeat.length || remReg.length) {
+    if (remReg.length) ordered.push(remReg.shift()!);
+    if (remFeat.length) ordered.push(remFeat.shift()!);
+  }
+  // Silence unused var warnings in case featured/regular weren't needed
+  void featured;
+  void regular;
+  return ordered;
 }
 
-const ITEMS = PROJECT_TEXTS.filter(p => p.id !== 17);
-const FEATURED_IDS = new Set([1, 2, 3, 4, 5]); // Tomi, Chair 1, 3D Filters, PITA, Project Itamar
-const COUNT  = ITEMS.length;
-const STEP   = 360 / COUNT; // degrees between cards
+const ITEMS: ProjectText[] = buildOrderedItems(PROJECT_TEXTS);
 
 const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
-  const [dims, setDims] = useState<Dims>(() => getDims(window.innerWidth));
-  // Keep a ref so RAF callbacks always read the latest dims without closure capture
-  const dimsRef = useRef(dims);
-  dimsRef.current = dims;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [displayIndex, setDisplayIndex] = useState(0); // what hero is currently rendering
+  const [isFading, setIsFading] = useState(false);
+  const userInteractedRef = useRef(false);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const activeThumbRef = useRef<HTMLButtonElement | null>(null);
+  const autoTimerRef = useRef<number | null>(null);
+  // When true, the next activeIndex-driven auto-scroll is skipped (used for hover, which
+  // shouldn't pull the strip out from under the cursor).
+  const suppressAutoScrollRef = useRef(false);
 
+  const activeItem = ITEMS[activeIndex] ?? ITEMS[0];
+  const displayItem = ITEMS[displayIndex] ?? ITEMS[0];
+
+  // Shared fallback: first non-video asset, else getDisplayImage
+  const getFallbackMedia = useCallback((item: ProjectText): string => {
+    const gallery = item.gallery || [];
+    const firstImage = gallery.find((g) => !isVideoSrc(g));
+    if (firstImage) return firstImage;
+    return getDisplayImage(gallery);
+  }, []);
+
+  // Big hero preview (above the strip)
+  const getHeroMedia = useCallback(
+    (item: ProjectText): string => item.heroMedia ?? getFallbackMedia(item),
+    [getFallbackMedia],
+  );
+
+  // Small strip thumbnail. Prefer an explicit thumbMedia; otherwise fall through to
+  // heroMedia, then to the shared fallback.
+  const getThumbMedia = useCallback(
+    (item: ProjectText): string => item.thumbMedia ?? item.heroMedia ?? getFallbackMedia(item),
+    [getFallbackMedia],
+  );
+
+  // Preload neighbor hero images for snappy swaps
   useEffect(() => {
-    const onResize = () => {
-      const d = getDims(window.innerWidth);
-      setDims(d);
+    const preload = (i: number) => {
+      const item = ITEMS[i];
+      if (!item) return;
+      const src = getHeroMedia(item);
+      if (!src || isVideoSrc(src)) return;
+      const img = new Image();
+      img.src = src;
     };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
+    preload((activeIndex + 1) % ITEMS.length);
+    preload((activeIndex - 1 + ITEMS.length) % ITEMS.length);
+  }, [activeIndex, getHeroMedia]);
 
-  const sceneRef    = useRef<HTMLDivElement>(null);
-  const stageRef    = useRef<HTMLDivElement>(null);
-  const angleRef    = useRef(0);      // current carousel angle in degrees
-  const velRef      = useRef(0);      // rotation velocity (deg/frame)
-  const rafRef      = useRef(0);
-  const downRef     = useRef(false);
-  const draggingRef = useRef(false);
-  const lastXRef    = useRef(0);
-  const startXRef   = useRef(0);
-  // Auto-spin on load so the user sees it's a 3D ring — stops on first interaction
-  const autoSpinRef = useRef(true);
+  // Crossfade hero when activeIndex changes
+  useEffect(() => {
+    if (activeIndex === displayIndex) return;
+    setIsFading(true);
+    const t = window.setTimeout(() => {
+      setDisplayIndex(activeIndex);
+      // Allow one frame for new src to mount, then fade back in
+      requestAnimationFrame(() => setIsFading(false));
+    }, 180);
+    return () => window.clearTimeout(t);
+  }, [activeIndex, displayIndex]);
 
-  // ── Core: position each card via translate3d so all cards face the camera ──
-  // Cards are never rotated — the carousel angle moves their x/z position
-  // around a circle, making the full ring visible from front AND back.
-  const updateVisuals = useCallback(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
-    const { radius } = dimsRef.current;
-    const angle = angleRef.current;
-    const toRad = Math.PI / 180;
-
-    // Counter-rotate each card to cancel the stage's rotateX tilt so cards face the user.
-    // Must match the CSS value on .cg-stage (11deg desktop, 8deg on ≤480px).
-    const tilt = window.innerWidth <= 480 ? 8 : 11;
-
-    const cards = stage.children;
-    for (let i = 0; i < cards.length; i++) {
-      const θ = (i * STEP + angle) * toRad;
-      const x =  Math.sin(θ) * radius;   // left ↔ right
-      const z =  Math.cos(θ) * radius;   // front (+ ) ↔ back (-)
-      const card = cards[i] as HTMLElement;
-
-      // Front card (z ≈ +radius) → opacity 1, scale 1; back card (z ≈ −radius) → opacity 0.32, scale 0.80
-      const t = (z + radius) / (2 * radius); // 0..1
-      const scale = (0.80 + 0.20 * t).toFixed(3);
-      card.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateX(${tilt}deg) scale(${scale})`;
-      card.style.opacity = String(0.32 + 0.68 * t);
-    }
-  }, []);
-
-  // ── Inertia / auto-spin animation ────────────────────────────────────────
-  const animate = useCallback(() => {
-    if (autoSpinRef.current) {
-      // Constant slow spin on load — no damping, runs until user interacts
-      angleRef.current += 0.06;
-      updateVisuals();
-      rafRef.current = requestAnimationFrame(animate);
+  // Auto-scroll active thumbnail into view (skipped for hover-driven changes)
+  useEffect(() => {
+    if (suppressAutoScrollRef.current) {
+      suppressAutoScrollRef.current = false;
       return;
     }
-    velRef.current *= 0.96;
-    angleRef.current += velRef.current;
-    updateVisuals();
-    if (Math.abs(velRef.current) > 0.008) {
-      rafRef.current = requestAnimationFrame(animate);
-    } else {
-      velRef.current = 0;
-      rafRef.current = 0;
-    }
-  }, [updateVisuals]);
+    const btn = activeThumbRef.current;
+    const strip = stripRef.current;
+    if (!btn || !strip) return;
+    const btnRect = btn.getBoundingClientRect();
+    const stripRect = strip.getBoundingClientRect();
+    const targetScroll =
+      strip.scrollLeft + (btnRect.left + btnRect.width / 2) - (stripRect.left + stripRect.width / 2);
+    strip.scrollTo({ left: targetScroll, behavior: 'smooth' });
+  }, [activeIndex]);
 
-  // Stop auto-spin on first user interaction
-  const stopAutoSpin = useCallback(() => {
-    autoSpinRef.current = false;
+  // Auto-advance until first interaction
+  useEffect(() => {
+    const tick = () => {
+      if (userInteractedRef.current) return;
+      setActiveIndex((i) => (i + 1) % ITEMS.length);
+      autoTimerRef.current = window.setTimeout(tick, AUTO_ADVANCE_MS);
+    };
+    autoTimerRef.current = window.setTimeout(tick, AUTO_ADVANCE_MS);
+    return () => {
+      if (autoTimerRef.current) window.clearTimeout(autoTimerRef.current);
+    };
   }, []);
 
-  // ── Wheel ─────────────────────────────────────────────────────────────────
+  const stopAuto = useCallback(() => {
+    if (userInteractedRef.current) return;
+    userInteractedRef.current = true;
+    if (autoTimerRef.current) {
+      window.clearTimeout(autoTimerRef.current);
+      autoTimerRef.current = null;
+    }
+  }, []);
+
+  // Horizontal wheel translation on the strip
   useEffect(() => {
-    const el = sceneRef.current;
+    const el = stripRef.current;
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('.about-modal-content, .project-modal-container, .modal-container')) return;
-      e.preventDefault();
-      stopAutoSpin();
-      const delta = (e.deltaX + e.deltaY) * 0.04;
-      angleRef.current += delta;
-      // Blend impulse into existing velocity (no hard reset) + cap to prevent runaway
-      velRef.current = Math.max(-10, Math.min(10, velRef.current * 0.7 + delta * 0.5));
-      updateVisuals();
-      // Only start RAF if loop isn't already running — eliminates the cancel/restart gap
-      if (!rafRef.current) {
-        rafRef.current = requestAnimationFrame(animate);
+      // If vertical wheel dominant, convert to horizontal scroll
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        el.scrollLeft += e.deltaY;
+        e.preventDefault();
       }
+      stopAuto();
     };
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
-  }, [animate, updateVisuals, stopAutoSpin]);
+  }, [stopAuto]);
 
-  // ── Initial paint + auto-spin kickoff ────────────────────────────────────
+  const handleThumbEnter = useCallback(
+    (index: number) => {
+      stopAuto();
+      suppressAutoScrollRef.current = true;
+      setActiveIndex(index);
+    },
+    [stopAuto],
+  );
+
+  const handleThumbClick = useCallback(
+    (index: number) => {
+      stopAuto();
+      if (index === activeIndex) {
+        onOpen(activeItem.id);
+      } else {
+        setActiveIndex(index);
+      }
+    },
+    [activeIndex, activeItem, onOpen, stopAuto],
+  );
+
+  const handleHeroClick = useCallback(() => {
+    stopAuto();
+    onOpen(activeItem.id);
+  }, [activeItem, onOpen, stopAuto]);
+
+  // Keyboard arrows navigate
   useEffect(() => {
-    updateVisuals();
-    rafRef.current = requestAnimationFrame(animate);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once on mount
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('.project-modal-container, .about-modal-content, .modal-container')) return;
+      if (e.key === 'ArrowRight') {
+        stopAuto();
+        setActiveIndex((i) => (i + 1) % ITEMS.length);
+      } else if (e.key === 'ArrowLeft') {
+        stopAuto();
+        setActiveIndex((i) => (i - 1 + ITEMS.length) % ITEMS.length);
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        const active = document.activeElement as HTMLElement | null;
+        if (active && active.classList.contains('hg-thumb')) {
+          // handled by native button activation
+          return;
+        }
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [stopAuto]);
 
-  // Repaint when dims change (resize)
-  useEffect(() => { updateVisuals(); }, [updateVisuals, dims]);
-
-  // ── Pointer drag ──────────────────────────────────────────────────────────
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    stopAutoSpin();
-    cancelAnimationFrame(rafRef.current);
-    rafRef.current = 0;
-    velRef.current = 0;
-    downRef.current = true;
-    draggingRef.current = false;
-    lastXRef.current = e.clientX;
-    startXRef.current = e.clientX;
-    // No setPointerCapture — scene covers full viewport so bubbling is sufficient,
-    // and capture would redirect pointerup to the scene and prevent card click events.
-  }, [stopAutoSpin]);
-
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!downRef.current) return;
-    const dx = e.clientX - lastXRef.current;
-    if (Math.abs(e.clientX - startXRef.current) > 5) draggingRef.current = true;
-    angleRef.current += dx * 0.25;
-    velRef.current    = dx * 0.14;
-    lastXRef.current  = e.clientX;
-    updateVisuals();
-  }, [updateVisuals]);
-
-  const handlePointerUp = useCallback(() => {
-    downRef.current = false;
-    cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(animate);
-    setTimeout(() => { draggingRef.current = false; }, 60);
-  }, [animate]);
-
-  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
+  const heroMedia = useMemo(() => getHeroMedia(displayItem), [displayItem, getHeroMedia]);
+  const heroIsVideo = isVideoSrc(heroMedia);
 
   return (
-    <div
-      ref={sceneRef}
-      className="cg-scene"
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-    >
-      <div ref={stageRef} className="cg-stage">
-        {ITEMS.map((project) => (
-          <div
-            key={project.id}
-            data-id={project.id}
-            className={`cg-card${FEATURED_IDS.has(project.id) ? ' cg-card--featured' : ''}`}
-            style={{
-              width:      dims.cardW,
-              height:     dims.cardH,
-              marginLeft: -dims.cardW / 2,
-              marginTop:  -dims.cardH / 2,
-            }}
-            onClick={() => { if (!draggingRef.current) onOpen(project.id); }}
-          >
-            <img
-              src={getDisplayImage(project.gallery || [])}
-              alt={project.title}
-              className="cg-card-img"
-              draggable={false}
-            />
-            <div className="cg-card-overlay">
-              <p className="cg-card-title">{project.title}</p>
-              <p className="cg-card-year">{project.year}</p>
-            </div>
+    <div className="hg-root">
+      {/* Stage holds the large preview */}
+      <div className="hg-stage">
+        <button
+          type="button"
+          className={`hg-hero${isFading ? ' is-fading' : ''}`}
+          onClick={handleHeroClick}
+          aria-label={`Open ${activeItem.title}`}
+        >
+          <div className="hg-hero-frame" data-id={displayItem.id}>
+            {heroIsVideo ? (
+              <video
+                key={heroMedia}
+                src={heroMedia}
+                className="hg-hero-media"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+            ) : (
+              <img
+                key={heroMedia}
+                src={heroMedia}
+                alt={displayItem.title}
+                className="hg-hero-media"
+                draggable={false}
+              />
+            )}
           </div>
-        ))}
+          <div className="hg-hero-caption">
+            <span className="hg-hero-title">{activeItem.title}</span>
+            <span className="hg-hero-sep" aria-hidden="true">•</span>
+            <span className="hg-hero-year">{activeItem.year}</span>
+          </div>
+        </button>
+      </div>
+
+      {/* Thumbnail strip */}
+      <div className="hg-strip-wrap">
+        <div ref={stripRef} className="hg-strip" role="tablist" aria-label="Project thumbnails">
+          {ITEMS.map((item, index) => {
+            const isActive = index === activeIndex;
+            const isFeatured = FEATURED_IDS.has(item.id);
+            const thumbSrc = getThumbMedia(item);
+            return (
+              <button
+                type="button"
+                key={item.id}
+                ref={isActive ? activeThumbRef : null}
+                data-id={item.id}
+                className={`hg-thumb cg-card${isActive ? ' is-active' : ''}${isFeatured ? ' cg-card--featured' : ''}`}
+                onMouseEnter={() => handleThumbEnter(index)}
+                onFocus={() => handleThumbEnter(index)}
+                onClick={() => handleThumbClick(index)}
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Preview ${item.title}`}
+                title={item.title}
+              >
+                {isVideoSrc(thumbSrc) ? (
+                  <video
+                    src={thumbSrc}
+                    className="hg-thumb-img"
+                    muted
+                    playsInline
+                    preload="metadata"
+                  />
+                ) : (
+                  <img
+                    src={thumbSrc}
+                    alt={item.title}
+                    className="hg-thumb-img"
+                    draggable={false}
+                    loading="lazy"
+                  />
+                )}
+                <div className="hg-thumb-overlay">
+                  <span className="hg-thumb-title">{item.title}</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

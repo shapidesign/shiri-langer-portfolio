@@ -126,7 +126,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     onError?.();
   };
 
-  const isVideo = safeSrc.toLowerCase().endsWith('.mp4') || safeSrc.toLowerCase().endsWith('.webm');
+  const isVideo = safeSrc.toLowerCase().endsWith('.mp4') || safeSrc.toLowerCase().endsWith('.webm') || safeSrc.toLowerCase().endsWith('.mov');
 
   // Use optimized src or fallback to original
   const optimizedSrcs = getOptimizedSrc(safeSrc);

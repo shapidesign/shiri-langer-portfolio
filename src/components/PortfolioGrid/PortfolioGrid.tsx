@@ -91,7 +91,7 @@ const PortfolioGrid: React.FC = () => {
               </div>
             )}
             <div className="gallery-affordance-text">
-              {isMobile ? 'Drag to explore' : 'Scroll or drag to explore'}
+              {isMobile ? 'Swipe to browse' : 'Hover to preview, click to open'}
             </div>
           </div>
         </div>

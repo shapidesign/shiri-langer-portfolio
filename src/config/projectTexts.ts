@@ -32,6 +32,8 @@ export interface ProjectText {
   bodyText?: string; // Rich text content with embedded images
   processImages?: string[]; // Array of process image URLs
   badge?: string; // Optional small award badge image URL
+  heroMedia?: string; // Overrides the LARGE carousel hero preview (modal uses gallery[0] as usual)
+  thumbMedia?: string; // Overrides the SMALL strip thumbnail (defaults to heroMedia if unset)
 }
 
 // Update this array with your project information
@@ -50,6 +52,8 @@ export const PROJECT_TEXTS: ProjectText[] = [
     technologies: ["Woodworking", "Woodturning", "Collaboration with a craftsman", "3D mold printing", "3D printing", "Silicone casting", "Sewing"],
     results: "Shortlisted - Isola Design Awards 2025",
     testimonial: undefined,
+    heroMedia: "/assets/images/tomi/tomigif.gif",
+    thumbMedia: "/assets/images/tomi/tomimaindisplay.webp",
     gallery: [
       "/assets/images/tomi/tomigif.gif",
       "/assets/images/tomi/tomimaindisplay.webp",
@@ -179,12 +183,6 @@ export const PROJECT_TEXTS: ProjectText[] = [
       "/assets/images/3dfilters/filtergal2.webp",
       "/assets/images/3dfilters/filtergal3.webp",
       "/assets/images/3dfilters/filtergal4.webp",
-      "/assets/images/3dfilters/filterchal1.webp",
-      "/assets/images/3dfilters/filterchal2.webp",
-      "/assets/images/3dfilters/filtersol1.webp",
-      "/assets/images/3dfilters/filtersol2.webp",
-      "/assets/images/3dfilters/filtersol3.webp",
-      "/assets/images/3dfilters/filtersol5.webp",
     ],
     stickerColor: "#FFD23F", // Sunny Yellow
     stickerImage: "/assets/images/sticker3.png",
@@ -194,26 +192,30 @@ export const PROJECT_TEXTS: ProjectText[] = [
       
       <h3>Challenges</h3>
       <p>The challenge was to translate tools meant for concealment into visible artifacts without losing their symbolic meaning. Another challenge was to design objects that feel both provocative and wearable, engaging users in reflection about beauty, identity, and control.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/3dfilters/filterchal1.webp" alt="3D Filters design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filterchal2.webp" alt="3D Filters design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filterchal3.webp" alt="3D Filters design process - challenges 3" class="process-image-inline" />
+      </div>
 
       <h3>Solutions</h3>
       <p>The project redefines hidden beauty tools by making them visible and expressive. Instead of concealing or correcting, the accessories highlight the traces of self-maintenance and transform them into bold design elements. Through this shift, 3D FILTERS challenges conventional ideals of beauty and opens a space for self-expression and reflection.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/3dfilters/filtersol1.webp" alt="3D Filters design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/3dfilters/filtersol2.webp" alt="3D Filters design process - solutions 2" class="process-image-inline" />
-        <img src="/assets/images/3dfilters/filtersol3.webp" alt="3D Filters design process - solutions 3" class="process-image-inline" />
-        <img src="/assets/images/3dfilters/filtersol4.webp" alt="3D Filters design process - solutions 4" class="process-image-inline" />
-        <img src="/assets/images/3dfilters/filtersol5.webp" alt="3D Filters design process - solutions 5" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filtersol2.webp" alt="3D Filters design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filtersol3.webp" alt="3D Filters design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/3dfilters/filtersol4.webp" alt="3D Filters design process - solutions 3" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project utilized 3D modeling to create intricate lightweight structures optimized for facial wearability. SLA 3D printing enabled the production of precise, delicate forms with fine details, while careful model finishing ensured comfort and aesthetic quality. Visual storytelling through social media documentation played a crucial role in communicating the project's critical perspective on beauty culture.</p>
     `,
     processImages: [
-      "/assets/images/3dfilters/filtersol1.webp",
+      "/assets/images/3dfilters/filterchal1.webp",
+      "/assets/images/3dfilters/filterchal2.webp",
+      "/assets/images/3dfilters/filterchal3.webp",
       "/assets/images/3dfilters/filtersol2.webp",
       "/assets/images/3dfilters/filtersol3.webp",
-      "/assets/images/3dfilters/filtersol4.webp",
-      "/assets/images/3dfilters/filtersol5.webp"
+      "/assets/images/3dfilters/filtersol4.webp"
     ]
   },
   {
@@ -241,7 +243,6 @@ export const PROJECT_TEXTS: ProjectText[] = [
     ],
     stickerColor: "#FF6B35", // Orange
     stickerImage: "/assets/images/sticker4.png",
-    badge: "/assets/images/pita/pitabadge.webp",
     bodyText: `
       <h2>About</h2>
       <p>PITA is an outdoor balance-training product designed to transform fabric tension into a dynamic sport activity. It invites users to practice balance in a playful yet physically challenging way, suitable both for beginners and advanced users.</p>
@@ -300,17 +301,18 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <p>The main challenge was to design a prosthesis strong and ergonomic enough to withstand the forces of surfing, while also being comfortable, lightweight, and waterproof.</p>
       <div class="process-image-slider">
         <img src="/assets/images/itamar/itachal1.webp" alt="Project Itamar design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/itamar/itasol3.webp" alt="Project Itamar design process - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/itamar/itasol4.webp" alt="Project Itamar design process - challenges 3" class="process-image-inline" />
-        <img src="/assets/images/itamar/itasol5.webp" alt="Project Itamar design process - challenges 4" class="process-image-inline" />
+        <img src="/assets/images/itamar/itachal2.webp" alt="Project Itamar design process - challenges 2" class="process-image-inline" />
+        <img src="/assets/images/itamar/itachal3.webp" alt="Project Itamar design process - challenges 3" class="process-image-inline" />
       </div>
       
       <h3>Solutions</h3>
       <p>The prosthesis is composed of three parts: a sock made from special surfing fabric, a flexible interface, and a spoon-shaped paddle. These are connected by a locking mechanism and straps. My main role was 3D modeling the prototypes in SolidWorks and preparing files for 3D printing. The spoon was printed in PETG (waterproof and sunproof), while the flexible part was made from TPU for comfort and adaptability.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/itamar/itaproto2.webp" alt="Project Itamar design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/itamar/itasol1.webp" alt="Project Itamar design process - solutions 2" class="process-image-inline" />
-        <img src="/assets/images/itamar/itasol2.webp" alt="Project Itamar design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/itamar/itaproto.webp" alt="Project Itamar design process - solutions 1" class="process-image-inline" />
+        <img src="/assets/images/itamar/itaproto2.webp" alt="Project Itamar design process - solutions 2" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol1.webp" alt="Project Itamar design process - solutions 3" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol5.webp" alt="Project Itamar design process - solutions 4" class="process-image-inline" />
+        <img src="/assets/images/itamar/itasol6.webp" alt="Project Itamar design process - solutions 5" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
@@ -318,12 +320,13 @@ export const PROJECT_TEXTS: ProjectText[] = [
     `,
     processImages: [
       "/assets/images/itamar/itachal1.webp",
-      "/assets/images/itamar/itasol3.webp",
-      "/assets/images/itamar/itasol4.webp",
-      "/assets/images/itamar/itasol5.webp",
+      "/assets/images/itamar/itachal2.webp",
+      "/assets/images/itamar/itachal3.webp",
+      "/assets/images/itamar/itaproto.webp",
       "/assets/images/itamar/itaproto2.webp",
       "/assets/images/itamar/itasol1.webp",
-      "/assets/images/itamar/itasol2.webp"
+      "/assets/images/itamar/itasol5.webp",
+      "/assets/images/itamar/itasol6.webp"
     ]
   },
   {
@@ -340,11 +343,14 @@ export const PROJECT_TEXTS: ProjectText[] = [
     technologies: ["Iron profile finishing", "Integration of wheels and bearings", "Weighted base assembly", "3D printing of custom components", "LED electronics"],
     results: "",
     testimonial: undefined,
+    heroMedia: "/assets/images/lamp/lampgal3.webp",
+    thumbMedia: "/assets/images/lamp/lampdis.jpg",
     gallery: [
       "/assets/images/lamp/lampdis.webp",
       "/assets/images/lamp/lampgal1.webp",
       "/assets/images/lamp/lampgal2.webp",
-      "/assets/images/lamp/IMG_9965.mp4"
+      "/assets/images/lamp/lampgal3.webp",
+      "/assets/images/lamp/lampgalvid.mp4"
     ],
     stickerColor: "#8E24AA", // Rich Purple
     stickerImage: "/assets/images/sticker6.png",
@@ -355,7 +361,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The main challenge was to design a lamp that could move linearly while remaining stable, yet still allow adjustment across multiple axes. The structure needed to balance freedom of movement with reliability and durability.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/lamp/IMG_3094.webp" alt="Lamp design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/lamp/lampgal3.webp" alt="Lamp design process - challenges 1" class="process-image-inline" />
         <img src="/assets/images/lamp/IMG_9829.webp" alt="Lamp design process - challenges 2" class="process-image-inline" />
         <img src="/assets/images/lamp/IMG_9778.webp" alt="Lamp design process - challenges 3" class="process-image-inline" />
       </div>
@@ -371,7 +377,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <p>The project involved careful iron profile finishing to achieve the desired surface quality, followed by precise integration of wheels and bearings to enable smooth linear motion. The weighted base assembly was designed to provide stability without compromising mobility. Custom 3D-printed components were developed to integrate LED electronics seamlessly, completing the functional and aesthetic design of the lamp.</p>
     `,
     processImages: [
-      "/assets/images/lamp/IMG_3094.webp",
+      "/assets/images/lamp/lampgal3.webp",
       "/assets/images/lamp/IMG_9829.webp",
       "/assets/images/lamp/IMG_9778.webp",
       "/assets/images/lamp/IMG_9798.webp",
@@ -682,8 +688,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
       "/assets/images/ksense/kgal1.webp",
       "/assets/images/ksense/kgal2.webp",
       "/assets/images/ksense/kgal3.webp",
-      "/assets/images/ksense/kgal4.webp",
-      "/assets/images/ksense/kgal5.webp"
+      "/assets/images/ksense/kgal4.webp"
     ],
     stickerColor: "#7FB069", // Light Green
     stickerImage: "/assets/images/sticker6.png",
@@ -694,11 +699,8 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The challenge was to design a wearable product for dogs that could provide real-time health data without interfering with their movement or performance. Another challenge was integrating multiple technologies—sensors, camera, flashlight, and communication interface—into a compact, durable, and comfortable device.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/ksense/inspi1.webp" alt="K-SENSE design inspiration - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/ksense/inspi2.webp" alt="K-SENSE design inspiration - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/ksense/kchal1.webp" alt="K-SENSE design process - challenges 1" class="process-image-inline" />
-        <img src="/assets/images/ksense/kchal2.webp" alt="K-SENSE design process - challenges 2" class="process-image-inline" />
-        <img src="/assets/images/ksense/kchal3.webp" alt="K-SENSE design process - challenges 3" class="process-image-inline" />
+        <img src="/assets/images/ksense/kchal0.webp" alt="K-SENSE design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/ksense/inspi1.webp" alt="K-SENSE design inspiration" class="process-image-inline" />
       </div>
       
       <h3>Solutions</h3>
@@ -706,23 +708,16 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <div class="process-image-slider">
         <img src="/assets/images/ksense/ksol1.webp" alt="K-SENSE design process - solutions 1" class="process-image-inline" />
         <img src="/assets/images/ksense/ksol2.webp" alt="K-SENSE design process - solutions 2" class="process-image-inline" />
-        <img src="/assets/images/ksense/ksol3.webp" alt="K-SENSE design process - solutions 3" class="process-image-inline" />
-        <img src="/assets/images/ksense/ksol4.webp" alt="K-SENSE design process - solutions 4" class="process-image-inline" />
       </div>
       
       <h3>Techniques</h3>
       <p>The project began with user research conducted directly with rescue teams to understand operational needs and constraints. Concept development focused on creating a modular system that could integrate multiple technologies without compromising mobility. Interface design ensured intuitive operation under high-stress conditions, while CAD modeling and prototyping validated the design's durability and comfort. Scenario building helped anticipate real-world use cases and refine the product's functionality.</p>
     `,
     processImages: [
+      "/assets/images/ksense/kchal0.webp",
       "/assets/images/ksense/inspi1.webp",
-      "/assets/images/ksense/inspi2.webp",
-      "/assets/images/ksense/kchal1.webp",
-      "/assets/images/ksense/kchal2.webp",
-      "/assets/images/ksense/kchal3.webp",
       "/assets/images/ksense/ksol1.webp",
       "/assets/images/ksense/ksol2.webp",
-      "/assets/images/ksense/ksol3.webp",
-      "/assets/images/ksense/ksol4.webp"
     ]
   },
   {
@@ -785,8 +780,8 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/pot/disco plante 1 (convert.io).webp",
-      "/assets/images/pot/potgal1 (convert.io).webp",
+      "/assets/images/pot/potdisplay.webp",
+      "/assets/images/pot/potgal1.webp",
       "/assets/images/pot/potgal2.webp"
     ],
     stickerColor: "#9C27B0", // Purple
@@ -833,26 +828,28 @@ export const PROJECT_TEXTS: ProjectText[] = [
       
       <h3>Challenges</h3>
       <p>The main challenge was to design and construct a jig that would enable precise lamination of veneer layers while ensuring the circular form remained strong and stable. Another challenge was to integrate all functional elements—stretched leather skin, ready-made metal cymbals, and grip holes—into a cohesive design.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/tambourine/tambchal1.webp" alt="Tambourine design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambchal2.webp" alt="Tambourine design process - challenges 2" class="process-image-inline" />
+      </div>
 
       <h3>Solutions</h3>
       <p>The process began with building a jig from MDF, followed by gluing multiple veneer layers with carpenter's glue and stretching them around the jig until fully dried. Once removed, the laminated structure was sanded, cut, and refined before assembling the stretched leather surface, grip holes, and ready-made cymbals. All stages were completed by hand, resulting in an authentic instrument that merges traditional craftsmanship with careful material selection.</p>
-      <div class="process-image-slider">
-        <img src="/assets/images/tambourine/tambsol0.webp" alt="Tambourine design process - solutions 1" class="process-image-inline" />
-        <img src="/assets/images/tambourine/tambsol1.webp" alt="Tambourine design process - solutions 2" class="process-image-inline" />
-        <img src="/assets/images/tambourine/tambsol2.webp" alt="Tambourine design process - solutions 3" class="process-image-inline" />
-        <img src="/assets/images/tambourine/tabmsol3.webp" alt="Tambourine design process - solutions 4" class="process-image-inline" />
-        <img src="/assets/images/tambourine/tambsol4.webp" alt="Tambourine design process - solutions 5" class="process-image-inline" />
-      </div>
-      
+
       <h3>Techniques</h3>
       <p>The project employed traditional lamination techniques using veneer sheets, which required careful jig design and construction to achieve the precise circular form. Leather stretching was performed manually to create the resonant surface, while grip holes were drilled and finished by hand. Ready-made metal cymbals were integrated into the design, and all surfaces received hand-finishing to complete the authentic, handcrafted instrument.</p>
+      <div class="process-image-slider">
+        <img src="/assets/images/tambourine/tambtech1.webp" alt="Tambourine design process - techniques 1" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambtech2.webp" alt="Tambourine design process - techniques 2" class="process-image-inline" />
+        <img src="/assets/images/tambourine/tambtech3.webp" alt="Tambourine design process - techniques 3" class="process-image-inline" />
+      </div>
     `,
     processImages: [
-      "/assets/images/tambourine/tambsol0.webp",
-      "/assets/images/tambourine/tambsol1.webp",
-      "/assets/images/tambourine/tambsol2.webp",
-      "/assets/images/tambourine/tabmsol3.webp",
-      "/assets/images/tambourine/tambsol4.webp"
+      "/assets/images/tambourine/tambchal1.webp",
+      "/assets/images/tambourine/tambchal2.webp",
+      "/assets/images/tambourine/tambtech1.webp",
+      "/assets/images/tambourine/tambtech2.webp",
+      "/assets/images/tambourine/tambtech3.webp"
     ]
   },
   {
@@ -870,7 +867,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
     results: "",
     testimonial: undefined,
     gallery: [
-      "/assets/images/coffee/cofdis.webp",
+      "/assets/images/coffee/cofdisplay.webp",
       "/assets/images/coffee/cofgal1.webp",
       "/assets/images/coffee/cofgal2.webp",
       "/assets/images/coffee/cofgal3.webp",
@@ -886,7 +883,7 @@ export const PROJECT_TEXTS: ProjectText[] = [
       <h3>Challenges</h3>
       <p>The main challenge was to merge the visual identity of contemporary art with the functionality of a domestic appliance, while creating a form that feels both expressive and approachable.</p>
       <div class="process-image-slider">
-        <img src="/assets/images/coffee/cofxhal1.webp" alt="Coffee Machine design process - challenges 1" class="process-image-inline" />
+        <img src="/assets/images/coffee/cofchal1.webp" alt="Coffee Machine design process - challenges 1" class="process-image-inline" />
         <img src="/assets/images/coffee/coffeechal2.webp" alt="Coffee Machine design process - challenges 2" class="process-image-inline" />
       </div>
       

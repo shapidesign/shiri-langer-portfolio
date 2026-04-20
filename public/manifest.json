@@ -3,31 +3,37 @@
   "name": "Shiri Langer Designs",
   "icons": [
     {
-      "src": "favicon.ico?v=200",
+      "src": "favicon.ico",
       "sizes": "16x16 32x32 48x48",
       "type": "image/x-icon"
     },
     {
-      "src": "favicon-16x16.png?v=200",
-      "sizes": "16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "favicon-48x48.png?v=200",
+      "src": "icon-48.png",
       "sizes": "48x48",
       "type": "image/png"
     },
     {
-      "src": "favicon.svg?v=200",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
     },
     {
-      "src": "favicon.svg?v=200",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "start_url": ".",
