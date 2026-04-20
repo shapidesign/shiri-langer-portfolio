@@ -40,10 +40,7 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
   const [displayIndex, setDisplayIndex] = useState(TOMI_INDEX); // what hero is currently rendering
   const [isFading, setIsFading] = useState(false);
   const stripRef = useRef<HTMLDivElement>(null);
-  const isJumpingRef = useRef(false);
   const didInitialCenterRef = useRef(false);
-
-  const TRIPLED = useMemo(() => [...ITEMS, ...ITEMS, ...ITEMS], []);
 
   const activeItem = ITEMS[activeIndex] ?? ITEMS[0];
   const displayItem = ITEMS[displayIndex] ?? ITEMS[0];
@@ -95,10 +92,10 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
     return () => window.clearTimeout(t);
   }, [activeIndex, displayIndex]);
 
-  // Center the middle-copy Tomi thumbnail on mount. Uses offsetLeft/offsetWidth
-  // (unaffected by CSS transforms on ancestors like the App's intro scale) and
-  // retries until the strip has a non-zero client width, so it survives the
-  // post-loading-screen fade-in.
+  // Center the Tomi thumbnail on mount. Uses offsetLeft/offsetWidth (unaffected
+  // by CSS transforms on ancestors like the App's intro scale) and retries until
+  // the strip has a non-zero client width, so it survives the post-loading-screen
+  // fade-in.
   useLayoutEffect(() => {
     if (didInitialCenterRef.current) return;
     const strip = stripRef.current;
@@ -106,21 +103,15 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
 
     const centerTomi = (): boolean => {
       const thumbs = strip.querySelectorAll<HTMLButtonElement>('.hg-thumb');
-      const target = thumbs[ITEMS.length + TOMI_INDEX];
+      const target = thumbs[TOMI_INDEX];
       if (!target || strip.clientWidth === 0 || target.offsetWidth === 0) return false;
-      // Compute target.offsetLeft relative to the strip regardless of offsetParent chain.
       let offsetLeft = 0;
       let node: HTMLElement | null = target;
       while (node && node !== strip) {
         offsetLeft += node.offsetLeft;
         node = node.offsetParent as HTMLElement | null;
       }
-      // Suppress seam-jump while we set the initial position.
-      isJumpingRef.current = true;
       strip.scrollLeft = offsetLeft - strip.clientWidth / 2 + target.offsetWidth / 2;
-      requestAnimationFrame(() => {
-        isJumpingRef.current = false;
-      });
       return true;
     };
 
@@ -128,7 +119,6 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
       didInitialCenterRef.current = true;
       return;
     }
-    // Retry up to ~1s in case layout isn't ready yet (e.g. still transitioning in).
     let tries = 0;
     const id = window.setInterval(() => {
       tries += 1;
@@ -138,33 +128,6 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
       }
     }, 16);
     return () => window.clearInterval(id);
-  }, []);
-
-  // Infinite-loop seam jump: when scrolled near either outer copy, silently shift
-  // scrollLeft by one copy width so the user is always near the middle copy.
-  useEffect(() => {
-    const strip = stripRef.current;
-    if (!strip) return;
-    const onScroll = () => {
-      if (isJumpingRef.current) return;
-      const copyWidth = strip.scrollWidth / 3;
-      if (copyWidth <= 0) return;
-      if (strip.scrollLeft < copyWidth * 0.5) {
-        isJumpingRef.current = true;
-        strip.scrollLeft += copyWidth;
-        requestAnimationFrame(() => {
-          isJumpingRef.current = false;
-        });
-      } else if (strip.scrollLeft > copyWidth * 1.5) {
-        isJumpingRef.current = true;
-        strip.scrollLeft -= copyWidth;
-        requestAnimationFrame(() => {
-          isJumpingRef.current = false;
-        });
-      }
-    };
-    strip.addEventListener('scroll', onScroll, { passive: true });
-    return () => strip.removeEventListener('scroll', onScroll);
   }, []);
 
   // Wheel → horizontal scroll (mouse wheels deliver deltaY; trackpads send
@@ -303,18 +266,17 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
       {/* Thumbnail strip */}
       <div className="hg-strip-wrap">
         <div ref={stripRef} className="hg-strip" role="tablist" aria-label="Project thumbnails">
-          {TRIPLED.map((item, tripledIndex) => {
-            const realIndex = tripledIndex % ITEMS.length;
-            const isActive = realIndex === activeIndex;
+          {ITEMS.map((item, index) => {
+            const isActive = index === activeIndex;
             const isFeatured = FEATURED_IDS.has(item.id);
             const thumbSrc = getThumbMedia(item);
             return (
               <button
                 type="button"
-                key={`${item.id}-${tripledIndex}`}
+                key={item.id}
                 data-id={item.id}
                 className={`hg-thumb cg-card${isActive ? ' is-active' : ''}${isFeatured ? ' cg-card--featured' : ''}`}
-                onClick={() => handleThumbClick(realIndex)}
+                onClick={() => handleThumbClick(index)}
                 role="tab"
                 aria-selected={isActive}
                 aria-label={`Preview ${item.title}`}
