@@ -1,0 +1,127 @@
+/* Navigation Indicators - Don Norman's Signifiers */
+.navigation-indicators {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 500;
+}
+
+.indicator {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4DD8FF; /* Azure Cloud - direct color for clarity */
+  transition: opacity 0.5s ease, transform 0.3s ease;
+  filter: drop-shadow(0 3px 6px rgba(77, 216, 255, 0.8));
+  opacity: 1 !important; /* Always visible, never dimmed */
+}
+
+.indicator svg {
+  filter: drop-shadow(0 2px 4px rgba(77, 216, 255, 0.9));
+}
+
+/* Positioning */
+.indicator-top {
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.indicator-right {
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+}
+
+.indicator-bottom {
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg) !important;
+}
+
+.indicator-left {
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%) rotate(180deg) !important;
+}
+
+/* Removed strobing animations to prevent flipping - arrows stay fixed */
+
+/* Removed dimmed state - arrows always visible and bold */
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .indicator-top {
+    top: 60px;
+  }
+  
+  .indicator-right {
+    right: 60px;
+  }
+  
+  .indicator-bottom {
+    bottom: 60px;
+  }
+  
+  .indicator-left {
+    left: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .indicator svg {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .indicator-top {
+    top: 50px;
+  }
+  
+  .indicator-right {
+    right: 40px;
+  }
+  
+  .indicator-bottom {
+    bottom: 50px;
+  }
+  
+  .indicator-left {
+    left: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .indicator svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .indicator-top {
+    top: 40px;
+  }
+  
+  .indicator-right {
+    right: 30px;
+  }
+  
+  .indicator-bottom {
+    bottom: 40px;
+  }
+  
+  .indicator-left {
+    left: 30px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    animation: none;
+  }
+}
+

@@ -1,0 +1,62 @@
+/* CSS Variables - Crafted by shapi*/
+:root {
+  /* Complex Color Palette - Professional & Energetic */
+  /* Primary Colors */
+  --color-primary: #083645; /* TWILIGHT BLISS - Deep navy, trustworthy, primary actions */
+  --color-secondary: #057BC1; /* STAR OF LIFE - Medium blue, secondary elements */
+  --color-accent: #E3FF00; /* LIME JELLY - Vibrant lime, highlights, loading, energy */
+  --color-accent-2: #4DD8FF; /* AZURE CLOUD - Bright sky blue, interactive states, borders */
+  
+  /* Background Colors */
+  --color-background: #F8F4ED; /* CRYSTAL CUT - Warm off-white, main background */
+  --color-background-darker: #F4EDE4; /* ANGELIC WHITE - Warmer off-white, elevated surfaces */
+  
+  /* Text Colors */
+  --color-text: #083645; /* TWILIGHT BLISS - Primary text, maximum readability */
+  --color-text-light: #057BC1; /* STAR OF LIFE - Secondary text, lighter emphasis */
+  --color-text-accent: #4DD8FF; /* AZURE CLOUD - Interactive text, links */
+  
+  /* Border & UI Colors */
+  --color-border: #4DD8FF; /* AZURE CLOUD - Interactive borders, modern feel */
+  --color-border-subtle: rgba(5, 123, 193, 0.2); /* Subtle borders */
+  
+  /* Hover & Interactive States */
+  --color-hover: #4DD8FF; /* AZURE CLOUD - Hover states for secondary elements */
+  --color-hover-primary: #057BC1; /* STAR OF LIFE - Hover for primary buttons */
+  --color-active: #E3FF00; /* LIME JELLY - Active/selected states */
+  
+  /* Shadow Colors (using palette for depth) */
+  --shadow-color-primary: rgba(8, 54, 69, 0.15);
+  --shadow-color-accent: rgba(227, 255, 0, 0.3);
+  --shadow-color-azure: rgba(77, 216, 255, 0.25);
+  
+
+  
+  --font-primary: "unitext", sans-serif;
+  --font-secondary: 'Source Code Pro', 'Monaco', 'Consolas', monospace;
+  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  --z-modal: 1000;
+  --z-overlay: 999;
+  --z-header: 100;
+  --z-content: 10;
+}
