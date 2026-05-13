@@ -28,7 +28,7 @@ If you connected Supabase in Vercel, these variables are usually synced automati
 - `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_SUPABASE_*`, and Postgres URLs.
 
 **Create React App only bundles `REACT_APP_*` into the browser.** The repo runs
-[`scripts/ensure-react-app-supabase-env.cjs`](../scripts/ensure-react-app-supabase-env.cjs) before `react-scripts build`, so on Vercel a normal **`npm run build`** copies integration values into `REACT_APP_*` when those are not set explicitly, and **writes [`build/supabase-runtime.json`](../scripts/ensure-react-app-supabase-env.cjs)** so the live site can load credentials from **`/supabase-runtime.json`** (static file) without calling `/api/*`.
+[`scripts/ensure-react-app-supabase-env.cjs`](../scripts/ensure-react-app-supabase-env.cjs) before `react-scripts build`. After build it **inlines** `window.__SHIRI_SUPABASE__` into `index.html` when env vars are present, and writes **`supabase-runtime.json`**. CRA also copies **[`public/supabase-runtime.json`](../public/supabase-runtime.json)** into `build/` so production can load **`/supabase-runtime.json`** even when Vercel build env is empty (same exposure as any public anon/publishable key).
 
 - **Important:** In Vercel → **Settings → Environment Variables**, Supabase-linked variables must be available at **build** time (not only “runtime” / functions). If the integration only injects into serverless, either enable build-time exposure or **manually add** `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_PUBLISHABLE_KEY` with the same values as `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`.
 - **Local `npm start`** still uses **`.env.local`** with `REACT_APP_*` (the wrapper is only used for `npm run build`).
@@ -37,7 +37,7 @@ If you connected Supabase in Vercel, these variables are usually synced automati
 
 Add your **Vercel production and preview URLs** under Supabase **Authentication → URL Configuration** so admin login and magic links work on every deployment host.
 
-When you connect Supabase through Vercel, some variables exist only at **runtime** for serverless. The app tries **`/supabase-runtime.json`** (from the build) first, then **[`/api/supabase-public-config`](../api/supabase-public-config.js)** (see tables below).
+When you connect Supabase through Vercel, some variables exist only at **runtime** for serverless. The app reads **`window.__SHIRI_SUPABASE__`** (build-time inline), then **`/supabase-runtime.json`**, then **[`/api/supabase-public-config`](../api/supabase-public-config.js)**.
 
 ### Browser (optional explicit embed)
 

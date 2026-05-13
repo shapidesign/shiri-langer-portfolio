@@ -28,12 +28,10 @@ export default function RequireAuth() {
       <div className="admin-panel" role="alert">
         <h1>Admin unavailable</h1>
         <p>
-          The CMS needs Supabase credentials. On Vercel, open{' '}
-          <code>/supabase-runtime.json</code> and <code>/api/supabase-public-config</code> — one should
-          return JSON with <code>url</code> and <code>publishableKey</code>. If both fail, add{' '}
-          <code>SUPABASE_URL</code> and <code>SUPABASE_PUBLISHABLE_KEY</code> (or{' '}
-          <code>REACT_APP_SUPABASE_URL</code> + <code>REACT_APP_SUPABASE_PUBLISHABLE_KEY</code>) and
-          ensure they are enabled for <strong>Build</strong> as well as Runtime, then redeploy.
+          The CMS could not load Supabase settings. Keep <code>public/supabase-runtime.json</code> in the
+          repo (or set Vercel <strong>Build</strong> env) so the key is in the deployment. If{' '}
+          <code>/supabase-runtime.json</code> shows the portfolio instead of JSON, redeploy the latest
+          commit.
         </p>
       </div>
     );

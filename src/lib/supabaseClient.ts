@@ -1,5 +1,12 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
+declare global {
+  interface Window {
+    /** Injected by scripts/ensure-react-app-supabase-env.cjs after production build */
+    __SHIRI_SUPABASE__?: { url: string; publishableKey: string };
+  }
+}
+
 function buildClient(url: string, key: string): SupabaseClient {
   return createClient(url, key, {
     auth: {
@@ -19,9 +26,10 @@ export let supabase: SupabaseClient | null =
 export let isSupabaseConfigured = Boolean(supabase);
 
 /**
- * When REACT_APP_* are empty in the static bundle, load public settings from:
- * 1) /supabase-runtime.json (written at build time if env was present)
- * 2) /api/supabase-public-config (serverless; needs env on functions)
+ * Load public Supabase settings when REACT_APP_* were not in the webpack bundle:
+ * 1) window.__SHIRI_SUPABASE__ (inlined in index.html at build time — most reliable on Vercel)
+ * 2) /supabase-runtime.json
+ * 3) /api/supabase-public-config
  */
 export async function initSupabaseClient(): Promise<void> {
   if (supabase) return;
@@ -33,11 +41,18 @@ export async function initSupabaseClient(): Promise<void> {
     return true;
   };
 
+  if (typeof window !== 'undefined' && window.__SHIRI_SUPABASE__) {
+    if (applyRemote(window.__SHIRI_SUPABASE__)) return;
+  }
+
   try {
     const r = await fetch('/supabase-runtime.json', { cache: 'no-store' });
     if (r.ok) {
-      const data = (await r.json()) as { url?: string; publishableKey?: string };
-      if (applyRemote(data)) return;
+      const ct = r.headers.get('content-type') || '';
+      if (ct.includes('application/json')) {
+        const data = (await r.json()) as { url?: string; publishableKey?: string };
+        if (applyRemote(data)) return;
+      }
     }
   } catch {
     /* missing file or network */

@@ -3,8 +3,8 @@
  * The Vercel ↔ Supabase integration exposes SUPABASE_* and NEXT_PUBLIC_* but not REACT_APP_*.
  * This script maps those into REACT_APP_* before react-scripts runs (Vercel build and local npm run build).
  *
- * After build, writes build/supabase-runtime.json when URL + key are known so the browser can
- * bootstrap without relying on serverless (/api) if functions do not receive integration env vars.
+ * After build, inlines public Supabase settings into build/index.html (window.__SHIRI_SUPABASE__)
+ * and writes build/supabase-runtime.json so the client can bootstrap even when serverless env is empty.
  *
  * Explicit REACT_APP_* values always win when set.
  */
@@ -38,7 +38,7 @@ function apply() {
   }
 }
 
-function writeRuntimeConfig() {
+function publishSupabaseToBuildOutput() {
   const url = (process.env.REACT_APP_SUPABASE_URL || '').trim();
   const key = (
     process.env.REACT_APP_SUPABASE_PUBLISHABLE_KEY ||
@@ -46,7 +46,6 @@ function writeRuntimeConfig() {
     ''
   ).trim();
   const buildDir = path.join(__dirname, '..', 'build');
-  const outFile = path.join(buildDir, 'supabase-runtime.json');
   if (!url || !key) {
     console.warn(
       '[build] Supabase public URL/key missing after env alias — check Vercel env is available at **build** time, or add REACT_APP_SUPABASE_URL + REACT_APP_SUPABASE_PUBLISHABLE_KEY.',
@@ -54,13 +53,29 @@ function writeRuntimeConfig() {
     return;
   }
   if (!fs.existsSync(buildDir)) {
-    console.warn('[build] No build/ directory; skip supabase-runtime.json');
+    console.warn('[build] No build/ directory; skip Supabase publish step');
     return;
   }
-  fs.writeFileSync(outFile, JSON.stringify({ url, publishableKey: key }), 'utf8');
+
+  const payload = { url, publishableKey: key };
+  const json = JSON.stringify(payload);
+  const safeForScript = json.replace(/</g, '\\u003c');
+
+  const indexPath = path.join(buildDir, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    let html = fs.readFileSync(indexPath, 'utf8');
+    if (!html.includes('__SHIRI_SUPABASE__')) {
+      const tag = `<script>window.__SHIRI_SUPABASE__=${safeForScript}</script>`;
+      html = html.replace('</head>', `${tag}</head>`);
+      fs.writeFileSync(indexPath, html);
+      console.log('[build] Inlined Supabase public config in index.html');
+    }
+  }
+
+  fs.writeFileSync(path.join(buildDir, 'supabase-runtime.json'), json, 'utf8');
   console.log('[build] Wrote supabase-runtime.json');
 }
 
 apply();
 require('react-scripts/scripts/build.js');
-writeRuntimeConfig();
+publishSupabaseToBuildOutput();
