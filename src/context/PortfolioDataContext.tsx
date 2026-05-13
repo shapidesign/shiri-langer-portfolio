@@ -157,11 +157,13 @@ async function fetchFromSupabase(): Promise<{
 
   const rows = projRes.data;
   if (!rows || rows.length === 0) {
+    // DB is reachable but empty: still "supabase" so admin can seed via UI (add/save).
+    // Public site keeps showing built-in PROJECT_TEXTS until rows exist.
     return {
       projects: PROJECT_TEXTS,
       siteSettings: mergeCarouselFromRow(row),
       ...content,
-      source: 'fallback',
+      source: 'supabase',
       error: null,
     };
   }

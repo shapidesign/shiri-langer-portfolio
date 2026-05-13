@@ -121,7 +121,14 @@ export default function AdminProjectList() {
   };
 
   const addProject = async () => {
-    if (!supabase || source !== 'supabase') return;
+    if (!supabase) {
+      setSaveErr('Supabase is not configured.');
+      return;
+    }
+    if (source !== 'supabase') {
+      setSaveErr('Cannot add projects while data is in fallback mode (check Supabase connection and errors above).');
+      return;
+    }
     setSaveErr(null);
     const nextId = projects.length > 0 ? Math.max(...projects.map((p) => p.id)) + 1 : 1;
     const template = createEmptyProject(nextId);
