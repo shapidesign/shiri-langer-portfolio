@@ -62,7 +62,7 @@ You can still set **`REACT_APP_*`** duplicates in Vercel to skip the extra reque
 The admin UI **must** sign in through **Supabase Auth** (email + password or magic link). There is no separate “hardcoded” login in the app: project data, storage uploads, and Row Level Security all depend on a real Supabase session. You choose the email and password by **creating that user in Supabase** (not in this repo).
 
 1. In Supabase: **Authentication → Providers → Email** — enable email (password and/or magic link).
-2. **Authentication → Users → Add user** — e.g. email `shirilanger@gmail.com` and a password.  
+2. **Authentication → Users → Add user** — use the admin’s email and a strong password.  
    If Supabase rejects a short password, either use a longer one or relax **Authentication → Providers → Email → Password / minimum length** in the dashboard.
 3. **Authentication → URL Configuration** — add your production URL, preview URLs, and local dev URLs (e.g. `http://localhost:3000`).
 
