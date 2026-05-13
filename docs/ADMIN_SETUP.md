@@ -117,3 +117,4 @@ After a successful upload, click **Save project** so the new `/assets/images/...
 - **CORS / redirect issues on magic link** — add exact redirect URLs in Supabase Auth settings.
 - **Git upload 401** — session expired; sign out and sign in again.
 - **Git upload 502 from GitHub** — check `GITHUB_TOKEN` scopes and that `GITHUB_REPO` matches this deployment repo.
+- **`/admin` shows Vercel or host 404** — In Vercel → Project → Settings → General, set **Root Directory** to the folder that contains this repo’s **`vercel.json`** (usually the repository root, not a subfolder like `portfolio-react`). **Build Output** should be **`build`**. Redeploy after changing. The app uses SPA fallback: static files and `/api/*` resolve first, then everything else serves **`index.html`** so React Router can handle `/admin`.
