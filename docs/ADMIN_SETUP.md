@@ -28,15 +28,16 @@ If you connected Supabase in Vercel, these variables are usually synced automati
 - `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_SUPABASE_*`, and Postgres URLs.
 
 **Create React App only bundles `REACT_APP_*` into the browser.** The repo runs
-[`scripts/ensure-react-app-supabase-env.cjs`](../scripts/ensure-react-app-supabase-env.cjs) before `react-scripts build`, so on Vercel a normal **`npm run build`** copies integration values into `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_PUBLISHABLE_KEY` when those are not set explicitly.
+[`scripts/ensure-react-app-supabase-env.cjs`](../scripts/ensure-react-app-supabase-env.cjs) before `react-scripts build`, so on Vercel a normal **`npm run build`** copies integration values into `REACT_APP_*` when those are not set explicitly, and **writes [`build/supabase-runtime.json`](../scripts/ensure-react-app-supabase-env.cjs)** so the live site can load credentials from **`/supabase-runtime.json`** (static file) without calling `/api/*`.
 
+- **Important:** In Vercel → **Settings → Environment Variables**, Supabase-linked variables must be available at **build** time (not only “runtime” / functions). If the integration only injects into serverless, either enable build-time exposure or **manually add** `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_PUBLISHABLE_KEY` with the same values as `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`.
 - **Local `npm start`** still uses **`.env.local`** with `REACT_APP_*` (the wrapper is only used for `npm run build`).
 - Serverless **[`api/commit-media.js`](../api/commit-media.js)** uses `SUPABASE_URL` and `SUPABASE_ANON_KEY` or **`SUPABASE_PUBLISHABLE_KEY`** — already provided by the integration.
 - **`npm run seed:supabase`** can use **`SUPABASE_SECRET_KEY`** if your integration exposes it as the service role; otherwise set **`SUPABASE_SERVICE_ROLE_KEY`** from the Supabase dashboard (API → service_role) for local seeding.
 
 Add your **Vercel production and preview URLs** under Supabase **Authentication → URL Configuration** so admin login and magic links work on every deployment host.
 
-When you connect Supabase through Vercel, `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` are often **runtime-only**, while Create React App only bakes **`REACT_APP_*`** into the static bundle at build time. The app loads public settings from **[`/api/supabase-public-config`](../api/supabase-public-config.js)** on startup when those embeds are missing (see tables below).
+When you connect Supabase through Vercel, some variables exist only at **runtime** for serverless. The app tries **`/supabase-runtime.json`** (from the build) first, then **[`/api/supabase-public-config`](../api/supabase-public-config.js)** (see tables below).
 
 ### Browser (optional explicit embed)
 
@@ -134,7 +135,7 @@ After a successful upload, click **Save project** so the new `/assets/images/...
 
 ## 9. Troubleshooting
 
-- **Admin says “not configured”** — missing client Supabase settings: add `REACT_APP_*` for build, or open `https://yoursite.com/api/supabase-public-config` — it must return JSON with `url` and `publishableKey` (needs `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` on Vercel). Redeploy after fixing env.
+- **Admin says “not configured”** — Open `https://yoursite.com/supabase-runtime.json` (should be JSON). If 404 or HTML, open `https://yoursite.com/api/supabase-public-config`. If both fail, set **`SUPABASE_URL`** + **`SUPABASE_PUBLISHABLE_KEY`** (or **`NEXT_PUBLIC_*`**) for **Build** on Vercel, or add **`REACT_APP_*`** duplicates, then redeploy.
 - **Save fails with RLS** — user must be logged in; policies require `authenticated` role for writes.
 - **Site still shows old text** — run seed; check Supabase **Table Editor** for rows in `projects`; hard-refresh the browser.
 - **CORS / redirect issues on magic link** — add exact redirect URLs in Supabase Auth settings.
