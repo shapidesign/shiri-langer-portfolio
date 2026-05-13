@@ -4,7 +4,28 @@ import type { ProjectText } from '../config/projectTexts';
 import { usePortfolioData } from '../context/PortfolioDataContext';
 import { supabase } from '../lib/supabaseClient';
 import { createEmptyProject } from '../utils/newProjectTemplate';
+import { slugifyMediaFolder, safeMediaFolderSlug } from '../utils/mediaSlug';
 import './admin.css';
+
+const GIT_IMAGE_TYPES = new Set(['image/jpeg', 'image/webp']);
+const MAX_GIT_UPLOAD_BYTES = 4 * 1024 * 1024;
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const r = reader.result;
+      if (typeof r !== 'string') {
+        reject(new Error('Could not read file'));
+        return;
+      }
+      const comma = r.indexOf(',');
+      resolve(comma >= 0 ? r.slice(comma + 1) : r);
+    };
+    reader.onerror = () => reject(reader.error ?? new Error('read failed'));
+    reader.readAsDataURL(file);
+  });
+}
 
 export default function AdminProjectEdit() {
   const { id: idParam } = useParams();
@@ -32,6 +53,7 @@ export default function AdminProjectEdit() {
             challengeImages: [...(base.challengeImages || [])],
             solutionImages: [...(base.solutionImages || [])],
             resultsImages: [...(base.resultsImages || [])],
+            mediaFolder: base.mediaFolder ?? '',
           }
         : createEmptyProject(id),
     );
@@ -49,6 +71,11 @@ export default function AdminProjectEdit() {
   const setField = <K extends keyof ProjectText>(key: K, value: ProjectText[K]) => {
     setDraft((d) => (d ? { ...d, [key]: value } : d));
   };
+
+  const gitMediaEnabled = process.env.REACT_APP_ENABLE_GIT_MEDIA_COMMIT === 'true';
+  const commitApiOrigin = (process.env.REACT_APP_COMMIT_MEDIA_API_ORIGIN || '').replace(/\/$/, '');
+
+  const assetFolderSlug = safeMediaFolderSlug(draft.mediaFolder, draft.title);
 
   const onSave = async (e: FormEvent) => {
     e.preventDefault();
@@ -74,11 +101,94 @@ export default function AdminProjectEdit() {
     await reload();
   };
 
+  const appendMediaUrl = (
+    bucketPath: 'gallery' | 'hero' | 'thumb' | 'challenge' | 'solution' | 'results',
+    url: string,
+  ) => {
+    setDraft((d) => {
+      if (!d) return d;
+      if (bucketPath === 'hero') return { ...d, heroMedia: url };
+      if (bucketPath === 'thumb') return { ...d, thumbMedia: url };
+      if (bucketPath === 'challenge') return { ...d, challengeImages: [...(d.challengeImages || []), url] };
+      if (bucketPath === 'solution') return { ...d, solutionImages: [...(d.solutionImages || []), url] };
+      if (bucketPath === 'results') return { ...d, resultsImages: [...(d.resultsImages || []), url] };
+      return { ...d, gallery: [...(d.gallery || []), url] };
+    });
+  };
+
   const uploadFile = async (
     file: File,
     bucketPath: 'gallery' | 'hero' | 'thumb' | 'challenge' | 'solution' | 'results',
   ) => {
-    if (!supabase || !draft) return;
+    if (!draft) return;
+
+    if (bucketPath === 'gallery') {
+      const ok = file.type.startsWith('image/') || file.type.startsWith('video/');
+      if (!ok) {
+        setErr('Gallery supports images and videos only.');
+        return;
+      }
+    }
+
+    const useGit =
+      gitMediaEnabled &&
+      Boolean(supabase) &&
+      GIT_IMAGE_TYPES.has(file.type) &&
+      file.size <= MAX_GIT_UPLOAD_BYTES;
+
+    if (useGit && supabase) {
+      setUploading(true);
+      setErr(null);
+      try {
+        const { data: sess } = await supabase.auth.getSession();
+        const accessToken = sess.session?.access_token;
+        if (!accessToken) {
+          setErr('Sign in again to commit files to the repository.');
+          setUploading(false);
+          return;
+        }
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+        const prefix =
+          bucketPath === 'gallery'
+            ? 'gal'
+            : bucketPath === 'hero'
+              ? 'hero'
+              : bucketPath === 'thumb'
+                ? 'thumb'
+                : bucketPath === 'challenge'
+                  ? 'challenge'
+                  : bucketPath === 'solution'
+                    ? 'solution'
+                    : 'results';
+        const rel = `public/assets/images/${assetFolderSlug}/${prefix}-${Date.now()}-${safeName}`;
+        const b64 = await fileToBase64(file);
+        const res = await fetch(`${commitApiOrigin}/api/commit-media`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ path: rel, contentBase64: b64, mime: file.type }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setErr(typeof json.error === 'string' ? json.error : 'Git upload failed');
+          setUploading(false);
+          return;
+        }
+        const publicUrl = `/${rel.replace(/^public\//, '')}`;
+        appendMediaUrl(bucketPath, publicUrl);
+        setMsg(
+          'File committed to Git. Save the project, then pull locally or wait for deployment to see it on the site.',
+        );
+      } catch (e) {
+        setErr(e instanceof Error ? e.message : 'Git upload failed');
+      }
+      setUploading(false);
+      return;
+    }
+
+    if (!supabase) return;
     setUploading(true);
     setErr(null);
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
@@ -93,18 +203,7 @@ export default function AdminProjectEdit() {
       return;
     }
     const { data } = supabase.storage.from('portfolio-media').getPublicUrl(path);
-    const url = data.publicUrl;
-    if (bucketPath === 'hero') setField('heroMedia', url);
-    else if (bucketPath === 'thumb') setField('thumbMedia', url);
-    else if (bucketPath === 'challenge') {
-      setField('challengeImages', [...(draft.challengeImages || []), url]);
-    } else if (bucketPath === 'solution') {
-      setField('solutionImages', [...(draft.solutionImages || []), url]);
-    } else if (bucketPath === 'results') {
-      setField('resultsImages', [...(draft.resultsImages || []), url]);
-    } else {
-      setField('gallery', [...(draft.gallery || []), url]);
-    }
+    appendMediaUrl(bucketPath, data.publicUrl);
   };
 
   type ListKey = 'gallery' | 'challengeImages' | 'solutionImages' | 'resultsImages';
@@ -267,6 +366,25 @@ export default function AdminProjectEdit() {
           value={draft.subtitle}
           onChange={(e) => setField('subtitle', e.target.value)}
         />
+
+        <label className="admin-label" htmlFor="f-media-folder">
+          Assets folder (Git uploads)
+        </label>
+        <input
+          id="f-media-folder"
+          className="admin-input"
+          value={draft.mediaFolder ?? ''}
+          onChange={(e) => setField('mediaFolder', e.target.value)}
+          placeholder={slugifyMediaFolder(draft.title)}
+          autoComplete="off"
+        />
+        <p className="admin-muted">
+          Files go to <code>public/assets/images/</code>
+          <strong>{assetFolderSlug}</strong>
+          {process.env.REACT_APP_ENABLE_GIT_MEDIA_COMMIT === 'true'
+            ? ' when you upload JPEG or WebP (Git commit). Other types still use Supabase storage.'
+            : ' only when Git uploads are enabled for this deployment. Otherwise uploads use Supabase storage.'}
+        </p>
 
         <label className="admin-label" htmlFor="f-tags">
           Tags (comma-separated)

@@ -53,21 +53,52 @@ This upserts all bundled projects, default carousel settings, **About modal JSON
 
 Deleting a project removes it from the database and strips its id from carousel, featured, and hidden lists. **About “Notable Projects”** highlights that pointed at that id are removed automatically. If the deleted project was the default hero, the first id in the carousel order becomes the new default when possible.
 
-## 6. Storage limits and uploads
+## 6. Git-backed JPEG / WebP uploads (optional)
+
+When enabled, project uploads of **JPEG or WebP** (up to ~4 MiB) are committed to this repository under
+`public/assets/images/<assets-folder>/` via the Vercel serverless route [`api/commit-media.js`](../api/commit-media.js).
+**GIF, PNG, and video** still use **Supabase Storage** (same as before).
+
+### Browser (Vercel / `.env.local`)
+
+| Variable | Purpose |
+|----------|---------|
+| `REACT_APP_ENABLE_GIT_MEDIA_COMMIT` | Set to `true` to use Git commits for JPEG/WebP uploads |
+| `REACT_APP_COMMIT_MEDIA_API_ORIGIN` | Leave empty on Vercel (same origin). For local CRA against a deployed API, set e.g. `https://your-site.vercel.app` |
+
+Each project has an **Assets folder (Git uploads)** field in the editor (defaults from the title slug). Paths are sanitized server-side.
+
+### Vercel (server only — do not expose in the CRA bundle)
+
+| Variable | Purpose |
+|----------|---------|
+| `GITHUB_TOKEN` | Personal access token with **Contents: Read and write** on this repo |
+| `GITHUB_REPO` | `owner/repo-name` (e.g. `acme/portfolio`) |
+| `GITHUB_BRANCH` | Optional; default `main` |
+| `SUPABASE_URL` | Same as project API URL |
+| `SUPABASE_ANON_KEY` | Same anon / publishable key used by the app (validates the signed-in admin) |
+
+The API checks the admin’s **Supabase access token**; anonymous callers cannot commit files.
+
+After a successful upload, click **Save project** so the new `/assets/images/...` URL is stored in Supabase. **Production** picks up the binary on the **next Vercel deploy** triggered by the new commit. Locally, **git pull** to see the file.
+
+## 7. Storage limits and uploads
 
 - Media uploads go to the **`portfolio-media`** bucket (public read, authenticated write per migration policies).
 - Free-tier storage and egress limits apply; large videos are better hosted externally (paste URL in gallery/hero fields).
 
-## 7. Client handoff checklist
+## 8. Client handoff checklist
 
 - Give her the **admin URL** and login method (password and/or magic link).
 - Confirm she can use **Site / About / CV** for the résumé PDF, contact info, and About modal copy.
 - Confirm she can edit projects (**Save project**), manage carousel (**Save carousel & visibility**), and add/remove projects as needed.
-- Explain: changes appear on the live site **after a normal page refresh** (no redeploy).
+- Explain: text and carousel changes from Supabase appear after **refresh**. **Git-backed** JPEG/WebP files need a **new deployment** (or local `git pull`) before the new asset URL resolves.
 
-## 8. Troubleshooting
+## 9. Troubleshooting
 
 - **Admin says “not configured”** — missing `REACT_APP_*` vars; redeploy after setting them.
 - **Save fails with RLS** — user must be logged in; policies require `authenticated` role for writes.
 - **Site still shows old text** — run seed; check Supabase **Table Editor** for rows in `projects`; hard-refresh the browser.
 - **CORS / redirect issues on magic link** — add exact redirect URLs in Supabase Auth settings.
+- **Git upload 401** — session expired; sign out and sign in again.
+- **Git upload 502 from GitHub** — check `GITHUB_TOKEN` scopes and that `GITHUB_REPO` matches this deployment repo.

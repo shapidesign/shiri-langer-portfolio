@@ -37,6 +37,8 @@ export interface ProjectText {
   challengeImages?: string[];
   solutionImages?: string[];
   resultsImages?: string[];
+  /** Subfolder under public/assets/images/ for Git-backed JPEG/WebP uploads (optional). */
+  mediaFolder?: string;
 }
 
 // Update this array with your project information

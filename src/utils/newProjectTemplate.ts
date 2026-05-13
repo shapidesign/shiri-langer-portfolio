@@ -20,5 +20,6 @@ export function createEmptyProject(id: number): ProjectText {
     challengeImages: [],
     solutionImages: [],
     resultsImages: [],
+    mediaFolder: '',
   };
 }
