@@ -19,7 +19,22 @@ This site can load portfolio projects from **Supabase** instead of the bundled [
 
 Add the URL and at least one browser key (publishable **or** legacy `anon` JWT) in the Vercel project (**Settings → Environment Variables**) for Production and Preview, then redeploy.
 
-Never commit or expose the **service role** key in the frontend.
+Never commit or expose the **service role** / **secret** key in the frontend.
+
+### Vercel ↔ Supabase integration (marketplace / linked project)
+
+If you connected Supabase in Vercel, these variables are usually synced automatically:
+
+- `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_SUPABASE_*`, and Postgres URLs.
+
+**Create React App only bundles `REACT_APP_*` into the browser.** The repo runs
+[`scripts/ensure-react-app-supabase-env.cjs`](../scripts/ensure-react-app-supabase-env.cjs) before `react-scripts build`, so on Vercel a normal **`npm run build`** copies integration values into `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_PUBLISHABLE_KEY` when those are not set explicitly.
+
+- **Local `npm start`** still uses **`.env.local`** with `REACT_APP_*` (the wrapper is only used for `npm run build`).
+- Serverless **[`api/commit-media.js`](../api/commit-media.js)** uses `SUPABASE_URL` and `SUPABASE_ANON_KEY` or **`SUPABASE_PUBLISHABLE_KEY`** — already provided by the integration.
+- **`npm run seed:supabase`** can use **`SUPABASE_SECRET_KEY`** if your integration exposes it as the service role; otherwise set **`SUPABASE_SERVICE_ROLE_KEY`** from the Supabase dashboard (API → service_role) for local seeding.
+
+Add your **Vercel production and preview URLs** under Supabase **Authentication → URL Configuration** so admin login and magic links work on every deployment host.
 
 ## 3. Auth for the client
 

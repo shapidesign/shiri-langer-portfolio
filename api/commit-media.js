@@ -4,7 +4,7 @@
  * Env:
  *   GITHUB_TOKEN — PAT with contents:write on the repo
  *   GITHUB_REPO — owner/repo-name
- *   SUPABASE_URL, SUPABASE_ANON_KEY — verify Authorization: Bearer <user access_token>
+ *   SUPABASE_URL — plus SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEY (Vercel integration)
  *   GITHUB_BRANCH — optional, default main
  */
 const ALLOWED_MIME = new Set(['image/jpeg', 'image/webp']);
@@ -13,7 +13,7 @@ async function verifySupabaseUser(authHeader) {
   if (!authHeader || !authHeader.startsWith('Bearer ')) return null;
   const jwt = authHeader.slice(7).trim();
   const url = process.env.SUPABASE_URL;
-  const anon = process.env.SUPABASE_ANON_KEY;
+  const anon = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !anon || !jwt) return null;
   const r = await fetch(`${url.replace(/\/$/, '')}/auth/v1/user`, {
     headers: {
