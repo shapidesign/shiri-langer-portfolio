@@ -352,8 +352,22 @@ export default function AdminProjectList() {
           >
             {saving ? 'Saving…' : 'Save carousel & visibility'}
           </button>
-          {source !== 'supabase' && (
-            <p className="admin-muted">Connect Supabase and run the seed script to enable saving.</p>
+          {!loading && source !== 'supabase' && (
+            <p className={error ? 'admin-form-error' : 'admin-muted'} role={error ? 'alert' : undefined}>
+              {error ? (
+                <>
+                  Loading projects from Supabase failed: <strong>{error}</strong>. Typical causes: migrations not applied
+                  in this Supabase project (no <code>public.projects</code> table), project paused, or this site’s
+                  Supabase URL/key pointing at a different project than where you created tables and users. Fix the error,
+                  then hard-refresh.
+                </>
+              ) : (
+                <>
+                  The CMS is not connected to a database for reads (see <code>docs/ADMIN_SETUP.md</code> and{' '}
+                  <code>public/supabase-runtime.json</code> / Vercel env), or data is still loading.
+                </>
+              )}
+            </p>
           )}
         </div>
       </section>

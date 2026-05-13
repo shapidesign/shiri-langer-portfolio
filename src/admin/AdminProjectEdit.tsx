@@ -31,7 +31,7 @@ export default function AdminProjectEdit() {
   const { id: idParam } = useParams();
   const id = Number(idParam);
   const navigate = useNavigate();
-  const { getProjectById, reload, source } = usePortfolioData();
+  const { getProjectById, reload, source, loading, error: dataSourceError } = usePortfolioData();
 
   const [draft, setDraft] = useState<ProjectText | null>(null);
   const [saving, setSaving] = useState(false);
@@ -324,9 +324,16 @@ export default function AdminProjectEdit() {
         <h1 style={{ marginTop: 0 }}>{draft.title || `Project #${id}`}</h1>
         <p className="admin-muted">Project id: {id}</p>
 
-        {source !== 'supabase' && (
+        {!loading && source !== 'supabase' && (
           <p className="admin-form-error" role="alert">
-            Supabase is not the active data source. Saving is disabled until the database is seeded.
+            {dataSourceError ? (
+              <>
+                Could not load live portfolio data: <strong>{dataSourceError}</strong>. Saving is disabled until the
+                projects table loads. Check migrations and that this deployment’s Supabase URL/key match your project.
+              </>
+            ) : (
+              <>Supabase is not the active data source. Check CMS configuration and reload.</>
+            )}
           </p>
         )}
 

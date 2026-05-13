@@ -26,6 +26,7 @@ export default function AdminSiteSettings() {
     loading,
     reload,
     source,
+    error: dataSourceError,
   } = usePortfolioData();
 
   const [about, setAbout] = useState<AboutContent>(() => cloneAbout(DEFAULT_ABOUT_DATA));
@@ -143,9 +144,16 @@ export default function AdminSiteSettings() {
       </p>
       <form className="admin-panel" onSubmit={saveAll}>
         <h1 style={{ marginTop: 0 }}>Site: CV, contact, About</h1>
-        {source !== 'supabase' && (
+        {!loading && source !== 'supabase' && (
           <p className="admin-form-error" role="alert">
-            Saving requires Supabase (live data source).
+            {dataSourceError ? (
+              <>
+                Could not load live site settings: <strong>{dataSourceError}</strong>. Saving is disabled until the
+                database responds. Check Supabase migrations and URL/key for this deployment.
+              </>
+            ) : (
+              <>Saving requires a live Supabase data source. Check configuration and reload.</>
+            )}
           </p>
         )}
 
