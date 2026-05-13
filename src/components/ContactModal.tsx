@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { GENERAL_TEXTS } from '../config/projectTexts';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 import './ContactModal.css';
 
 interface ContactModalProps {
@@ -8,6 +10,7 @@ interface ContactModalProps {
 }
 
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
+  const { contactData, cvPublicUrl, cvFileName } = usePortfolioData();
   const modalRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -65,17 +68,17 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      alert('Sorry, there was an error sending your message. Please try again or email shirilanger@gmail.com directly.');
+      alert(`Sorry, there was an error sending your message. Please try again or email ${contactData.email} directly.`);
     }
   };
 
   // Handle CV download
   const handleCVDownload = () => {
     const link = document.createElement('a');
-    // Use the PDF file that already exists in the public folder
-    link.href = '/Shiri-Langer-CV-2026.pdf';
-    link.download = 'Shiri-Langer-CV-2026.pdf';
+    link.href = cvPublicUrl;
+    link.download = cvFileName;
     link.target = '_blank';
+    link.rel = 'noopener noreferrer';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -133,9 +136,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 
         <div className="modal-content">
           <div className="contact-info">
-            <p className="contact-intro">
-              I'd love to hear about your project and discuss how we can work together to bring your vision to life.
-            </p>
+            <p className="contact-intro">{GENERAL_TEXTS.contact.intro}</p>
             
             <div className="contact-methods">
               <div className="contact-method">
@@ -147,7 +148,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 </div>
                 <div className="contact-details">
                   <span className="contact-label">Email</span>
-                  <span className="contact-value">shirilanger@gmail.com</span>
+                  <span className="contact-value">{contactData.email}</span>
                 </div>
               </div>
 
@@ -156,12 +157,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  window.open('https://www.linkedin.com/in/shiri-langer/', '_blank');
+                  window.open(contactData.linkedin, '_blank');
                 }}
                 onTouchEnd={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  window.open('https://www.linkedin.com/in/shiri-langer/', '_blank');
+                  window.open(contactData.linkedin, '_blank');
                 }}
               >
                 <div className="contact-icon">

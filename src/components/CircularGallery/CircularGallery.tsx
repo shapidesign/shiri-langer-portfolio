@@ -1,49 +1,44 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { PROJECT_TEXTS, ProjectText } from '../../config/projectTexts';
+import type { ProjectText } from '../../config/projectTexts';
 import { getDisplayImage } from '../../utils/imagePathUtils';
+import { usePortfolioData } from '../../context/PortfolioDataContext';
+import { indexOfProjectId } from '../../utils/portfolioOrdering';
 import './CircularGallery.css';
 
 interface CircularGalleryProps {
   onOpen: (id: number) => void;
 }
 
-const FEATURED_IDS = new Set([1, 2, 3, 4, 5]);
-
 function isVideoSrc(src: string): boolean {
   const s = src.toLowerCase();
   return s.endsWith('.mp4') || s.endsWith('.webm') || s.endsWith('.mov');
 }
 
-// Explicit thumbnail strip order requested by the designer.
-function buildOrderedItems(source: ProjectText[]): ProjectText[] {
-  const items = source.filter((p) => p.id !== 17);
-  const targetOrder = [16, 15, 12, 9, 2, 3, 7, 1, 8, 10, 4, 5, 11, 6, 13, 14];
-  const byId = new Map<number, ProjectText>(items.map((p) => [p.id, p]));
-  const ordered: ProjectText[] = [];
-  for (const id of targetOrder) {
-    const p = byId.get(id);
-    if (p) {
-      ordered.push(p);
-      byId.delete(id);
-    }
-  }
-  byId.forEach((leftover) => ordered.push(leftover));
-  return ordered;
-}
-
-const TOMI_INDEX = 7;
-
-const ITEMS: ProjectText[] = buildOrderedItems(PROJECT_TEXTS);
-
 const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
-  const [activeIndex, setActiveIndex] = useState(TOMI_INDEX);
-  const [displayIndex, setDisplayIndex] = useState(TOMI_INDEX); // what hero is currently rendering
+  const { orderedCarouselItems: ITEMS, featuredIds: FEATURED_IDS, siteSettings, loading } =
+    usePortfolioData();
+
+  const heroStartIndex = useMemo(
+    () => indexOfProjectId(ITEMS, siteSettings.defaultHeroProjectId),
+    [ITEMS, siteSettings.defaultHeroProjectId],
+  );
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [displayIndex, setDisplayIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
   const stripRef = useRef<HTMLDivElement>(null);
   const didInitialCenterRef = useRef(false);
 
   const activeItem = ITEMS[activeIndex] ?? ITEMS[0];
   const displayItem = ITEMS[displayIndex] ?? ITEMS[0];
+
+  useEffect(() => {
+    if (loading) return;
+    if (ITEMS.length === 0) return;
+    const idx = Math.min(heroStartIndex, ITEMS.length - 1);
+    setActiveIndex(idx);
+    setDisplayIndex(idx);
+  }, [loading, heroStartIndex, ITEMS.length]);
 
   // Shared fallback: first non-video asset, else getDisplayImage
   const getFallbackMedia = useCallback((item: ProjectText): string => {
@@ -68,6 +63,7 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
 
   // Preload neighbor hero images for snappy swaps
   useEffect(() => {
+    if (ITEMS.length === 0) return;
     const preload = (i: number) => {
       const item = ITEMS[i];
       if (!item) return;
@@ -78,7 +74,7 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
     };
     preload((activeIndex + 1) % ITEMS.length);
     preload((activeIndex - 1 + ITEMS.length) % ITEMS.length);
-  }, [activeIndex, getHeroMedia]);
+  }, [activeIndex, getHeroMedia, ITEMS]);
 
   // Crossfade hero when activeIndex changes
   useEffect(() => {
@@ -92,18 +88,21 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
     return () => window.clearTimeout(t);
   }, [activeIndex, displayIndex]);
 
-  // Center the Tomi thumbnail on mount. Uses offsetLeft/offsetWidth (unaffected
-  // by CSS transforms on ancestors like the App's intro scale) and retries until
-  // the strip has a non-zero client width, so it survives the post-loading-screen
-  // fade-in.
+  // Center the default hero thumbnail on mount / when portfolio data resolves.
+  useLayoutEffect(() => {
+    didInitialCenterRef.current = false;
+  }, [loading, heroStartIndex, ITEMS.length]);
+
   useLayoutEffect(() => {
     if (didInitialCenterRef.current) return;
+    if (loading || ITEMS.length === 0) return;
     const strip = stripRef.current;
     if (!strip) return;
 
     const centerTomi = (): boolean => {
       const thumbs = strip.querySelectorAll<HTMLButtonElement>('.hg-thumb');
-      const target = thumbs[TOMI_INDEX];
+      const targetIdx = Math.min(heroStartIndex, thumbs.length - 1);
+      const target = thumbs[targetIdx];
       if (!target || strip.clientWidth === 0 || target.offsetWidth === 0) return false;
       let offsetLeft = 0;
       let node: HTMLElement | null = target;
@@ -128,7 +127,7 @@ const CircularGallery: React.FC<CircularGalleryProps> = ({ onOpen }) => {
       }
     }, 16);
     return () => window.clearInterval(id);
-  }, []);
+  }, [loading, heroStartIndex, ITEMS.length]);
 
   // Wheel → horizontal scroll (mouse wheels deliver deltaY; trackpads send
   // deltaX natively and need no translation).

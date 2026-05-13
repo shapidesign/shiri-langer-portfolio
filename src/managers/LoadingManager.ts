@@ -127,33 +127,19 @@ export class LoadingManager {
    * Preload first few project images for immediate availability
    */
   private preloadInitialImages(): void {
-    // Use dynamic import to avoid circular dependencies
-    Promise.all([
-      import('../config/projectTexts'),
-      import('../utils/imagePathUtils')
-    ]).then(([{ PROJECT_TEXTS }, { getDisplayImage }]) => {
-      // Preload only the first 4-6 projects that are most likely to be seen first
-      const preloadCount = 6;
-      const preloadUrls: string[] = [];
+    // Hero preloading runs from PortfolioDataProvider once carousel order is known.
+  }
 
-      for (let i = 0; i < Math.min(preloadCount, PROJECT_TEXTS.length); i++) {
-        const project = PROJECT_TEXTS[i];
-        if (project && project.gallery && project.gallery.length > 0) {
-          const displayImage = getDisplayImage(project.gallery);
-          if (displayImage && !preloadUrls.includes(displayImage)) {
-            preloadUrls.push(displayImage);
-          }
-        }
-      }
-
-      // Preload these images in parallel
-      preloadUrls.forEach(url => {
-        const img = new Image();
-        img.src = url;
-        // Let them load in background, no need to track completion
-      });
-    }).catch(() => {
-      // Silently fail if imports fail - not critical for UX
+  /**
+   * Preload hero / gallery still images for the first carousel slice.
+   */
+  public preloadProjectHeroUrls(urls: string[]): void {
+    urls.forEach((url) => {
+      if (!url) return;
+      const lower = url.toLowerCase();
+      if (lower.endsWith('.mp4') || lower.endsWith('.webm') || lower.endsWith('.mov')) return;
+      const img = new Image();
+      img.src = url;
     });
   }
 

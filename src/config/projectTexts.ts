@@ -34,6 +34,9 @@ export interface ProjectText {
   badge?: string; // Optional small award badge image URL
   heroMedia?: string; // Overrides the LARGE carousel hero preview (modal uses gallery[0] as usual)
   thumbMedia?: string; // Overrides the SMALL strip thumbnail (defaults to heroMedia if unset)
+  challengeImages?: string[];
+  solutionImages?: string[];
+  resultsImages?: string[];
 }
 
 // Update this array with your project information

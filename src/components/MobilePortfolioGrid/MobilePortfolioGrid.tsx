@@ -1,5 +1,5 @@
 import React from 'react';
-import { PROJECT_TEXTS } from '../../config/projectTexts';
+import { usePortfolioData } from '../../context/PortfolioDataContext';
 import { OptimizedImage } from '../OptimizedImage/OptimizedImage';
 import './MobilePortfolioGrid.css';
 
@@ -8,8 +8,9 @@ interface MobilePortfolioGridProps {
 }
 
 export const MobilePortfolioGrid: React.FC<MobilePortfolioGridProps> = ({ onProjectClick }) => {
-  // Filter out About Me (ID 17)
-  const projects = PROJECT_TEXTS.filter(p => p.id !== 17);
+  const { projects, siteSettings } = usePortfolioData();
+  const hidden = new Set(siteSettings.hiddenProjectIds);
+  const projectsVisible = projects.filter((p) => !hidden.has(p.id));
 
   const handleCardClick = (projectId: number) => (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ export const MobilePortfolioGrid: React.FC<MobilePortfolioGridProps> = ({ onProj
   return (
     <div className="mobile-portfolio-grid">
       <div className="mobile-grid-content">
-        {projects.map((project, index) => (
+        {projectsVisible.map((project, index) => (
           <div 
             key={project.id} 
             className="mobile-project-card"
@@ -29,7 +30,7 @@ export const MobilePortfolioGrid: React.FC<MobilePortfolioGridProps> = ({ onProj
           >
             <div className="mobile-card-image-wrapper">
               <OptimizedImage
-                src={project.gallery[0]}
+                src={project.gallery?.[0] ?? ''}
                 alt={project.title}
                 className="mobile-card-image"
                 loading={index < 4 ? "eager" : "lazy"}

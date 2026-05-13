@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { getProjectText } from '../config/projectTexts';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 import { usePinchZoom } from '../hooks/usePinchZoom';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 import { OptimizedImage } from './OptimizedImage/OptimizedImage';
 import './ProjectModal.css';
 
@@ -13,10 +13,11 @@ interface ProjectModalProps {
 }
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose }) => {
+  const { getProjectById } = usePortfolioData();
   const modalRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const project = projectId ? getProjectText(projectId) : null;
+  const project = projectId ? getProjectById(projectId) : null;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isImageMaximized, setIsImageMaximized] = useState(false);
   const [processImagePopup, setProcessImagePopup] = useState<{ src: string } | null>(null);
@@ -878,12 +879,36 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                 <div className="project-section">
                   <h3 className="section-title">Challenges</h3>
                   <p className="project-text">{project.challenges}</p>
+                  {project.challengeImages && project.challengeImages.length > 0 && (
+                    <div className="process-image-slider">
+                      {project.challengeImages.map((src, idx) => (
+                        <img
+                          key={`${src}-${idx}`}
+                          src={src}
+                          alt={`${project.title} challenges ${idx + 1}`}
+                          className="process-image-inline"
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Solutions */}
                 <div className="project-section">
                   <h3 className="section-title">Solutions</h3>
                   <p className="project-text">{project.solutions}</p>
+                  {project.solutionImages && project.solutionImages.length > 0 && (
+                    <div className="process-image-slider">
+                      {project.solutionImages.map((src, idx) => (
+                        <img
+                          key={`${src}-${idx}`}
+                          src={src}
+                          alt={`${project.title} solutions ${idx + 1}`}
+                          className="process-image-inline"
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Technologies */}
@@ -903,6 +928,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, projectId, onClose 
                   <div className="project-section">
                     <h3 className="section-title">Results</h3>
                     <p className="project-text">{project.results}</p>
+                    {project.resultsImages && project.resultsImages.length > 0 && (
+                      <div className="process-image-slider">
+                        {project.resultsImages.map((src, idx) => (
+                          <img
+                            key={`${src}-${idx}`}
+                            src={src}
+                            alt={`${project.title} results ${idx + 1}`}
+                            className="process-image-inline"
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
