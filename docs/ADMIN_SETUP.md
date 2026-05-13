@@ -36,6 +36,26 @@ If you connected Supabase in Vercel, these variables are usually synced automati
 
 Add your **Vercel production and preview URLs** under Supabase **Authentication → URL Configuration** so admin login and magic links work on every deployment host.
 
+When you connect Supabase through Vercel, `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` are often **runtime-only**, while Create React App only bakes **`REACT_APP_*`** into the static bundle at build time. The app loads public settings from **[`/api/supabase-public-config`](../api/supabase-public-config.js)** on startup when those embeds are missing (see tables below).
+
+### Browser (optional explicit embed)
+
+| Variable | Purpose |
+|----------|---------|
+| `REACT_APP_SUPABASE_URL` | Same as `SUPABASE_URL` — used if set at **build** time |
+| `REACT_APP_SUPABASE_PUBLISHABLE_KEY` | Same as publishable/anon key — optional if API fallback works |
+
+### Vercel serverless (from integration — no `REACT_APP_` prefix required)
+
+These must be present for **`/api/supabase-public-config`** and **`/api/commit-media`**:
+
+| Variable | Purpose |
+|----------|---------|
+| `SUPABASE_URL` | Project URL |
+| `SUPABASE_PUBLISHABLE_KEY` | Public key (or `SUPABASE_ANON_KEY`) |
+
+You can still set **`REACT_APP_*`** duplicates in Vercel to skip the extra request.
+
 ## 3. Auth for the client
 
 1. In Supabase: **Authentication → Providers → Email** — enable email (magic link and/or password).
@@ -111,7 +131,7 @@ After a successful upload, click **Save project** so the new `/assets/images/...
 
 ## 9. Troubleshooting
 
-- **Admin says “not configured”** — missing `REACT_APP_*` vars; redeploy after setting them.
+- **Admin says “not configured”** — missing client Supabase settings: add `REACT_APP_*` for build, or open `https://yoursite.com/api/supabase-public-config` — it must return JSON with `url` and `publishableKey` (needs `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` on Vercel). Redeploy after fixing env.
 - **Save fails with RLS** — user must be logged in; policies require `authenticated` role for writes.
 - **Site still shows old text** — run seed; check Supabase **Table Editor** for rows in `projects`; hard-refresh the browser.
 - **CORS / redirect issues on magic link** — add exact redirect URLs in Supabase Auth settings.

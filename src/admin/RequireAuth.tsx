@@ -28,8 +28,10 @@ export default function RequireAuth() {
       <div className="admin-panel" role="alert">
         <h1>Admin unavailable</h1>
         <p>
-          Add REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_PUBLISHABLE_KEY (or
-          REACT_APP_SUPABASE_ANON_KEY) to enable the CMS.
+          The CMS needs Supabase credentials. Add <code>REACT_APP_SUPABASE_URL</code> and a
+          publishable or anon key at build time, or ensure Vercel exposes{' '}
+          <code>SUPABASE_URL</code> and <code>SUPABASE_PUBLISHABLE_KEY</code> so{' '}
+          <code>/api/supabase-public-config</code> can serve them, then redeploy.
         </p>
       </div>
     );

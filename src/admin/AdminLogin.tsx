@@ -16,7 +16,10 @@ export default function AdminLogin() {
     return (
       <div className="admin-panel" role="alert">
         <h1>Admin unavailable</h1>
-        <p>Supabase environment variables are not set.</p>
+        <p>
+          Supabase is not configured. Set <code>REACT_APP_*</code> for local dev, or ensure{' '}
+          <code>/api/supabase-public-config</code> works on Vercel with integration env vars.
+        </p>
         <Link to="/">Back to site</Link>
       </div>
     );

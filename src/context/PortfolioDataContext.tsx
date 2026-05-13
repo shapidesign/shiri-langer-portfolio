@@ -19,7 +19,7 @@ import {
   type ContactSiteContent,
 } from '../config/siteContentDefaults';
 import { buildOrderedCarouselItems } from '../utils/portfolioOrdering';
-import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
+import { supabase } from '../lib/supabaseClient';
 import { LoadingManager } from '../managers/LoadingManager';
 import { getDisplayImage } from '../utils/imagePathUtils';
 
@@ -189,12 +189,12 @@ export const PortfolioDataProvider: React.FC<{ children: React.ReactNode }> = ({
   const [contactData, setContactData] = useState<ContactSiteContent>(DEFAULT_CONTACT_DATA);
   const [cvPublicUrl, setCvPublicUrl] = useState(DEFAULT_CV_PUBLIC_URL);
   const [cvFileName, setCvFileName] = useState(DEFAULT_CV_FILE_NAME);
-  const [loading, setLoading] = useState(isSupabaseConfigured);
+  const [loading, setLoading] = useState(() => Boolean(supabase));
   const [error, setError] = useState<string | null>(null);
   const [source, setSource] = useState<PortfolioDataSource>('fallback');
 
   const load = useCallback(async () => {
-    if (!isSupabaseConfigured) {
+    if (!supabase) {
       setProjects(PROJECT_TEXTS);
       setSiteSettings({ ...DEFAULT_SITE_SETTINGS });
       setAboutData(mergeAboutData(null));
