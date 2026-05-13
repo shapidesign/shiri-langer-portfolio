@@ -58,9 +58,12 @@ You can still set **`REACT_APP_*`** duplicates in Vercel to skip the extra reque
 
 ## 3. Auth for the client
 
-1. In Supabase: **Authentication → Providers → Email** — enable email (magic link and/or password).
-2. **Authentication → Users** — invite or create a user for your client.
-3. If using magic links, add your site URL under **Authentication → URL Configuration** (e.g. `https://shirilangerdesigns.com` and `http://localhost:3000` for local dev).
+The admin UI **must** sign in through **Supabase Auth** (email + password or magic link). There is no separate “hardcoded” login in the app: project data, storage uploads, and Row Level Security all depend on a real Supabase session. You choose the email and password by **creating that user in Supabase** (not in this repo).
+
+1. In Supabase: **Authentication → Providers → Email** — enable email (password and/or magic link).
+2. **Authentication → Users → Add user** — e.g. email `shirilanger@gmail.com` and a password.  
+   If Supabase rejects a short password, either use a longer one or relax **Authentication → Providers → Email → Password / minimum length** in the dashboard.
+3. **Authentication → URL Configuration** — add your production URL, preview URLs, and local dev URLs (e.g. `http://localhost:3000`).
 
 The admin UI lives at **`/admin`** (e.g. `https://shirilangerdesigns.com/admin`).
 
@@ -136,5 +139,6 @@ After a successful upload, click **Save project** so the new `/assets/images/...
 - **Site still shows old text** — run seed; check Supabase **Table Editor** for rows in `projects`; hard-refresh the browser.
 - **CORS / redirect issues on magic link** — add exact redirect URLs in Supabase Auth settings.
 - **Git upload 401** — session expired; sign out and sign in again.
+- **GET `/api/supabase-public-config` returns HTML or is empty** — the SPA rewrite was catching `/api/*`. The project uses an **API-first** rewrite in [`vercel.json`](../vercel.json); redeploy. You should see JSON: `{"url":"…","publishableKey":"…"}`.
 - **Git upload 502 from GitHub** — check `GITHUB_TOKEN` scopes and that `GITHUB_REPO` matches this deployment repo.
 - **`/admin` shows Vercel or host 404** — In Vercel → Project → Settings → General, set **Root Directory** to the folder that contains this repo’s **`vercel.json`** (usually the repository root, not a subfolder like `portfolio-react`). **Build Output** should be **`build`**. Redeploy after changing. The app uses SPA fallback: static files and `/api/*` resolve first, then everything else serves **`index.html`** so React Router can handle `/admin`.
