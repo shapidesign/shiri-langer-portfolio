@@ -82,7 +82,7 @@ const PortfolioGrid: React.FC = () => {
       {/* Developer credit */}
       <div className="dev-credit">
         website by{' '}
-        <a href="https://www.shapidesign.com/" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.alefsofit.com/" target="_blank" rel="noopener noreferrer">
           Yehonatan Shapira
         </a>
       </div>
